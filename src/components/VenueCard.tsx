@@ -1,7 +1,7 @@
 import React from 'react';
 import { Venue } from '../hooks/useVenues';
 
-export function VenueCard({ venue }: { venue: Venue }) {
+export const VenueCard: React.FC<{ venue: Venue }> = ({ venue }) => {
   return (
     <div className="bg-white/5 rounded-xl p-4 flex justify-between items-center border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
       <div>
@@ -16,4 +16,4 @@ export function VenueCard({ venue }: { venue: Venue }) {
       </div>
     </div>
   );
-}
+};

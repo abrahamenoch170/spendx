@@ -3,7 +3,7 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { SquadMember } from '../hooks/useSquad';
 
-export function SquadDot({ member }: { member: SquadMember }) {
+export const SquadDot: React.FC<{ member: SquadMember }> = ({ member }) => {
   const getRingStyle = (freshness: SquadMember['freshness']) => {
     switch (freshness) {
       case 'full': return 'border-solid';
@@ -14,7 +14,7 @@ export function SquadDot({ member }: { member: SquadMember }) {
   };
 
   const iconHtml = `
-    <div class="relative w-12 h-12">
+    <div class="relative w-12 h-12 group transition-transform duration-300 hover:scale-125 hover:z-50">
       <div class="absolute inset-0 rounded-full border-[3px] border-[#00CCFF] ${getRingStyle(member.freshness)} animate-pulse-cyan"></div>
       <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}" alt="${member.name}" class="w-full h-full rounded-full bg-white object-cover border-2 border-[#111]" />
       <div class="absolute -top-2 -right-2 w-6 h-6 bg-[#111] rounded-full border border-[#00CCFF] flex items-center justify-center transform rotate-[${member.direction}deg]">
@@ -44,4 +44,4 @@ export function SquadDot({ member }: { member: SquadMember }) {
       </Popup>
     </Marker>
   );
-}
+};

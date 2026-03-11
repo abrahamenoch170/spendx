@@ -24,13 +24,18 @@ const getColor = (status: Venue['status']) => {
   }
 };
 
-export function VenueMarker({ venue }: { venue: Venue }) {
+export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
   const color = getColor(venue.status);
   const emoji = getEmoji(venue.type);
 
   const iconHtml = `
-    <div style="width: 36px; height: 36px; background: rgba(10,10,10,0.85); border: 2px solid ${color}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 12px ${color}60; backdrop-filter: blur(4px);">
-      ${emoji}
+    <div class="group relative flex flex-col items-center">
+      <div style="width: 36px; height: 36px; background: rgba(10,10,10,0.85); border: 2px solid ${color}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 12px ${color}60; backdrop-filter: blur(4px);" class="transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-[0_0_20px_${color}]">
+        ${emoji}
+      </div>
+      <div class="absolute top-10 whitespace-nowrap bg-black/80 backdrop-blur-sm px-2 py-1 rounded text-[10px] font-bold text-white opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none border border-white/20 flex flex-col items-center group-hover:-translate-y-2 shadow-[0_0_15px_${color}40]">
+        <span>${venue.name}</span>
+      </div>
     </div>
   `;
 
@@ -51,4 +56,4 @@ export function VenueMarker({ venue }: { venue: Venue }) {
       </Popup>
     </Marker>
   );
-}
+};

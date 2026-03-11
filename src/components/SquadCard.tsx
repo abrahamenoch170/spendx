@@ -1,7 +1,7 @@
 import React from 'react';
 import { SquadMember } from '../hooks/useSquad';
 
-export function SquadCard({ member }: { member: SquadMember }) {
+export const SquadCard: React.FC<{ member: SquadMember }> = ({ member }) => {
   return (
     <div className="flex flex-col items-center gap-2 min-w-[72px] cursor-pointer hover:scale-105 transition-transform">
       <div className="w-16 h-16 rounded-full border-2 border-[#00CCFF] relative p-1 shadow-[0_0_10px_rgba(0,204,255,0.3)]">
@@ -11,4 +11,4 @@ export function SquadCard({ member }: { member: SquadMember }) {
       <span className="text-xs font-bold font-display tracking-wide">{member.name}</span>
     </div>
   );
-}
+};
