@@ -1,0 +1,108 @@
+@keyframes pulse-lime {
+  0% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.7); }
+  70% { box-shadow: 0 0 0 20px rgba(204, 255, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); }
+}
+
+@keyframes pulse-cyan {
+  0% { box-shadow: 0 0 0 0 rgba(0, 204, 255, 0.7); }
+  70% { box-shadow: 0 0 0 20px rgba(0, 204, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 204, 255, 0); }
+}
+
+@keyframes dash-animation {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash-move {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes pin-drop {
+  0% { transform: translate(-50%, -100px); opacity: 0; }
+  60% { transform: translate(-50%, 10px); opacity: 1; }
+  80% { transform: translate(-50%, -5px); }
+  100% { transform: translate(-50%, 0); }
+}
+
+.animate-pulse-lime {
+  animation: pulse-lime 2s infinite;
+}
+
+.animate-pulse-cyan {
+  animation: pulse-cyan 2s infinite;
+}
+
+.animate-dash {
+  animation: dash-animation 2s linear forwards;
+}
+
+.animate-dash-move {
+  animation: dash-move 1s linear infinite;
+}
+
+.animate-pin-drop {
+  animation: pin-drop 0.5s ease-out forwards;
+}
+
+.glass-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-active-lime {
+  border-color: var(--acid-lime);
+  box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
+}
+
+.glass-panel-active-magenta {
+  border-color: var(--hot-magenta);
+  box-shadow: 0 0 15px rgba(255, 0, 153, 0.3);
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+  background: #0A0A0A !important;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+.leaflet-control-zoom {
+  display: none;
+}
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.leaflet-popup-tip {
+  background: rgba(10, 10, 10, 0.9);
+}
+
+/* Hide scrollbar for bottom sheet */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
