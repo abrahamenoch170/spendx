@@ -34,7 +34,7 @@ export function BottomSheet({ center }: { center: [number, number] }) {
 
   return (
     <motion.div
-      className="absolute bottom-0 left-0 w-full glass-panel rounded-t-[2rem] z-50 flex flex-col overflow-hidden"
+      className="absolute bottom-0 left-0 w-full glass rounded-t-[2rem] z-50 flex flex-col overflow-hidden will-change-transform"
       initial={{ height: '15vh' }}
       animate={{ height: getSheetHeight() }}
       transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}

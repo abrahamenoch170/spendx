@@ -71,21 +71,21 @@ export function InteractiveButton({ children, className, onClick, color = '#CCFF
       whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
       whileTap={{ scale: 0.95 }}
       transition={{ ease: springEasing }}
-      className={`relative overflow-hidden ${className}`}
+      className={`relative overflow-hidden will-change-transform ${className}`}
     >
       <AnimatePresence mode="wait">
         {state === 'idle' && (
-          <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="will-change-transform">
             {children}
           </motion.div>
         )}
         {state === 'loading' && (
-          <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center items-center h-full">
+          <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center items-center h-full will-change-transform">
             <div className="w-6 h-6 border-2 border-black/20 border-t-black rounded-full animate-spin" />
           </motion.div>
         )}
         {state === 'success' && (
-          <motion.div key="success" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex justify-center items-center h-full">
+          <motion.div key="success" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex justify-center items-center h-full will-change-transform">
             <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>

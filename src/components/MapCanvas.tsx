@@ -49,10 +49,11 @@ export function MapCanvas({
         zoom={zoom}
         zoomControl={false}
         className="w-full h-full"
-        doubleClickZoom={true}
-        touchZoom={true}
-        scrollWheelZoom={true}
-        dragging={true}
+        doubleClickZoom={false}
+        touchZoom={false}
+        scrollWheelZoom={false}
+        dragging={false}
+        keyboard={false}
       >
         <MapUpdater center={center} zoom={zoom} />
         

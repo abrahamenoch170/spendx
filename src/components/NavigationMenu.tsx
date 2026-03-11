@@ -37,17 +37,17 @@ export function NavigationMenu() {
         <motion.div
           animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
           transition={{ duration: 0.35, ease: springEasing }}
-          className="w-6 h-0.5 bg-white rounded-full"
+          className="w-6 h-0.5 bg-white rounded-full will-change-transform"
         />
         <motion.div
           animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
           transition={{ duration: 0.35, ease: springEasing }}
-          className="w-6 h-0.5 bg-white rounded-full"
+          className="w-6 h-0.5 bg-white rounded-full will-change-transform"
         />
         <motion.div
           animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
           transition={{ duration: 0.35, ease: springEasing }}
-          className="w-6 h-0.5 bg-white rounded-full"
+          className="w-6 h-0.5 bg-white rounded-full will-change-transform"
         />
       </button>
 
@@ -60,7 +60,7 @@ export function NavigationMenu() {
             exit={{ clipPath: 'circle(0% at calc(100% - 3rem) 3rem)' }}
             transition={{ duration: 0.45, ease: springEasing }}
             className="fixed inset-0 z-[90] flex items-center justify-center"
-            style={{ backgroundColor: `${activeColor}EB`, backdropFilter: 'blur(12px)' }}
+            style={{ backgroundColor: `${activeColor}EB`, backdropFilter: 'blur(12px)', willChange: 'clip-path' }}
             onClick={() => setIsOpen(false)}
           >
             <div 

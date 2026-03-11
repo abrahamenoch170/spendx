@@ -27,7 +27,17 @@ export function useSquad(center: [number, number]) {
   const [squad, setSquad] = useState<SquadMember[]>([]);
 
   useEffect(() => {
-    setSquad(generateMockSquad(center[0], center[1]));
+    const newSquad = generateMockSquad(center[0], center[1]);
+    setSquad(newSquad);
+
+    // Preload avatars
+    newSquad.forEach(member => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = `https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}`;
+      document.head.appendChild(link);
+    });
   }, [center]);
 
   return { squad };

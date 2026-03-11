@@ -27,7 +27,7 @@ export function HUD({
       {/* Top Bar */}
       <div className="flex justify-between items-start w-full pointer-events-auto">
         {/* City Selector */}
-        <div className="glass-panel rounded-2xl p-2 flex items-center gap-2">
+        <div className="glass rounded-2xl p-2 flex items-center gap-2">
           <Map className="w-5 h-5 text-[#CCFF00]" />
           <select
             value={city}

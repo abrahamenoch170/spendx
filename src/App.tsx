@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapCanvas } from './components/MapCanvas';
 import { HUD } from './components/HUD';
@@ -8,10 +8,14 @@ import { useLayers } from './hooks/useLayers';
 import { NavigationMenu } from './components/NavigationMenu';
 import { QuickActions } from './components/QuickActions';
 import { InteractiveButton, FloatingInput } from './components/InteractiveElements';
+import { CustomCursor } from './components/CustomCursor';
 import {
   StarFloat, DeadChat, LinkExpand, SoloFigure, SquadFigures, BigGroup, DateFigures,
   MapPulse, CleanMath, RideArrives, ShareLink, BudgetIcon, StrandedIcon, BoringIcon, FallingApartIcon
 } from './components/Illustrations';
+import successAnimationData from './assets/success.json';
+
+const Lottie = React.lazy(() => import('lottie-react'));
 
 const springEasing = [0.34, 1.56, 0.64, 1];
 
@@ -64,6 +68,8 @@ export default function App() {
   if (isFullMap) {
     return (
       <div className="relative w-full h-[100dvh] bg-[#0A0A0A] font-sans text-white overflow-hidden selection:bg-[#CCFF00] selection:text-black">
+        <CustomCursor />
+        <div className="grain-overlay" />
         {mapComponent}
       </div>
     );
@@ -71,6 +77,8 @@ export default function App() {
 
   return (
     <div className="relative w-full min-h-screen bg-black font-sans text-black selection:bg-black selection:text-[#CCFF00] overflow-x-hidden">
+      <CustomCursor />
+      <div className="grain-overlay" />
       
       {/* Fixed Background Stripes */}
       <motion.div 
@@ -120,7 +128,7 @@ export default function App() {
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 + i * 0.1, duration: 0.8, ease: springEasing }}
-                  className="inline-block"
+                  className="inline-block will-change-transform"
                 >
                   {word}
                 </motion.span>
@@ -130,7 +138,7 @@ export default function App() {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8, ease: springEasing }}
-              className="text-body text-black/90 mb-10 max-w-[60ch] mx-auto px-4"
+              className="text-body text-black/90 mb-10 max-w-[60ch] mx-auto px-4 will-change-transform"
             >
               No more group chat graveyards. One link controls your whole day—where you go, how you get there, who's coming, and what it costs.
             </motion.p>
@@ -138,6 +146,7 @@ export default function App() {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1.0, duration: 0.8, ease: springEasing }}
+              className="will-change-transform"
             >
               <InteractiveButton className="text-label bg-black text-[#CCFF00] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]">
                 Get the link
@@ -165,7 +174,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="text-center mb-16"
+              className="text-center mb-16 will-change-transform"
             >
               <span className="text-label text-white/90 bg-black/20 px-4 py-2 rounded-full">The Problem</span>
               <h2 className="text-section-h2 text-white mt-8 mb-4">When Plans Fall Apart</h2>
@@ -177,7 +186,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="w-full max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-16 shadow-lg border border-white/20 flex flex-col items-center"
+              className="w-full max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-16 shadow-lg border border-white/20 flex flex-col items-center will-change-transform"
             >
               <div className="w-64 h-64 text-white saturate-[0.8]">
                 <DeadChat className="w-full h-full" />
@@ -202,7 +211,7 @@ export default function App() {
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: i * 0.15, duration: 0.6, ease: springEasing }}
                   whileHover={{ y: -5, scale: 1.02, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
-                  className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 flex flex-col md:flex-row items-center md:items-start gap-6 border border-white/10 transition-colors"
+                  className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 flex flex-col md:flex-row items-center md:items-start gap-6 border border-white/10 transition-colors will-change-transform"
                 >
                   <div className="w-20 h-20 flex-shrink-0 bg-white/20 rounded-full p-4 text-white saturate-[0.8]">
                     <item.icon className="w-full h-full" />
@@ -223,7 +232,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="text-center mb-16"
+              className="text-center mb-16 will-change-transform"
             >
               <span className="text-label text-black/80 bg-black/5 px-4 py-2 rounded-full">Live Sync</span>
               <h2 className="text-section-h2 text-black mt-8 mb-4">See the night unfold.</h2>
@@ -234,7 +243,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="w-full max-w-5xl mx-auto drop-shadow-[0_20px_40px_rgba(0,170,136,0.4)] relative px-4 md:px-0"
+              className="w-full max-w-5xl mx-auto drop-shadow-[0_20px_40px_rgba(0,170,136,0.4)] relative px-4 md:px-0 will-change-transform"
             >
               <div 
                 className="relative w-full h-[400px] md:h-[600px] rounded-3xl overflow-hidden border border-white/20 bg-[#0A0A0A]"
@@ -263,7 +272,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="text-center mb-16"
+              className="text-center mb-16 will-change-transform"
             >
               <span className="text-label text-black/80 bg-white/40 px-4 py-2 rounded-full">The Solution</span>
               <h2 className="text-section-h2 text-black mt-8 mb-4">Instead, it just works.</h2>
@@ -275,7 +284,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="w-full max-w-4xl mx-auto bg-white/30 backdrop-blur-md rounded-3xl p-8 md:p-12 mb-16 shadow-lg border border-white/40 flex flex-col md:flex-row items-center gap-8"
+              className="w-full max-w-4xl mx-auto bg-white/30 backdrop-blur-md rounded-3xl p-8 md:p-12 mb-16 shadow-lg border border-white/40 flex flex-col md:flex-row items-center gap-8 will-change-transform"
             >
               <div className="w-48 h-48 flex-shrink-0 bg-black/5 rounded-full p-6 text-black saturate-[0.8] mx-auto md:mx-0">
                 <LinkExpand className="w-full h-full" />
@@ -300,7 +309,7 @@ export default function App() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15, duration: 0.6, ease: springEasing }}
                   whileHover={{ y: -5, scale: 1.02, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
-                  className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/30 flex flex-col items-center text-center"
+                  className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/30 flex flex-col items-center text-center will-change-transform"
                 >
                   <h4 className="text-2xl font-bold text-black mb-4">{item.title}</h4>
                   <p className="text-body text-black/80">{item.desc}</p>
@@ -319,7 +328,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="text-section-h2 text-white text-center mt-0 mb-16"
+              className="text-section-h2 text-white text-center mt-0 mb-16 will-change-transform"
             >
               Whoever you're with
             </motion.h2>
@@ -338,7 +347,7 @@ export default function App() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.6, ease: springEasing }}
                   whileHover={{ y: -10, scale: 1.02, boxShadow: '0 15px 40px rgba(0,0,0,0.2)' }}
-                  className="bg-black/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10 flex flex-col items-center text-center group"
+                  className="bg-black/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10 flex flex-col items-center text-center group will-change-transform"
                 >
                   <div className="w-40 h-40 bg-white/10 rounded-full p-8 mb-8 group-hover:scale-110 transition-transform duration-300 text-white saturate-[0.8]">
                     <item.icon className="w-full h-full" />
@@ -360,7 +369,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="text-center mb-16"
+              className="text-center mb-16 will-change-transform"
             >
               <span className="text-label text-black/80 bg-white/40 px-4 py-2 rounded-full">The Process</span>
               <h2 className="text-section-h2 text-black mt-8 mb-4">How It Works</h2>
@@ -380,7 +389,7 @@ export default function App() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: i * 0.15, duration: 0.6, ease: springEasing }}
-                  className="w-full flex flex-col md:flex-row items-center gap-8 bg-white/40 backdrop-blur-md rounded-3xl p-8 border border-white/50 relative"
+                  className="w-full flex flex-col md:flex-row items-center gap-8 glass rounded-3xl p-8 relative will-change-transform"
                 >
                   {/* Connecting Line (Desktop) */}
                   {i !== 3 && (
@@ -389,7 +398,7 @@ export default function App() {
                       whileInView={{ scaleY: 1 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ delay: i * 0.15 + 0.3, duration: 0.6, ease: springEasing }}
-                      className="hidden md:block absolute left-[5.5rem] top-full w-1 h-8 bg-black/20 z-0 origin-top"
+                      className="hidden md:block absolute left-[5.5rem] top-full w-1 h-8 bg-black/20 z-0 origin-top will-change-transform"
                     />
                   )}
                   
@@ -420,7 +429,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
-              className="w-full max-w-4xl mb-32 px-4 md:px-0 relative"
+              className="w-full max-w-4xl mb-32 px-4 md:px-0 relative will-change-transform"
             >
               <h2 className="text-section-h2 text-[#CCFF00] drop-shadow-sm mt-0 mb-4">
                 Get In Early
@@ -463,10 +472,15 @@ export default function App() {
                       transition={{ duration: 0.5, ease: springEasing }}
                       className="w-full flex flex-col items-center justify-center py-12"
                     >
-                      <div className="w-20 h-20 bg-[#CCFF00]/20 rounded-full flex items-center justify-center mb-6">
-                        <svg className="w-10 h-10 text-[#CCFF00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
+                      <div className="w-32 h-32 mb-6 relative">
+                        <Suspense fallback={<div className="w-full h-full bg-[#CCFF00]/20 rounded-full animate-pulse" />}>
+                          <Lottie 
+                            animationData={successAnimationData} 
+                            loop={false} 
+                            renderer="svg"
+                            className="w-full h-full"
+                          />
+                        </Suspense>
                       </div>
                       <h3 className="text-3xl font-display font-bold text-white mb-2">You're on the list.</h3>
                       <p className="text-white/60">Keep an eye on your DMs.</p>
