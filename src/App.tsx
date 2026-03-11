@@ -210,41 +210,53 @@ export default function App() {
               <h2 className="text-section-h2 text-black mt-8 mb-4">See the night unfold.</h2>
             </div>
 
-            <div className="map-container group">
-              <div className="map-base"></div>
-              
-              {/* Heatmap overlay */}
-              <div className="absolute top-[45%] left-[55%] w-96 h-96 bg-[#FF0099]/15 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-
-              <div className="map-overlay">
-                <svg className="route-line" viewBox="0 0 1000 600" preserveAspectRatio="none">
-                  <path d="M 200 150 Q 300 100 550 270" className="lime" />
-                  <path d="M 750 390 Q 650 450 550 270" />
-                </svg>
-
-                <div className="avatar-pin group/avatar" style={{ top: '25%', left: '20%' }}>
-                  <div className="pulse-ring"></div>
-                  <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix" alt="Felix" />
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                    Felix • 5 mins away
-                  </div>
+            <div className="w-full max-w-5xl mx-auto drop-shadow-[0_20px_40px_rgba(0,170,136,0.4)]">
+              <div className="map-container group">
+                <div className="map-base">
+                  {/* Abstract Map Features (Roads/Zones) */}
+                  <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M -100 200 C 200 200 300 400 500 400 C 700 400 800 100 1100 100" fill="none" stroke="#00CCFF" strokeWidth="30" strokeLinecap="round" />
+                    <path d="M 400 -100 C 400 200 600 300 600 700" fill="none" stroke="#CCFF00" strokeWidth="24" strokeLinecap="round" />
+                    <path d="M 800 700 C 800 500 900 400 1100 400" fill="none" stroke="#FF0099" strokeWidth="20" strokeLinecap="round" />
+                    <path d="M 100 600 C 200 400 300 300 100 100" fill="none" stroke="#000000" strokeWidth="16" strokeLinecap="round" opacity="0.3" />
+                  </svg>
                 </div>
+                
+                {/* Heatmap overlays */}
+                <div className="absolute top-[45%] left-[55%] w-[400px] h-[400px] bg-[#FF0099]/50 rounded-full blur-[80px] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                <div className="absolute top-[65%] left-[25%] w-[300px] h-[300px] bg-[#00CCFF]/40 rounded-full blur-[60px] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                <div className="absolute top-[25%] left-[75%] w-[250px] h-[250px] bg-[#CCFF00]/30 rounded-full blur-[60px] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
-                <div className="avatar-pin cyan group/avatar" style={{ top: '65%', left: '75%' }}>
-                  <div className="pulse-ring"></div>
-                  <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Aneka" alt="Aneka" />
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                    Aneka • Arriving
+                <div className="map-overlay">
+                  <svg className="route-line" viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M 200 150 Q 300 100 550 270" className="lime" />
+                    <path d="M 750 390 Q 650 450 550 270" className="magenta" />
+                  </svg>
+
+                  <div className="avatar-pin group/avatar" style={{ top: '25%', left: '20%' }}>
+                    <div className="pulse-ring"></div>
+                    <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix" alt="Felix" />
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                      Felix • 5 mins away
+                    </div>
                   </div>
-                </div>
 
-                <div className="venue-pin trending group/pin" style={{ top: '45%', left: '55%' }}>
-                  <span className="pin-icon">🔥</span>
-                  <div className="pin-label">Trending</div>
-                  
-                  <div className="absolute top-full mt-4 left-1/2 -translate-x-1/2 bg-white rounded-2xl p-4 shadow-xl border border-black/10 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity pointer-events-none group-hover/pin:pointer-events-auto">
-                    <h4 className="font-bold text-black text-sm">Neon Room</h4>
-                    <p className="text-xs text-gray-500 mt-1">3 friends here • High energy</p>
+                  <div className="avatar-pin cyan group/avatar" style={{ top: '65%', left: '75%' }}>
+                    <div className="pulse-ring"></div>
+                    <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Aneka" alt="Aneka" />
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                      Aneka • Arriving
+                    </div>
+                  </div>
+
+                  <div className="venue-pin trending group/pin" style={{ top: '45%', left: '55%' }}>
+                    <span className="pin-icon">🔥</span>
+                    <div className="pin-label">Trending</div>
+                    
+                    <div className="absolute top-full mt-4 left-1/2 -translate-x-1/2 bg-white rounded-2xl p-4 shadow-xl border border-black/10 w-48 opacity-0 group-hover/pin:opacity-100 transition-opacity pointer-events-none group-hover/pin:pointer-events-auto">
+                      <h4 className="font-bold text-black text-sm">Neon Room</h4>
+                      <p className="text-xs text-gray-500 mt-1">3 friends here • High energy</p>
+                    </div>
                   </div>
                 </div>
               </div>
