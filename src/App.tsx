@@ -1,22 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { Player } from '@lottiefiles/react-lottie-player';
+import { motion } from 'framer-motion';
 import { MapCanvas } from './components/MapCanvas';
 import { HUD } from './components/HUD';
 import { BottomSheet } from './components/BottomSheet';
 import { useMapState } from './hooks/useMapState';
 import { useLayers } from './hooks/useLayers';
-
-const StarIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-  </svg>
-);
+import {
+  StarFloat, DeadChat, LinkExpand, SoloFigure, SquadFigures, BigGroup, DateFigures,
+  MapPulse, CleanMath, RideArrives, ShareLink, BudgetIcon, StrandedIcon, BoringIcon, FallingApartIcon
+} from './components/Illustrations';
 
 const ChevronDownIcon = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="6 9 12 15 18 9" />
   </svg>
 );
+
+const ConfettiButton = () => {
+  const [isPopping, setIsPopping] = useState(false);
+  return (
+    <div className="relative w-full">
+      <button
+        onClick={() => { setIsPopping(true); setTimeout(() => setIsPopping(false), 2000); }}
+        className="w-full bg-[#CCFF00] text-black text-label px-10 py-6 rounded-full hover:bg-[#FF0099] hover:text-white transition-all duration-300 mt-8 shadow-xl relative overflow-hidden"
+      >
+        Lock me in
+        {isPopping && (
+          <motion.div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+            {[...Array(30)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-3 h-3 rounded-sm"
+                style={{ backgroundColor: ['#FF0099', '#00CCFF', '#CCFF00', '#00AA88', '#FFFFFF'][i % 5] }}
+                initial={{ x: 0, y: 0, scale: 0, rotate: 0 }}
+                animate={{
+                  x: (Math.random() - 0.5) * 300,
+                  y: (Math.random() - 0.5) * 300 - 50,
+                  scale: [0, 1, 0],
+                  opacity: [1, 1, 0],
+                  rotate: Math.random() * 360
+                }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+              />
+            ))}
+          </motion.div>
+        )}
+      </button>
+    </div>
+  );
+};
 
 export default function App() {
   const { city, center, zoom, switchCity } = useMapState();
@@ -26,7 +58,6 @@ export default function App() {
 
   const stripeColors = ['#CCFF00', '#FF0099', '#00CCFF', '#00AA88'];
 
-  // When in full map, prevent body scroll
   useEffect(() => {
     if (isFullMap) {
       document.body.style.overflow = 'hidden';
@@ -96,8 +127,8 @@ export default function App() {
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           
           {/* Floating Animated Star */}
-          <div className="absolute top-32 right-[15%] animate-[spin_10s_linear_infinite] hidden md:block">
-            <StarIcon />
+          <div className="absolute top-32 right-[15%] hidden md:block w-48 h-48 text-black saturate-[0.8]">
+            <StarFloat className="w-full h-full" />
           </div>
 
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding flex flex-col items-center text-center">
@@ -127,9 +158,11 @@ export default function App() {
               <h2 className="text-section-h2 text-white mt-8 mb-4">When Plans Fall Apart</h2>
             </div>
 
-            {/* Sketch/Motion Illustration - Dead Chat */}
+            {/* Sketch Illustration - Dead Chat */}
             <div className="w-full max-w-3xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-16 shadow-lg border border-white/20 flex flex-col items-center">
-              <Player autoplay loop src="https://assets9.lottiefiles.com/packages/lf20_bhebjzpu.json" style={{ height: '250px', width: '250px' }} />
+              <div className="w-64 h-64 text-white saturate-[0.8]">
+                <DeadChat className="w-full h-full" />
+              </div>
               <p className="text-body text-white text-center mt-6 font-bold max-w-xl">
                 The group chat where four people say "I'm down" but nobody picks the spot.
               </p>
@@ -138,14 +171,14 @@ export default function App() {
             {/* Problem Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                { title: "Budget blowout", icon: "https://assets2.lottiefiles.com/packages/lf20_jmejybvu.json" },
-                { title: "Stranded at 2am", icon: "https://assets8.lottiefiles.com/packages/lf20_tll0j4bb.json" },
-                { title: "Same boring spots", icon: "https://assets5.lottiefiles.com/packages/lf20_puciaact.json" },
-                { title: "Small plans falling apart", icon: "https://assets1.lottiefiles.com/packages/lf20_q5pk6p1k.json" }
+                { title: "Budget blowout", icon: BudgetIcon },
+                { title: "Stranded at 2am", icon: StrandedIcon },
+                { title: "Same boring spots", icon: BoringIcon },
+                { title: "Small plans falling apart", icon: FallingApartIcon }
               ].map((item, i) => (
                 <div key={i} className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 flex items-center gap-6 border border-white/10 hover:bg-black/30 transition-colors">
-                  <div className="w-20 h-20 flex-shrink-0 bg-white/20 rounded-full p-3">
-                    <Player autoplay loop src={item.icon} style={{ height: '100%', width: '100%' }} />
+                  <div className="w-20 h-20 flex-shrink-0 bg-white/20 rounded-full p-4 text-white saturate-[0.8]">
+                    <item.icon className="w-full h-full" />
                   </div>
                   <h4 className="text-2xl font-bold text-white">{item.title}</h4>
                 </div>
@@ -191,10 +224,10 @@ export default function App() {
               <h2 className="text-section-h2 text-black mt-8 mb-4">Instead, it just works.</h2>
             </div>
 
-            {/* Sketch/Motion Illustration - Link Unfurling */}
+            {/* Sketch Illustration - Link Expand */}
             <div className="w-full max-w-4xl mx-auto bg-white/30 backdrop-blur-md rounded-3xl p-8 md:p-12 mb-16 shadow-lg border border-white/40 flex flex-col md:flex-row items-center gap-8">
-              <div className="w-48 h-48 flex-shrink-0 bg-black/5 rounded-full p-4">
-                <Player autoplay loop src="https://assets3.lottiefiles.com/packages/lf20_q7uarxsb.json" style={{ height: '100%', width: '100%' }} />
+              <div className="w-48 h-48 flex-shrink-0 bg-black/5 rounded-full p-6 text-black saturate-[0.8]">
+                <LinkExpand className="w-full h-full" />
               </div>
               <div className="text-center md:text-left">
                 <h3 className="text-3xl md:text-5xl font-black text-black mb-4">One link expands into the full plan.</h3>
@@ -224,15 +257,16 @@ export default function App() {
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding">
             <h2 className="text-section-h2 text-white text-center mt-0 mb-16">Whoever you're with</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { title: "Solo", desc: "Single figure with headphones, city behind", lottie: "https://assets5.lottiefiles.com/packages/lf20_puciaact.json" },
-                { title: "Squad", desc: "Three avatars with connecting lines", lottie: "https://assets1.lottiefiles.com/packages/lf20_q5pk6p1k.json" },
-                { title: "Big Group", desc: "Many small figures organized in grid", lottie: "https://assets3.lottiefiles.com/packages/lf20_ujxkchcd.json" }
+                { title: "Solo", desc: "Single figure with backpack exploring city", icon: SoloFigure },
+                { title: "Date", desc: "Two figures at table, romantic lighting", icon: DateFigures },
+                { title: "Squad", desc: "Three friends huddled over one phone", icon: SquadFigures },
+                { title: "Big Group", desc: "Organizer with megaphone, crowd in formation", icon: BigGroup }
               ].map((item, i) => (
                 <div key={i} className="bg-black/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300">
-                  <div className="w-40 h-40 bg-white/10 rounded-full p-6 mb-8 group-hover:scale-110 transition-transform duration-300">
-                    <Player autoplay loop src={item.lottie} style={{ height: '100%', width: '100%' }} />
+                  <div className="w-40 h-40 bg-white/10 rounded-full p-8 mb-8 group-hover:scale-110 transition-transform duration-300 text-white saturate-[0.8]">
+                    <item.icon className="w-full h-full" />
                   </div>
                   <h4 className="text-3xl font-black text-white mb-4">{item.title}</h4>
                   <p className="text-body text-white/80">{item.desc}</p>
@@ -254,10 +288,10 @@ export default function App() {
             {/* Horizontal Scroll Mobile / Vertical Desktop */}
             <div className="flex flex-row md:flex-col gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 md:pb-0 hide-scrollbar">
               {[
-                { step: "01", title: "Find the hotspots", desc: "Magnifying glass over map with hotspots", lottie: "https://assets8.lottiefiles.com/packages/lf20_tll0j4bb.json" },
-                { step: "02", title: "Clean math", desc: "Bill splitting with clean math", lottie: "https://assets2.lottiefiles.com/packages/lf20_jmejybvu.json" },
-                { step: "03", title: "Ride arrives", desc: "Car arriving at pin location", lottie: "https://assets4.lottiefiles.com/packages/lf20_x9p1jxg9.json" },
-                { step: "04", title: "Share the link", desc: "Link being shared to multiple people", lottie: "https://assets3.lottiefiles.com/packages/lf20_q7uarxsb.json" }
+                { step: "01", title: "Find the hotspots", desc: "Map pulse with location pins radiating energy", icon: MapPulse },
+                { step: "02", title: "Clean math", desc: "Bill splitting with checkmark bounce", icon: CleanMath },
+                { step: "03", title: "Ride arrives", desc: "Route line animating between points", icon: RideArrives },
+                { step: "04", title: "Share the link", desc: "Card shuffle and dealing itinerary cards", icon: ShareLink }
               ].map((item, i) => (
                 <div key={i} className="snap-center shrink-0 w-[85vw] md:w-full flex flex-col md:flex-row items-center gap-8 bg-white/40 backdrop-blur-md rounded-3xl p-8 border border-white/50 relative">
                   {/* Connecting Line (Desktop) */}
@@ -266,8 +300,8 @@ export default function App() {
                   <div className="w-16 h-16 rounded-full bg-black text-[#CCFF00] flex items-center justify-center font-black text-2xl z-10 shrink-0">
                     {item.step}
                   </div>
-                  <div className="w-32 h-32 shrink-0 bg-white/50 rounded-full p-4">
-                    <Player autoplay loop src={item.lottie} style={{ height: '100%', width: '100%' }} />
+                  <div className="w-32 h-32 shrink-0 bg-white/50 rounded-full p-6 text-black saturate-[0.8]">
+                    <item.icon className="w-full h-full" />
                   </div>
                   <div className="text-center md:text-left">
                     <h4 className="text-2xl md:text-4xl font-black text-black mb-2">{item.title}</h4>
@@ -309,9 +343,7 @@ export default function App() {
                     className="w-full bg-white/10 rounded-2xl p-6 text-body focus:outline-none focus:bg-white/20 placeholder:text-white/40 font-medium transition-colors border border-white/10" 
                   />
                 </div>
-                <button className="w-full bg-[#CCFF00] text-black text-label px-10 py-6 rounded-full hover:bg-[#FF0099] hover:text-white transition-all duration-300 mt-8 shadow-xl">
-                  Lock me in
-                </button>
+                <ConfettiButton />
               </form>
             </div>
 
