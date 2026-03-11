@@ -1,7 +1,7 @@
 import React from 'react';
 import { CITIES } from '../hooks/useMapState';
 import { useLayers } from '../hooks/useLayers';
-import { Map, Users, Flame, Navigation, Ghost } from 'lucide-react';
+import { Map, Users, Flame, Navigation, Ghost, Maximize2, Minimize2 } from 'lucide-react';
 
 export function HUD({
   city,
@@ -9,17 +9,21 @@ export function HUD({
   layers,
   toggleLayer,
   ghostMode,
-  setGhostMode
+  setGhostMode,
+  isFullMap,
+  setIsFullMap
 }: {
   city: keyof typeof CITIES,
   switchCity: (city: keyof typeof CITIES) => void,
   layers: ReturnType<typeof useLayers>['layers'],
   toggleLayer: ReturnType<typeof useLayers>['toggleLayer'],
   ghostMode: boolean,
-  setGhostMode: (val: boolean) => void
+  setGhostMode: (val: boolean) => void,
+  isFullMap?: boolean,
+  setIsFullMap?: (val: boolean) => void
 }) {
   return (
-    <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-40 pointer-events-none flex flex-col gap-4">
+    <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[1000] pointer-events-none flex flex-col gap-4">
       {/* Top Bar */}
       <div className="flex justify-between items-start w-full pointer-events-auto">
         {/* City Selector */}
@@ -36,13 +40,24 @@ export function HUD({
           </select>
         </div>
 
-        {/* Ghost Mode Toggle */}
-        <button
-          onClick={() => setGhostMode(!ghostMode)}
-          className={`glass-panel rounded-full p-3 transition-all ${ghostMode ? 'text-gray-400 border-gray-600' : 'text-[#CCFF00] glass-panel-active-lime'}`}
-        >
-          <Ghost className="w-6 h-6" />
-        </button>
+        <div className="flex gap-2">
+          {setIsFullMap && (
+            <button
+              onClick={() => setIsFullMap(!isFullMap)}
+              className="glass-panel rounded-full p-3 transition-all text-white hover:text-[#CCFF00]"
+              title={isFullMap ? "Exit Full Map" : "View Full Map"}
+            >
+              {isFullMap ? <Minimize2 className="w-6 h-6" /> : <Maximize2 className="w-6 h-6" />}
+            </button>
+          )}
+          {/* Ghost Mode Toggle */}
+          <button
+            onClick={() => setGhostMode(!ghostMode)}
+            className={`glass-panel rounded-full p-3 transition-all ${ghostMode ? 'text-gray-400 border-gray-600' : 'text-[#CCFF00] glass-panel-active-lime'}`}
+          >
+            <Ghost className="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
       {/* Layer Controls - Right Side */}
