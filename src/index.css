@@ -64,6 +64,120 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Map Visualization Styles */
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background-color: #f8f9fa;
+    border-radius: 3rem;
+    overflow: hidden;
+    box-shadow: 0 20px 50px -15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .map-base {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.5;
+  }
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+  }
+  .avatar-pin {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    cursor: pointer;
+  }
+  .avatar-pin img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #CCFF00;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+  }
+  .avatar-pin.cyan img {
+    border-color: #00CCFF;
+  }
+  .pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #CCFF00;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-ring-anim 2s infinite;
+  }
+  .avatar-pin.cyan .pulse-ring {
+    border-color: #00CCFF;
+  }
+  @keyframes pulse-ring-anim {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+  }
+  .venue-pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+    cursor: pointer;
+    animation: bounce-pin 2s infinite;
+  }
+  @keyframes bounce-pin {
+    0%, 100% { transform: translate(-50%, -100%); }
+    50% { transform: translate(-50%, -110%); }
+  }
+  .pin-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  }
+  .pin-label {
+    background: #FF0099;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 4px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(255,0,153,0.3);
+  }
+  .route-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .route-line path {
+    fill: none;
+    stroke: #00CCFF;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawRoute 3s ease forwards infinite alternate;
+  }
+  .route-line path.lime {
+    stroke: #CCFF00;
+  }
+  @keyframes drawRoute {
+    to { stroke-dashoffset: 0; }
+  }
 }
 
 body {
