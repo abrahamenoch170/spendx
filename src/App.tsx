@@ -152,6 +152,42 @@ export default function App() {
                 Get the link
               </InteractiveButton>
             </motion.div>
+
+            {/* Social Proof & Waitlist Urgency */}
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.8, ease: springEasing }}
+              className="mt-12 flex flex-col items-center gap-4 will-change-transform"
+            >
+              <div className="flex flex-col md:flex-row items-center gap-4 bg-black/5 backdrop-blur-sm px-6 py-4 rounded-3xl md:rounded-full border border-black/10">
+                <div className="flex -space-x-3">
+                  {['Felix', 'Aneka', 'Mimi'].map((seed, i) => (
+                    <img
+                      key={seed}
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
+                      alt="User avatar"
+                      className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-white"
+                      style={{ zIndex: 3 - i }}
+                      referrerPolicy="no-referrer"
+                    />
+                  ))}
+                  <div className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-black text-[#CCFF00] flex items-center justify-center text-xs font-bold z-0">
+                    +2k
+                  </div>
+                </div>
+                <div className="text-center md:text-left">
+                  <p className="text-sm font-bold text-black leading-tight">Already locking in their next move</p>
+                  <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                    <p className="text-xs text-black/70 font-medium">Only 500 spots per city • 2,047 joined</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
 
           {/* Bouncing Scroll Indicator */}
@@ -235,7 +271,8 @@ export default function App() {
               className="text-center mb-16 will-change-transform"
             >
               <span className="text-label text-black/80 bg-black/5 px-4 py-2 rounded-full">Live Sync</span>
-              <h2 className="text-section-h2 text-black mt-8 mb-4">See the night unfold.</h2>
+              <h2 className="text-section-h2 text-black mt-8 mb-4">See where your squad actually is</h2>
+              <p className="text-body text-black/80 max-w-2xl mx-auto">Live locations. Vibe hotspots. Who's where, who's moving, where the energy is.</p>
             </motion.div>
 
             <motion.div 
