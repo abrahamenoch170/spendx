@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Fire, Sparkle, UsersThree, MapTrifold, UserCircle } from '@phosphor-icons/react';
+import { PlanTab } from '../chat/PlanTab';
 
 type Tab = 'home' | 'plan' | 'squad' | 'map' | 'profile';
 
@@ -21,8 +22,15 @@ const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
   { id: 'profile', label: 'Profile', icon: UserCircle },
 ];
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+export function AppLayout() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'plan': return <PlanTab />;
+      default: return <div className="p-4">Content for {activeTab}</div>;
+    }
+  };
 
   return (
     <TabContext.Provider value={{ activeTab, setActiveTab }}>
@@ -37,7 +45,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               className="h-full"
             >
-              {children}
+              {renderContent()}
             </motion.div>
           </AnimatePresence>
         </main>
