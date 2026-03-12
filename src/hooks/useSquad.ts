@@ -27,17 +27,29 @@ export function useSquad(center: [number, number]) {
   const [squad, setSquad] = useState<SquadMember[]>([]);
 
   useEffect(() => {
-    const newSquad = generateMockSquad(center[0], center[1]);
-    setSquad(newSquad);
+    const initialSquad = generateMockSquad(center[0], center[1]);
+    setSquad(initialSquad);
 
     // Preload avatars
-    newSquad.forEach(member => {
+    initialSquad.forEach(member => {
       const link = document.createElement('link');
       link.rel = 'preload';
       link.as = 'image';
       link.href = `https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}`;
       document.head.appendChild(link);
     });
+
+    // Simulate movement
+    const interval = setInterval(() => {
+      setSquad(prev => prev.map(member => ({
+        ...member,
+        lat: member.lat + (Math.random() - 0.5) * 0.0005,
+        lng: member.lng + (Math.random() - 0.5) * 0.0005,
+        direction: (member.direction + (Math.random() - 0.5) * 20 + 360) % 360,
+      })));
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [center]);
 
   return { squad };

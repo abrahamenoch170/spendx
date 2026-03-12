@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import React, { useEffect, useState, useRef } from 'react';
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import { useMapState } from '../hooks/useMapState';
@@ -15,11 +15,33 @@ import { PinDrop } from './PinDrop';
 import { SquadLines } from './SquadLines';
 import { useTheme } from '../hooks/useTheme';
 
-const MapUpdater = ({ center, zoom }: { center: [number, number], zoom: number }) => {
+const MapUpdater = ({ center, zoom, isSquadOnly, squad, centerTrigger }: { center: [number, number], zoom: number, isSquadOnly?: boolean, squad?: any[], centerTrigger?: number }) => {
   const map = useMap();
+
   useEffect(() => {
-    map.setView(center, zoom);
-  }, [center, zoom, map]);
+    if (isSquadOnly && squad && squad.length > 0) {
+      const group = L.featureGroup(squad.map(m => L.marker([m.lat, m.lng])));
+      map.fitBounds(group.getBounds().pad(0.2));
+    } else if (!isSquadOnly) {
+      map.setView(center, zoom);
+    }
+  }, [center, zoom, map, isSquadOnly, squad, centerTrigger]);
+
+  return null;
+};
+
+const MapEvents = ({ onDropPin, isSquadOnly }: { onDropPin?: (loc: string) => void, isSquadOnly?: boolean }) => {
+  const map = useMapEvents({
+    contextmenu: (e) => {
+      if (!isSquadOnly || !onDropPin) return;
+      const { lat, lng } = e.latlng;
+      onDropPin(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent('<div class="p-2 font-bold text-xs uppercase tracking-widest">📍 Pin dropped for squad</div>')
+        .openOn(map);
+    },
+  });
   return null;
 };
 
@@ -36,13 +58,19 @@ export function MapCanvas({
   zoom,
   layers,
   ghostMode,
-  venueFilter = 'all'
+  venueFilter = 'all',
+  isSquadOnly = false,
+  onDropPin,
+  centerTrigger
 }: {
   center: [number, number],
   zoom: number,
   layers: ReturnType<typeof useLayers>['layers'],
   ghostMode: boolean,
-  venueFilter?: string
+  venueFilter?: string,
+  isSquadOnly?: boolean,
+  onDropPin?: (loc: string) => void,
+  centerTrigger?: number
 }) {
   const { squad } = useSquad(center);
   const { venues } = useVenues(center);
@@ -50,13 +78,6 @@ export function MapCanvas({
 
   const filteredVenues = venueFilter === 'all' ? venues : venues.filter(v => v.type === venueFilter);
   const heatmapPoints = filteredVenues.map(v => [v.lat, v.lng, v.vibe / 100] as [number, number, number]);
-
-  // Generate a mock route from user to a venue
-  const routePoints: [number, number][] = filteredVenues.length > 0 ? [
-    [center[0] - 0.01, center[1] - 0.01],
-    [center[0] - 0.005, center[1] + 0.005],
-    [filteredVenues[0].lat, filteredVenues[0].lng]
-  ] : [];
 
   const tileUrl = theme === 'dark' 
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -69,13 +90,14 @@ export function MapCanvas({
         zoom={zoom}
         zoomControl={false}
         className="w-full h-full"
-        doubleClickZoom={false}
-        touchZoom={false}
-        scrollWheelZoom={false}
-        dragging={false}
-        keyboard={false}
+        doubleClickZoom={isSquadOnly}
+        touchZoom={isSquadOnly}
+        scrollWheelZoom={isSquadOnly}
+        dragging={isSquadOnly}
+        keyboard={isSquadOnly}
       >
-        <MapUpdater center={center} zoom={zoom} />
+        <MapUpdater center={center} zoom={zoom} isSquadOnly={isSquadOnly} squad={squad} centerTrigger={centerTrigger} />
+        <MapEvents onDropPin={onDropPin} isSquadOnly={isSquadOnly} />
         
         <TileLayer
           key={theme} // Force re-render on theme change
@@ -83,9 +105,9 @@ export function MapCanvas({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
 
-        {layers.heatmap && <HeatmapLayer points={heatmapPoints} />}
+        {!isSquadOnly && layers.heatmap && <HeatmapLayer points={heatmapPoints} />}
         
-        {layers.venues && (
+        {!isSquadOnly && layers.venues && (
           <MarkerClusterGroup
             chunkedLoading
             iconCreateFunction={createClusterCustomIcon}
@@ -97,11 +119,10 @@ export function MapCanvas({
         )}
 
         {layers.squad && squad.map(member => <SquadDot key={member.id} member={member} />)}
-        {layers.squad && <SquadLines squad={squad} center={[center[0] - 0.01, center[1] - 0.01]} />}
+        {!isSquadOnly && layers.squad && <SquadLines squad={squad} center={[center[0] - 0.01, center[1] - 0.01]} />}
         {layers.user && <UserDot position={[center[0] - 0.01, center[1] - 0.01]} ghostMode={ghostMode} />}
-        {layers.user && routePoints.length > 0 && <RouteOverlay positions={routePoints} />}
         
-        <PinDrop />
+        {!isSquadOnly && <PinDrop />}
       </MapContainer>
     </div>
   );

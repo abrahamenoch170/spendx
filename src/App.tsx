@@ -12,6 +12,9 @@ import ModesPage from './app/(main)/onboarding/modes/page';
 import { useTab } from './context/TabContext';
 import { DashboardTab } from './components/dashboard/DashboardTab';
 import { SpendxPage } from './pages/SpendxPage';
+import { BottomNav } from './components/BottomNav';
+import { SquadTab } from './components/SquadTab';
+import { ProfileTab } from './components/ProfileTab';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -51,6 +54,10 @@ const DashboardPage = () => {
         </>
       ) : activeTab === 'home' ? (
         <DashboardTab />
+      ) : activeTab === 'squad' ? (
+        <SquadTab />
+      ) : activeTab === 'profile' ? (
+        <ProfileTab />
       ) : activeTab === 'plan' ? (
         <div className="p-6 h-full flex flex-col">
           <h1 className="text-3xl font-bold mb-6">Plan your spendx</h1>
@@ -102,17 +109,7 @@ const DashboardPage = () => {
       )}
 
       {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full h-20 bg-[var(--card-bg)]/80 backdrop-blur-xl border-t border-[var(--border-color)] flex items-center justify-around px-6 z-[1001]">
-        <button onClick={() => setActiveTab('home')} className={`p-2 ${activeTab === 'home' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
-          <div className="w-6 h-6 bg-current rounded-sm" />
-        </button>
-        <button onClick={() => setActiveTab('map')} className={`p-2 ${activeTab === 'map' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
-          <div className="w-6 h-6 bg-current rounded-full" />
-        </button>
-        <button onClick={() => setActiveTab('plan')} className={`p-2 ${activeTab === 'plan' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
-          <div className="w-6 h-6 bg-current rotate-45" />
-        </button>
-      </div>
+      <BottomNav />
     </div>
   );
 };
