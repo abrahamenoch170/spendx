@@ -5,12 +5,14 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
 import { useTheme } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
-import { Target, Sliders, Eye } from 'lucide-react';
+import { Target, Sliders, Eye, BookOpen } from 'lucide-react';
+import { useTab } from '../../context/TabContext';
 
 export const MapTab = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const { theme } = useTheme();
+  const { isStudent } = useTab();
 
   useEffect(() => {
     if (map.current) return;
@@ -98,16 +100,32 @@ export const MapTab = () => {
       if (bounds) fetchVenues(bounds);
     });
 
-    map.current.on('click', 'venue-pins', (e) => {
-      const feature = e.features?.[0];
-      if (feature) {
-        console.log("Clicked venue:", feature.properties);
-        // Here we would open the bottom sheet
+    map.current.on('load', () => {
+      if (isStudent) {
+        map.current?.addSource('universities', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              { type: 'Feature', geometry: { type: 'Point', coordinates: [11.25, 43.77] }, properties: { name: 'Main Library' } }
+            ]
+          }
+        });
+        map.current?.addLayer({
+          id: 'university-pins',
+          type: 'symbol',
+          source: 'universities',
+          layout: {
+            'text-field': ['get', 'name'],
+            'text-size': 12
+          },
+          paint: { 'text-color': '#00FF00' }
+        });
       }
     });
 
     return () => map.current?.remove();
-  }, [theme]);
+  }, [theme, isStudent]);
 
   const fetchVenues = async (bounds: maplibregl.LngLatBounds, retries = 3) => {
     try {

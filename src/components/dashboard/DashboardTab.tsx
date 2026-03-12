@@ -4,7 +4,7 @@ import { Bell, MapPin, Flame, Zap, Plus, Users, Briefcase, User } from 'lucide-r
 import { useTab } from '../../context/TabContext';
 
 export const DashboardTab = () => {
-  const { setActiveTab, setIsEnterprise } = useTab();
+  const { setActiveTab, setIsEnterprise, isStudent } = useTab();
 
   const modes = [
     { name: 'Solo', icon: User, action: () => setActiveTab('plan') },
@@ -16,7 +16,14 @@ export const DashboardTab = () => {
     <div className="flex flex-col h-full bg-[var(--bg-color)] pb-20">
       {/* Top Bar */}
       <div className="flex justify-between items-center p-4">
-        <h1 className="text-2xl font-bold">Spendx</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold">Spendx</h1>
+          {isStudent && (
+            <div className="px-2 py-0.5 bg-red-500/20 text-red-500 rounded-full text-[8px] font-black uppercase tracking-widest animate-pulse">
+              Broke Mode
+            </div>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 text-sm font-medium">
             <MapPin className="w-4 h-4" />

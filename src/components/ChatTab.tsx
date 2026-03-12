@@ -11,6 +11,7 @@ import {
   Zap,
   MessageSquare
 } from 'lucide-react';
+import { useTab } from '../context/TabContext';
 
 // Mock Data
 const CHATS = [
@@ -20,6 +21,7 @@ const CHATS = [
 
 export const ChatTab = () => {
   const [activeChat, setActiveChat] = useState<string | null>(null);
+  const { isStudent } = useTab();
 
   return (
     <div className="flex flex-col h-full bg-[var(--bg-color)] pb-32">
@@ -30,6 +32,15 @@ export const ChatTab = () => {
           <Camera className="w-6 h-6" />
         </button>
       </div>
+
+      {/* Quick Prompts */}
+      {isStudent && (
+        <div className="px-6 py-2">
+          <button className="px-4 py-2 bg-[var(--lime)]/10 text-[var(--lime)] rounded-full text-xs font-bold border border-[var(--lime)]/20">
+            Study spot finder
+          </button>
+        </div>
+      )}
 
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">

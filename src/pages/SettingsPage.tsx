@@ -13,14 +13,16 @@ import {
   Eye, 
   EyeOff,
   Trash2,
-  LogOut
+  LogOut,
+  Users,
+  MapPin
 } from 'lucide-react';
 
 import { useTab } from '../context/TabContext';
 
 export const SettingsPage = () => {
   const navigate = useNavigate();
-  const { isEnterprise, setIsEnterprise } = useTab();
+  const { isEnterprise, setIsEnterprise, isStudent, setIsStudent, university, setUniversity } = useTab();
 
   const sections = [
     {
@@ -29,6 +31,21 @@ export const SettingsPage = () => {
         { label: 'Edit Profile', icon: User, value: 'Abraham Enoch' },
         { label: 'Email', icon: Globe, value: 'abraham@spendx.app' },
         { label: 'Phone', icon: Smartphone, value: '+44 7700 900000' },
+      ]
+    },
+    {
+      title: 'Student Mode',
+      items: [
+        { 
+          label: 'I\'m a student', 
+          icon: Users, 
+          type: 'toggle', 
+          active: isStudent,
+          onToggle: () => setIsStudent(!isStudent)
+        },
+        ...(isStudent ? [
+          { label: 'University', icon: MapPin, value: university, onChange: (val: string) => setUniversity(val) },
+        ] : []),
       ]
     },
     {
@@ -91,7 +108,7 @@ export const SettingsPage = () => {
                 <div 
                   key={item.label}
                   onClick={() => item.onToggle ? item.onToggle() : null}
-                  className={`flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer ${
+                  className={`flex items-center justify-between p-4 hover:bg-white/5 transition-colors ${item.onChange ? '' : 'cursor-pointer'} ${
                     i !== section.items.length - 1 ? 'border-b border-white/5' : ''
                   }`}
                 >
@@ -99,14 +116,24 @@ export const SettingsPage = () => {
                     <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/60">
                       <item.icon className="w-5 h-5" />
                     </div>
-                    <span className="font-bold text-sm">{item.label}</span>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-sm">{item.label}</span>
+                      {item.onChange && (
+                        <input 
+                          type="text" 
+                          value={item.value} 
+                          onChange={(e) => item.onChange!(e.target.value)}
+                          className="bg-transparent text-[10px] text-white/60 outline-none mt-1"
+                        />
+                      )}
+                    </div>
                   </div>
                   
                   {item.type === 'toggle' ? (
                     <div className={`w-12 h-6 rounded-full p-1 transition-colors ${item.active ? 'bg-[var(--lime)]' : 'bg-white/10'}`}>
-                      <div className={`w-4 h-4 bg-white rounded-full transition-transform ${item.active ? 'translate-x-6' : 'translate-x-0'}`} />
+                      <div className={`w-4 h-4 bg-black rounded-full transition-transform ${item.active ? 'translate-x-6' : 'translate-x-0'}`} />
                     </div>
-                  ) : (
+                  ) : !item.onChange && (
                     <div className="flex items-center gap-2">
                       {item.value && <span className="text-xs text-white/40">{item.value}</span>}
                       <ChevronLeft className="w-4 h-4 text-white/20 rotate-180" />
