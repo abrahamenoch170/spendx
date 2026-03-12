@@ -57,7 +57,7 @@ export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
   return (
     <Marker position={[venue.lat, venue.lng]} icon={icon}>
       <Popup className="venue-popup">
-        <div className="p-3 min-w-[200px]">
+        <div className="p-3 min-w-[220px]">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-display font-bold text-xl text-[var(--text-primary)] leading-tight">{venue.name}</h3>
             <span className="text-2xl">{emoji}</span>
@@ -78,9 +78,20 @@ export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
             </div>
           </div>
           
-          <button className="w-full bg-[var(--lime)] text-black font-bold py-2 rounded-lg hover:bg-white transition-colors text-sm">
-            Plan it
-          </button>
+          <div className="grid grid-cols-2 gap-2">
+            <button 
+              className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold py-2 rounded-lg hover:bg-[var(--border-color)] transition-colors text-xs"
+              onClick={() => console.log('Plan route to', venue.name)}
+            >
+              Plan Route
+            </button>
+            <button 
+              className="bg-[var(--lime)] text-black font-bold py-2 rounded-lg hover:bg-white transition-colors text-xs"
+              onClick={() => console.log('Mark for squad', venue.name)}
+            >
+              For Squad
+            </button>
+          </div>
         </div>
       </Popup>
     </Marker>
