@@ -18,6 +18,7 @@ import { ProfileTab } from './components/ProfileTab';
 import { SettingsPage } from './pages/SettingsPage';
 import { EnterpriseTab } from './components/EnterpriseTab';
 import { PublicEventPage } from './pages/PublicEventPage';
+import { ChatTab } from './components/ChatTab';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -59,6 +60,8 @@ const DashboardPage = () => {
         <DashboardTab />
       ) : activeTab === 'squad' ? (
         <SquadTab />
+      ) : activeTab === 'chat' ? (
+        <ChatTab />
       ) : activeTab === 'profile' ? (
         <ProfileTab />
       ) : activeTab === 'enterprise' ? (

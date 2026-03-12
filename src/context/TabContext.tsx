@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
 
-export type Tab = 'home' | 'plan' | 'squad' | 'map' | 'profile' | 'enterprise';
+export type Tab = 'home' | 'plan' | 'squad' | 'map' | 'profile' | 'enterprise' | 'chat';
 
 export const TabContext = createContext<{ 
   activeTab: Tab; 
