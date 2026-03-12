@@ -1,18 +1,10 @@
 'use client';
-import React, { createContext, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Fire, Sparkle, UsersThree, MapTrifold, UserCircle } from '@phosphor-icons/react';
 import { PlanTab } from '../chat/PlanTab';
-
-type Tab = 'home' | 'plan' | 'squad' | 'map' | 'profile';
-
-const TabContext = createContext<{ activeTab: Tab; setActiveTab: (tab: Tab) => void } | undefined>(undefined);
-
-export const useTab = () => {
-  const context = useContext(TabContext);
-  if (!context) throw new Error('useTab must be used within a TabProvider');
-  return context;
-};
+import { DashboardTab } from '../dashboard/DashboardTab';
+import { Tab, TabContext } from '../../context/TabContext';
 
 const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
   { id: 'home', label: 'Home', icon: Fire },
@@ -27,6 +19,7 @@ export function AppLayout() {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'home': return <DashboardTab />;
       case 'plan': return <PlanTab />;
       default: return <div className="p-4">Content for {activeTab}</div>;
     }

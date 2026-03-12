@@ -20,6 +20,14 @@ async function startServer() {
     res.json({ success: true, shareLink });
   });
 
+  app.post("/api/streak/validate", (req, res) => {
+    const { userId } = req.body;
+    console.log("Validating streak for user:", userId);
+    
+    // Mock Supabase save
+    res.json({ success: true, message: "Streak validated for today" });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

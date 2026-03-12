@@ -1,8 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Mic, ArrowRight, MapPin, Zap, X } from 'lucide-react';
+import { Clock, Mic, ArrowRight, Zap, X } from 'lucide-react';
 import { ItineraryCard } from './ItineraryCard';
+import { StreakSelfieModal } from '../streak/StreakSelfieModal';
 
 const quickPrompts = ["Solo night · $60", "Squad birthday", "Date night", "Daily coffee", "Doctor visit"];
 
@@ -12,6 +13,7 @@ export const PlanTab = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [tokens, setTokens] = useState(50);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSelfieModalOpen, setIsSelfieModalOpen] = useState(false);
 
   useEffect(() => {
     const savedTokens = localStorage.getItem('tokens');
@@ -26,6 +28,23 @@ export const PlanTab = () => {
     localStorage.setItem('chat_history', JSON.stringify(messages));
   }, [tokens, messages]);
 
+  const handleComplete = async () => {
+    try {
+      const response = await fetch('/api/streak/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 'user123' })
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert("Streak updated!");
+        setIsSelfieModalOpen(false);
+      }
+    } catch (error) {
+      console.error('Failed to validate streak', error);
+    }
+  };
+
   const handleLockIn = async (itinerary: any, totalBudget: string) => {
     try {
       const response = await fetch('/api/spendx/create', {
@@ -35,7 +54,7 @@ export const PlanTab = () => {
       });
       const data = await response.json();
       if (data.success) {
-        alert(`Spendx locked in! Share link: ${data.shareLink}`);
+        setIsSelfieModalOpen(true);
       }
     } catch (error) {
       console.error('Failed to lock in', error);
@@ -78,7 +97,6 @@ export const PlanTab = () => {
 
   return (
     <div className="flex flex-col h-full bg-[var(--bg-color)]">
-      {/* Top Bar */}
       <div className="flex justify-between items-center p-4 border-b border-[var(--border-color)]">
         <h2 className="text-xl font-bold">Plan</h2>
         <div className="flex items-center gap-3">
@@ -91,7 +109,6 @@ export const PlanTab = () => {
         </div>
       </div>
 
-      {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-[var(--text-secondary)] mt-10">
@@ -119,7 +136,6 @@ export const PlanTab = () => {
         )}
       </div>
 
-      {/* Input Area */}
       <div className="p-4 border-t border-[var(--border-color)] bg-[var(--card-bg)] pb-[env(safe-area-inset-bottom)]">
         {tokens <= 0 ? (
           <button onClick={() => setIsModalOpen(true)} className="w-full py-3 rounded-xl bg-[var(--lime)] text-black font-bold">
@@ -150,7 +166,6 @@ export const PlanTab = () => {
         )}
       </div>
 
-      {/* Top-up Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
@@ -165,6 +180,12 @@ export const PlanTab = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <StreakSelfieModal 
+        isOpen={isSelfieModalOpen} 
+        onClose={() => setIsSelfieModalOpen(false)} 
+        onComplete={handleComplete} 
+      />
     </div>
   );
 };
