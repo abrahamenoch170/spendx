@@ -1,5 +1,5 @@
 {
-  "name": "Four Stripes Gradient",
-  "description": "A simple page with a four-stripe solid color gradient background.",
-  "requestFramePermissions": []
+  "name": "Spendx",
+  "description": "The ultimate social planning and navigation app for your squad.",
+  "requestFramePermissions": ["geolocation"]
 }

@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const COLORS = ['var(--lime)', 'var(--magenta)', 'var(--cyan)', 'var(--teal)'];
-const MENU_ITEMS = ['Explore Map', 'See Squad', 'Discover Venues', 'How It Works', 'Join Early Access'];
+const MENU_ITEMS = [
+  { label: 'Explore Map', href: '#explore-map' },
+  { label: 'See Squad', href: '#see-squad' },
+  { label: 'Discover Venues', href: '#discover-venues' },
+  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Join Early Access', href: '#join-early-access' },
+  { label: 'Sign In', href: '/onboarding', isSpecial: true }
+];
 const springEasing = [0.34, 1.56, 0.64, 1];
 
 export function NavigationMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     if (!isOpen) {
@@ -64,22 +73,28 @@ export function NavigationMenu() {
             onClick={() => setIsOpen(false)}
           >
             <div 
-              className="flex flex-col items-center gap-8"
+              className="flex flex-col items-center gap-6"
               onClick={(e) => e.stopPropagation()}
             >
               {MENU_ITEMS.map((item, i) => (
                 <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  key={item.label}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: 0.1 + i * 0.08, duration: 0.4, ease: springEasing }}
-                  className="text-4xl md:text-6xl font-display font-black text-[var(--bg-color)] transition-colors cursor-pointer"
+                  className={`text-4xl md:text-6xl font-display font-black transition-colors cursor-pointer ${item.isSpecial ? 'text-white bg-black px-8 py-2 rounded-full' : 'text-[var(--bg-color)]'}`}
                   whileHover={{ scale: 1.05, filter: 'brightness(1.2)' }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    if (item.href.startsWith('/')) {
+                      navigate(item.href);
+                    } else {
+                      window.location.hash = item.href;
+                    }
+                  }}
                 >
-                  {item}
+                  {item.label}
                 </motion.a>
               ))}
             </div>

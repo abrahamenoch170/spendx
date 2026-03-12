@@ -10,7 +10,10 @@ export const SignInModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () 
   const handleSignIn = (provider: string) => {
     console.log(`Signing in with ${provider}`);
     onClose();
-    navigate('/onboarding');
+    // Use a small timeout to ensure the modal animation finishes or just navigate
+    setTimeout(() => {
+      navigate('/onboarding');
+    }, 100);
   };
 
   const providers = [

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { MapCanvas } from './components/MapCanvas';
 import { HUD } from './components/HUD';
 import { BottomSheet } from './components/BottomSheet';
@@ -9,37 +9,110 @@ import { CustomCursor } from './components/CustomCursor';
 import { LandingPage } from './pages/LandingPage';
 import OnboardingPage from './app/(main)/onboarding/page';
 import ModesPage from './app/(main)/onboarding/modes/page';
+import { useTab } from './context/TabContext';
+import { DashboardTab } from './components/dashboard/DashboardTab';
+import { SpendxPage } from './pages/SpendxPage';
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
   const { city, center, zoom, switchCity } = useMapState();
   const { layers, toggleLayer } = useLayers();
   const [ghostMode, setGhostMode] = useState(false);
   const [venueFilter, setVenueFilter] = useState<string>('all');
+  const { activeTab, setActiveTab } = useTab();
 
   return (
     <div className="relative w-full h-[100dvh] bg-[var(--bg-color)] font-sans text-[var(--text-primary)] overflow-hidden selection:bg-[var(--lime)] selection:text-black">
       <CustomCursor />
       <div className="grain-overlay" />
-      <MapCanvas
-        center={center}
-        zoom={zoom}
-        layers={layers}
-        ghostMode={ghostMode}
-        venueFilter={venueFilter}
-      />
-      <HUD
-        city={city}
-        switchCity={switchCity}
-        layers={layers}
-        toggleLayer={toggleLayer}
-        ghostMode={ghostMode}
-        setGhostMode={setGhostMode}
-        isFullMap={true}
-        setIsFullMap={() => {}}
-        venueFilter={venueFilter}
-        setVenueFilter={setVenueFilter}
-      />
-      <BottomSheet center={center} venueFilter={venueFilter} />
+      
+      {activeTab === 'map' ? (
+        <>
+          <MapCanvas
+            center={center}
+            zoom={zoom}
+            layers={layers}
+            ghostMode={ghostMode}
+            venueFilter={venueFilter}
+          />
+          <HUD
+            city={city}
+            switchCity={switchCity}
+            layers={layers}
+            toggleLayer={toggleLayer}
+            ghostMode={ghostMode}
+            setGhostMode={setGhostMode}
+            isFullMap={true}
+            setIsFullMap={() => setActiveTab('home')}
+            venueFilter={venueFilter}
+            setVenueFilter={setVenueFilter}
+          />
+          <BottomSheet center={center} venueFilter={venueFilter} />
+        </>
+      ) : activeTab === 'home' ? (
+        <DashboardTab />
+      ) : activeTab === 'plan' ? (
+        <div className="p-6 h-full flex flex-col">
+          <h1 className="text-3xl font-bold mb-6">Plan your spendx</h1>
+          <div className="flex-1 space-y-4">
+            <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
+              <h3 className="font-bold mb-2">Current Route</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-[var(--lime)] rounded-full flex items-center justify-center text-black font-bold">1</div>
+                  <span>The Alchemist</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-[var(--magenta)] rounded-full flex items-center justify-center text-white font-bold">2</div>
+                  <span>Fabric London</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
+              <h3 className="font-bold mb-2">Squad (3)</h3>
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-[var(--bg-color)] bg-[var(--border-color)]" />
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <button 
+            onClick={() => {
+              const id = Math.random().toString(36).substring(7);
+              navigate(`/spendx/${id}`);
+            }}
+            className="w-full py-5 bg-[var(--lime)] text-black rounded-2xl font-black text-xl shadow-[0_0_30px_rgba(204,255,0,0.3)] mb-24"
+          >
+            LOCK IN SPENDX*
+          </button>
+        </div>
+      ) : (
+        <div className="p-6">
+          <h1 className="text-3xl font-bold mb-6 capitalize">{activeTab}</h1>
+          <button 
+            onClick={() => setActiveTab('home')}
+            className="p-3 bg-[var(--card-bg)] rounded-xl"
+          >
+            Back Home
+          </button>
+        </div>
+      )}
+
+      {/* Bottom Nav */}
+      <div className="fixed bottom-0 left-0 w-full h-20 bg-[var(--card-bg)]/80 backdrop-blur-xl border-t border-[var(--border-color)] flex items-center justify-around px-6 z-[1001]">
+        <button onClick={() => setActiveTab('home')} className={`p-2 ${activeTab === 'home' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
+          <div className="w-6 h-6 bg-current rounded-sm" />
+        </button>
+        <button onClick={() => setActiveTab('map')} className={`p-2 ${activeTab === 'map' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
+          <div className="w-6 h-6 bg-current rounded-full" />
+        </button>
+        <button onClick={() => setActiveTab('plan')} className={`p-2 ${activeTab === 'plan' ? 'text-[var(--lime)]' : 'text-[var(--text-secondary)]'}`}>
+          <div className="w-6 h-6 bg-current rotate-45" />
+        </button>
+      </div>
     </div>
   );
 };
@@ -71,7 +144,6 @@ export default function App() {
         venueFilter={venueFilter}
         setVenueFilter={setVenueFilter}
       />
-      <BottomSheet center={center} venueFilter={venueFilter} />
     </>
   );
 
@@ -81,6 +153,7 @@ export default function App() {
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/onboarding/modes" element={<ModesPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/spendx/:id" element={<SpendxPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

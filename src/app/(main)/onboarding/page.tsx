@@ -21,6 +21,7 @@ export default function OnboardingPage() {
   ];
 
   useEffect(() => {
+    console.log('OnboardingPage mounted');
     generateAvatars();
   }, []);
 

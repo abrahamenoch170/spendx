@@ -53,8 +53,16 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
       </motion.div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full p-6 z-50 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+      <nav className="fixed top-0 left-0 w-full p-6 z-[60] flex justify-between items-center mix-blend-difference text-white pointer-events-none">
         <div className="font-display font-black text-2xl tracking-tighter pointer-events-auto cursor-pointer">spendx*</div>
+        <div className="pointer-events-auto flex items-center gap-4">
+          <button 
+            onClick={() => setIsSignInModalOpen(true)}
+            className="hidden md:block text-sm font-black bg-white text-black px-6 py-2 rounded-full hover:bg-[var(--lime)] transition-all active:scale-95"
+          >
+            SIGN IN
+          </button>
+        </div>
       </nav>
       <NavigationMenu />
       <QuickActions />
