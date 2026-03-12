@@ -47,6 +47,31 @@ async function startServer() {
     res.json({ success: true });
   });
 
+  app.get("/api/venues/fetch-for-city", (req, res) => {
+    const { city_slug, minLat, maxLat, minLng, maxLng } = req.query;
+    console.log("Fetching venues for:", { city_slug, minLat, maxLat, minLng, maxLng });
+    
+    // Mock venue data
+    const venues = [
+      { id: 'v1', name: 'Cool Cafe', lat: 43.77, lng: 11.25, category: 'food', address: '123 Main St', vibe_score: 8.5 },
+      { id: 'v2', name: 'Fun Bar', lat: 43.78, lng: 11.26, category: 'drink', address: '456 Side St', vibe_score: 9.0 },
+    ];
+    
+    res.json({ success: true, venues });
+  });
+
+  app.get("/api/location/ip", async (req, res) => {
+    try {
+      // Use a server-side fetch to avoid CORS
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      res.json(data);
+    } catch (error) {
+      console.error("Server-side IP lookup failed:", error);
+      res.status(500).json({ error: "Failed to fetch location" });
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
