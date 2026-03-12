@@ -8,6 +8,7 @@ import { useLayers } from './hooks/useLayers';
 import { NavigationMenu } from './components/NavigationMenu';
 import { QuickActions } from './components/QuickActions';
 import { InteractiveButton, FloatingInput } from './components/InteractiveElements';
+import { SignInModal } from './components/SignInModal';
 import { CustomCursor } from './components/CustomCursor';
 import {
   StarFloat, DeadChat, LinkExpand, SoloFigure, SquadFigures, BigGroup, DateFigures,
@@ -31,6 +32,7 @@ export default function App() {
   const [ghostMode, setGhostMode] = useState(false);
   const [isFullMap, setIsFullMap] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [venueFilter, setVenueFilter] = useState<string>('all');
 
   const stripeColors = ['var(--lime)', 'var(--magenta)', 'var(--cyan)', 'var(--teal)'];
@@ -106,6 +108,7 @@ export default function App() {
       </nav>
       <NavigationMenu />
       <QuickActions />
+      <SignInModal isOpen={isSignInModalOpen} onClose={() => setIsSignInModalOpen(false)} />
 
       {/* Scrollable Foreground Content */}
       <div className="relative z-10 w-full min-h-screen flex flex-col items-center">
@@ -152,7 +155,10 @@ export default function App() {
               transition={{ delay: 1.0, duration: 0.8, ease: springEasing }}
               className="will-change-transform"
             >
-              <InteractiveButton className="text-label bg-black text-[var(--lime)] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]">
+              <InteractiveButton 
+                onClick={() => setIsSignInModalOpen(true)}
+                className="text-label bg-black text-[var(--lime)] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]"
+              >
                 Get the link
               </InteractiveButton>
             </motion.div>

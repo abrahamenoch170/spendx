@@ -1,8 +1,14 @@
+'use client';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Phone } from 'lucide-react';
 
 export const SignInModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const handleSignIn = () => {
+    onClose();
+    window.location.href = '/onboarding/modes';
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -27,14 +33,23 @@ export const SignInModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () 
             <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Sign In</h2>
             
             <div className="flex flex-col gap-3">
-              <button className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors">
+              <button 
+                onClick={handleSignIn}
+                className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors"
+              >
                 <Mail className="w-5 h-5" />
                 Continue with Google
               </button>
-              <button className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold hover:bg-[var(--border-color)] transition-colors">
+              <button 
+                onClick={handleSignIn}
+                className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold hover:bg-[var(--border-color)] transition-colors"
+              >
                 Continue with Apple/Snapchat/Instagram
               </button>
-              <button className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold hover:bg-[var(--border-color)] transition-colors">
+              <button 
+                onClick={handleSignIn}
+                className="flex items-center justify-center gap-3 w-full py-3 rounded-xl bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold hover:bg-[var(--border-color)] transition-colors"
+              >
                 <Phone className="w-5 h-5" />
                 Continue with Phone Number
               </button>
