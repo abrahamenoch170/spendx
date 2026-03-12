@@ -28,6 +28,25 @@ async function startServer() {
     res.json({ success: true, message: "Streak validated for today" });
   });
 
+  app.post("/api/squad/create", (req, res) => {
+    const { userId, name } = req.body;
+    const squadId = uuidv4();
+    const inviteLink = `spendx.app/r/${squadId}`;
+    
+    console.log("Creating squad:", { userId, name, squadId, inviteLink });
+    
+    // Mock Supabase save
+    res.json({ success: true, squadId, inviteLink });
+  });
+
+  app.post("/api/squad/join", (req, res) => {
+    const { userId, squadId } = req.body;
+    console.log("Adding user to squad:", { userId, squadId });
+    
+    // Mock Supabase save
+    res.json({ success: true });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

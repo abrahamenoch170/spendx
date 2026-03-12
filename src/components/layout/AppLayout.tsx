@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Fire, Sparkle, UsersThree, MapTrifold, UserCircle } from '@phosphor-icons/react';
 import { PlanTab } from '../chat/PlanTab';
 import { DashboardTab } from '../dashboard/DashboardTab';
+import { SquadTab } from '../squad/SquadTab';
 import { Tab, TabContext } from '../../context/TabContext';
 
 const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
@@ -21,6 +22,7 @@ export function AppLayout() {
     switch (activeTab) {
       case 'home': return <DashboardTab />;
       case 'plan': return <PlanTab />;
+      case 'squad': return <SquadTab />;
       default: return <div className="p-4">Content for {activeTab}</div>;
     }
   };
