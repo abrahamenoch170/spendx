@@ -6,10 +6,10 @@ const springEasing = [0.34, 1.56, 0.64, 1];
 
 export function QuickActions() {
   const actions = [
-    { icon: Flame, label: 'Find Vibes', color: '#FF0099' },
-    { icon: Users, label: 'See Squad', color: '#CCFF00' },
-    { icon: Map, label: 'Explore Venues', color: '#00CCFF' },
-    { icon: Navigation, label: 'View Routes', color: '#00AA88' },
+    { icon: Flame, label: 'Find Vibes', color: 'var(--magenta)' },
+    { icon: Users, label: 'See Squad', color: 'var(--lime)' },
+    { icon: Map, label: 'Explore Venues', color: 'var(--cyan)' },
+    { icon: Navigation, label: 'View Routes', color: 'var(--teal)' },
   ];
 
   return (
@@ -25,10 +25,10 @@ export function QuickActions() {
           whileHover={{ scale: 1.05, filter: 'brightness(1.2)' }}
           whileTap={{ scale: 0.95 }}
           transition={{ ease: springEasing }}
-          className="flex flex-col md:flex-row items-center gap-2 text-white/70 hover:text-white transition-colors group min-w-[44px] min-h-[44px] justify-center will-change-transform"
+          className="flex flex-col md:flex-row items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors group min-w-[44px] min-h-[44px] justify-center will-change-transform"
         >
           <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--border-color)] group-hover:bg-[var(--text-secondary)] transition-colors"
             style={{ color: action.color, boxShadow: `0 0 10px ${action.color}00`, transition: 'box-shadow 0.3s' }}
             onMouseEnter={(e) => e.currentTarget.style.boxShadow = `0 0 15px ${action.color}80`}
             onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 0 10px ${action.color}00`}

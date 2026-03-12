@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motio
 
 const springEasing = [0.34, 1.56, 0.64, 1];
 
-export function InteractiveButton({ children, className, onClick, color = '#CCFF00' }: any) {
+export function InteractiveButton({ children, className, onClick, color = 'var(--lime)' }: any) {
   const ref = useRef<HTMLButtonElement>(null);
   const [state, setState] = useState<'idle' | 'loading' | 'success'>('idle');
   
@@ -106,7 +106,7 @@ export const FloatingInput = ({ label, ...props }: any) => {
         animate={{
           y: focused || value ? -12 : 16,
           scale: focused || value ? 0.85 : 1,
-          color: focused ? '#CCFF00' : 'rgba(255,255,255,0.4)'
+          color: focused ? 'var(--lime)' : 'var(--text-secondary)'
         }}
         transition={{ ease: springEasing, duration: 0.3 }}
         className="absolute left-6 pointer-events-none origin-left font-medium z-10"
@@ -119,7 +119,7 @@ export const FloatingInput = ({ label, ...props }: any) => {
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="w-full bg-white/5 rounded-2xl p-6 pt-8 pb-4 text-body text-white focus:outline-none focus:bg-white/10 transition-all border border-white/10 focus:border-[#CCFF00] relative z-0"
+        className="w-full bg-[var(--card-bg)] rounded-2xl p-6 pt-8 pb-4 text-body text-[var(--text-primary)] focus:outline-none focus:bg-[var(--border-color)] transition-all border border-[var(--border-color)] focus:border-[var(--lime)] relative z-0"
       />
     </div>
   );

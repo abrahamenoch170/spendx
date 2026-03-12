@@ -14,11 +14,11 @@ export const SquadDot: React.FC<{ member: SquadMember }> = ({ member }) => {
   };
 
   const iconHtml = `
-    <div class="relative w-12 h-12 group transition-transform duration-300 hover:scale-125 hover:z-50">
-      <div class="absolute inset-0 rounded-full border-[3px] border-[#00CCFF] ${getRingStyle(member.freshness)} animate-pulse-cyan"></div>
-      <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}" alt="${member.name}" class="w-full h-full rounded-full bg-white object-cover border-2 border-[#111]" />
-      <div class="absolute -top-2 -right-2 w-6 h-6 bg-[#111] rounded-full border border-[#00CCFF] flex items-center justify-center transform rotate-[${member.direction}deg]">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00CCFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <div class="relative w-12 h-12 group transition-transform duration-300 hover:scale-125 hover:z-50 animate-pop-in">
+      <div class="absolute inset-0 rounded-full border-[3px] border-[var(--cyan)] ${getRingStyle(member.freshness)} animate-pulse-cyan"></div>
+      <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}" alt="${member.name}" class="w-full h-full rounded-full bg-white object-cover border-2 border-[var(--bg-color)]" />
+      <div class="absolute -top-2 -right-2 w-6 h-6 bg-[var(--bg-color)] rounded-full border border-[var(--cyan)] flex items-center justify-center" style="transform: rotate(${member.direction}deg)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="19" x2="12" y2="5"></line>
           <polyline points="5 12 12 5 19 12"></polyline>
         </svg>
@@ -38,8 +38,8 @@ export const SquadDot: React.FC<{ member: SquadMember }> = ({ member }) => {
       <Popup>
         <div className="p-2 text-center">
           <img src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${member.seed}`} alt={member.name} className="w-16 h-16 mx-auto rounded-full bg-white mb-2" />
-          <h3 className="font-display font-bold text-lg">{member.name}</h3>
-          <p className="text-xs text-gray-400 font-mono mt-1">Updated {member.freshness === 'full' ? '<2m' : member.freshness === 'partial' ? '5m' : '10m+'} ago</p>
+          <h3 className="font-display font-bold text-lg text-[var(--text-primary)]">{member.name}</h3>
+          <p className="text-xs text-[var(--text-secondary)] font-mono mt-1">Updated {member.freshness === 'full' ? '<2m' : member.freshness === 'partial' ? '5m' : '10m+'} ago</p>
         </div>
       </Popup>
     </Marker>

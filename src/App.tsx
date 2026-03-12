@@ -32,7 +32,7 @@ export default function App() {
   const [isFullMap, setIsFullMap] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const stripeColors = ['#CCFF00', '#FF0099', '#00CCFF', '#00AA88'];
+  const stripeColors = ['var(--lime)', 'var(--magenta)', 'var(--cyan)', 'var(--teal)'];
 
   useEffect(() => {
     if (isFullMap) {
@@ -67,7 +67,7 @@ export default function App() {
 
   if (isFullMap) {
     return (
-      <div className="relative w-full h-[100dvh] bg-[#0A0A0A] font-sans text-white overflow-hidden selection:bg-[#CCFF00] selection:text-black">
+      <div className="relative w-full h-[100dvh] bg-[var(--bg-color)] font-sans text-[var(--text-primary)] overflow-hidden selection:bg-[var(--lime)] selection:text-black">
         <CustomCursor />
         <div className="grain-overlay" />
         {mapComponent}
@@ -76,7 +76,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative w-full min-h-screen bg-black font-sans text-black selection:bg-black selection:text-[#CCFF00] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-black font-sans text-black selection:bg-black selection:text-[var(--lime)] overflow-x-hidden">
       <CustomCursor />
       <div className="grain-overlay" />
       
@@ -107,7 +107,7 @@ export default function App() {
       <div className="relative z-10 w-full min-h-screen flex flex-col items-center">
         
         {/* HERO SECTION - Lime Overlay */}
-        <section className="relative w-full bg-[#CCFF00]/85 backdrop-blur-xl clip-1 flex flex-col items-center justify-center min-h-screen pt-32 pb-32">
+        <section className="relative w-full bg-[var(--lime)]/85 backdrop-blur-xl clip-1 flex flex-col items-center justify-center min-h-screen pt-32 pb-32">
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           
           {/* Floating Animated Star */}
@@ -148,7 +148,7 @@ export default function App() {
               transition={{ delay: 1.0, duration: 0.8, ease: springEasing }}
               className="will-change-transform"
             >
-              <InteractiveButton className="text-label bg-black text-[#CCFF00] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]">
+              <InteractiveButton className="text-label bg-black text-[var(--lime)] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]">
                 Get the link
               </InteractiveButton>
             </motion.div>
@@ -171,7 +171,7 @@ export default function App() {
                       key={user.seed}
                       src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
                       alt={`${user.name} avatar`}
-                      className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-white"
+                      className="w-10 h-10 rounded-full border-2 border-[var(--lime)] bg-white"
                       style={{ zIndex: 3 - i }}
                       referrerPolicy="no-referrer"
                       data-name={user.name}
@@ -180,7 +180,7 @@ export default function App() {
                       data-snapchat={user.snapchat}
                     />
                   ))}
-                  <div className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-black text-[#CCFF00] flex items-center justify-center text-xs font-bold z-0">
+                  <div className="w-10 h-10 rounded-full border-2 border-[var(--lime)] bg-black text-[var(--lime)] flex items-center justify-center text-xs font-bold z-0">
                     +2,047
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export default function App() {
         </section>
 
         {/* WHEN PLANS FALL APART - Magenta Overlay */}
-        <section id="how-it-works" className="relative w-full bg-[#FF0099]/85 backdrop-blur-xl clip-2 flex flex-col items-center pb-32">
+        <section id="how-it-works" className="relative w-full bg-[var(--magenta)]/85 backdrop-blur-xl clip-2 flex flex-col items-center pb-32">
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding">
             <motion.div 
@@ -296,7 +296,7 @@ export default function App() {
               data-social-handles="@mapuser"
             >
               <div 
-                className="relative w-full h-[400px] md:h-[600px] rounded-3xl overflow-hidden border border-white/20 bg-[#0A0A0A]"
+                className="relative w-full h-[400px] md:h-[600px] rounded-3xl overflow-hidden border border-[var(--border-color)] bg-[var(--bg-color)]"
                 style={{ clipPath: 'polygon(0 6%, 33.3% 0%, 66.6% 6%, 100% 0%, 100% 94%, 66.6% 100%, 33.3% 94%, 0 100%)' }}
               >
                 {mapComponent}
@@ -304,7 +304,7 @@ export default function App() {
               <div className="mt-12 flex justify-center">
                 <InteractiveButton 
                   onClick={() => setIsFullMap(true)} 
-                  className="text-label bg-black text-[#CCFF00] px-8 py-4 rounded-full shadow-xl border border-[#CCFF00]/30 min-w-[44px] min-h-[44px]"
+                  className="text-label bg-black text-[var(--lime)] px-8 py-4 rounded-full shadow-xl border border-[var(--lime)]/30 min-w-[44px] min-h-[44px]"
                 >
                   View Full Map View
                 </InteractiveButton>
@@ -314,7 +314,7 @@ export default function App() {
         </section>
 
         {/* IMAGINE THIS - Cyan Overlay */}
-        <section className="relative w-full bg-[#00CCFF]/85 backdrop-blur-xl clip-3 flex flex-col items-center pb-32">
+        <section className="relative w-full bg-[var(--cyan)]/85 backdrop-blur-xl clip-3 flex flex-col items-center pb-32">
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding">
             <motion.div 
@@ -370,7 +370,7 @@ export default function App() {
         </section>
 
         {/* WHOEVER YOU'RE WITH - Teal Overlay */}
-        <section id="see-squad" className="relative w-full bg-[#00AA88]/85 backdrop-blur-xl clip-4 flex flex-col items-center pb-32">
+        <section id="see-squad" className="relative w-full bg-[var(--teal)]/85 backdrop-blur-xl clip-4 flex flex-col items-center pb-32">
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding">
             <motion.h2 
@@ -411,7 +411,7 @@ export default function App() {
         </section>
 
         {/* HOW IT WORKS - Lime Overlay */}
-        <section className="relative w-full bg-[#CCFF00]/85 backdrop-blur-xl clip-1 flex flex-col items-center pb-32">
+        <section className="relative w-full bg-[var(--lime)]/85 backdrop-blur-xl clip-1 flex flex-col items-center pb-32">
           <div className="absolute inset-0 opacity-[0.03] grain-bg pointer-events-none"></div>
           <div className="relative z-10 w-full max-w-[1400px] mx-auto section-padding">
             <motion.div 
@@ -452,7 +452,7 @@ export default function App() {
                     />
                   )}
                   
-                  <div className="w-16 h-16 rounded-full bg-black text-[#CCFF00] flex items-center justify-center font-black text-2xl z-10 shrink-0">
+                  <div className="w-16 h-16 rounded-full bg-black text-[var(--lime)] flex items-center justify-center font-black text-2xl z-10 shrink-0">
                     {item.step}
                   </div>
                   <div className="w-32 h-32 shrink-0 bg-white/50 rounded-full p-6 text-black saturate-[0.8]">
@@ -481,7 +481,7 @@ export default function App() {
               transition={{ duration: 0.8, ease: springEasing }}
               className="w-full max-w-4xl mb-32 px-4 md:px-0 relative will-change-transform"
             >
-              <h2 className="text-section-h2 text-[#CCFF00] drop-shadow-sm mt-0 mb-4">
+              <h2 className="text-section-h2 text-[var(--lime)] drop-shadow-sm mt-0 mb-4">
                 Get In Early
               </h2>
               <p className="text-body text-white/90 mb-12 mx-auto">Join the waitlist. Test it first.</p>
@@ -508,7 +508,7 @@ export default function App() {
                             await new Promise(r => setTimeout(r, 1500));
                             setIsSubmitted(true);
                           }}
-                          className="w-full bg-[#CCFF00] text-black text-label px-10 py-6 rounded-full mt-8 shadow-xl relative overflow-hidden"
+                          className="w-full bg-[var(--lime)] text-black text-label px-10 py-6 rounded-full mt-8 shadow-xl relative overflow-hidden"
                         >
                           Lock me in
                         </InteractiveButton>
@@ -523,7 +523,7 @@ export default function App() {
                       className="w-full flex flex-col items-center justify-center py-12"
                     >
                       <div className="w-32 h-32 mb-6 relative">
-                        <Suspense fallback={<div className="w-full h-full bg-[#CCFF00]/20 rounded-full animate-pulse" />}>
+                        <Suspense fallback={<div className="w-full h-full bg-[var(--lime)]/20 rounded-full animate-pulse" />}>
                           <Lottie 
                             animationData={successAnimationData} 
                             loop={false} 
@@ -541,7 +541,7 @@ export default function App() {
                           <motion.div
                             key={i}
                             className="absolute w-3 h-3 rounded-sm"
-                            style={{ backgroundColor: ['#FF0099', '#00CCFF', '#CCFF00', '#00AA88', '#FFFFFF'][i % 5] }}
+                            style={{ backgroundColor: ['var(--magenta)', 'var(--cyan)', 'var(--lime)', 'var(--teal)', 'var(--text-primary)'][i % 5] }}
                             initial={{ x: 0, y: 0, scale: 0, rotate: 0 }}
                             animate={{
                               x: (Math.random() - 0.5) * 600,
@@ -562,11 +562,11 @@ export default function App() {
 
             {/* Footer */}
             <div className="w-full flex flex-col items-center px-4 md:px-0">
-              <h2 className="text-hero text-[#FF0099] mb-10">No Cap</h2>
+              <h2 className="text-hero text-[var(--magenta)] mb-10">No Cap</h2>
               <p className="text-body text-white/80 mb-10 mx-auto">
                 The best nights aren't the ones you plan for weeks. They're the ones that actually happen.
               </p>
-              <div className="bg-[#CCFF00] p-8 rounded-3xl inline-block transform -rotate-2 shadow-lg mb-20">
+              <div className="bg-[var(--lime)] p-8 rounded-3xl inline-block transform -rotate-2 shadow-lg mb-20">
                 <p className="text-body font-black text-black m-0">
                   Spendx doesn't make you more organized. It makes backing out harder than showing up.
                 </p>
@@ -577,9 +577,9 @@ export default function App() {
                   spendx* <span className="text-body font-normal opacity-60">— Find your spendx</span>
                 </div>
                 <div className="flex flex-wrap justify-center gap-8 text-label text-gray-500">
-                  <a href="#" className="hover:text-[#FF0099] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Instagram</a>
-                  <a href="#" className="hover:text-[#00CCFF] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">TikTok</a>
-                  <a href="#" className="hover:text-[#00AA88] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Twitter/X</a>
+                  <a href="#" className="hover:text-[var(--magenta)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Instagram</a>
+                  <a href="#" className="hover:text-[var(--cyan)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">TikTok</a>
+                  <a href="#" className="hover:text-[var(--teal)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Twitter/X</a>
                 </div>
                 
                 <div className="mt-12 pt-8 border-t border-white/10 w-full max-w-2xl">

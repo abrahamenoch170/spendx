@@ -49,9 +49,27 @@ The project follows a strict domain-driven structure within the Next.js App Rout
 
 ## ✅ What Has Been Done (Current State)
 
-1. **High-Converting Landing Page:**
-   - Implemented a highly animated, responsive landing page using Framer Motion and Tailwind CSS (`src/App.tsx`).
-   - Added social proof components, waitlist urgency indicators, and interactive map visualization placeholders.
+1. **Map UI Upgrade (Landing Page):**
+   - **Design System Integration:** Implemented a new design system using CSS variables (`src/styles/tokens.css`) for seamless light/dark mode switching.
+   - **Typography:** Integrated `DM Sans` (body), `Fraunces` (display), and `JetBrains Mono` (numbers).
+   - **Heatmap Illusion:** Added a dynamic heatmap layer (`HeatmapLayer.tsx`) that visualizes venue "vibe" scores.
+   - **Animated Elements:** Implemented CSS animations (`pop-in`, `bounce`, `pulse-lime`, `pulse-cyan`, `dash-move`) to create a "living" map feel.
+   - **Interactive Map Features:** 
+     - Venue pins with dynamic emojis and colors based on category.
+     - "Trending" badges for high-vibe venues.
+     - Marker clustering using `react-leaflet-cluster` for performance.
+     - Squad distance lines with tooltips.
+     - Animated route overlays showing movement.
+   - **Bottom Sheet Enhancements:** 
+     - Implemented a draggable bottom sheet (`BottomSheet.tsx`) with collapsed, half, and full states.
+     - Added an AI suggestion section with a "Plan it" button.
+     - Integrated scrollable lists for active squad members and trending nearby venues.
+   - **Global Geolocation:** 
+     - Implemented browser Geolocation API with an IP-based fallback (`ipapi.co`).
+     - Added reverse geocoding via Nominatim OpenStreetMap API to detect the user's city.
+   - **Lottie Animations:** Replaced static icons in the HUD and Theme Toggle with Lottie animations for a premium feel.
+   - **Social Proof:** Updated the waitlist section with DiceBear avatars and dynamic participant counts.
+   - **Footer:** Updated footer branding to "A Detova Labs Project".
 2. **Next.js 14 Scaffolding:**
    - Set up the App Router structure with `(auth)` and `(main)` route groups.
    - Created foundational API route files (`/api/auth`, `/api/chat`, `/api/squad`, `/api/payment`, etc.) with `NextResponse` boilerplate.

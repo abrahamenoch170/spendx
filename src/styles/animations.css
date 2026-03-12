@@ -29,6 +29,12 @@
   100% { transform: translate(-50%, 0); }
 }
 
+@keyframes pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .animate-pulse-lime {
   animation: pulse-lime 2s infinite;
 }
@@ -49,26 +55,30 @@
   animation: pin-drop 0.5s ease-out forwards;
 }
 
+.animate-pop-in {
+  animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 .glass-panel {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(10, 10, 10, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
 }
 
 .glass-panel-active-lime {
-  border-color: var(--acid-lime);
-  box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
+  border-color: var(--lime);
+  box-shadow: 0 0 15px var(--lime);
 }
 
 .glass-panel-active-magenta {
-  border-color: var(--hot-magenta);
-  box-shadow: 0 0 15px rgba(255, 0, 153, 0.3);
+  border-color: var(--magenta);
+  box-shadow: 0 0 15px var(--magenta);
 }
 
 /* Leaflet Overrides */
 .leaflet-container {
-  background: #0A0A0A !important;
+  background: var(--bg-color) !important;
   font-family: 'DM Sans', sans-serif;
 }
 
@@ -86,16 +96,16 @@
 }
 
 .leaflet-popup-content-wrapper {
-  background: rgba(10, 10, 10, 0.9);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: white;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .leaflet-popup-tip {
-  background: rgba(10, 10, 10, 0.9);
+  background: var(--card-bg);
 }
 
 /* Hide scrollbar for bottom sheet */
@@ -105,4 +115,19 @@
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.squad-distance-tooltip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.squad-distance-tooltip::before {
+  display: none;
 }

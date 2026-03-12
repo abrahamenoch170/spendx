@@ -7,19 +7,19 @@ export function RouteOverlay({ positions }: { positions: [number, number][] }) {
       <Polyline
         positions={positions}
         pathOptions={{
-          color: '#555555',
-          weight: 4,
-          opacity: 0.5,
+          color: 'var(--text-secondary)',
+          weight: 3,
+          opacity: 0.3,
           dashArray: '10, 10',
         }}
       />
       <Polyline
         positions={positions}
         pathOptions={{
-          color: '#FF0099',
-          weight: 4,
+          color: 'var(--lime)',
+          weight: 3,
           opacity: 1,
-          dashArray: '20, 20',
+          dashArray: '15, 15',
           className: 'animate-dash-move',
         }}
       />

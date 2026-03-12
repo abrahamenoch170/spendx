@@ -11,14 +11,14 @@ export function HeatmapLayer({ points }: { points: [number, number, number][] })
 
     // @ts-ignore
     const heat = L.heatLayer(points, {
-      radius: 40,
-      blur: 30,
+      radius: 50,
+      blur: 40,
       maxZoom: 15,
       gradient: {
-        0.4: '#0A0A0A',
-        0.6: '#00AA88',
-        0.8: '#00CCFF',
-        1.0: '#FF0099'
+        0.4: 'rgba(0,0,0,0)',
+        0.6: '#00BFA5', // Teal
+        0.8: '#00E5FF', // Cyan
+        1.0: '#FF2D78'  // Magenta
       }
     }).addTo(map);
 
