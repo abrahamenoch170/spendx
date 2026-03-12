@@ -4,12 +4,12 @@ import { Bell, MapPin, Flame, Zap, Plus, Users, Briefcase, User } from 'lucide-r
 import { useTab } from '../../context/TabContext';
 
 export const DashboardTab = () => {
-  const { setActiveTab } = useTab();
+  const { setActiveTab, setIsEnterprise } = useTab();
 
   const modes = [
-    { name: 'Solo', icon: User },
-    { name: 'Squad', icon: Users },
-    { name: 'Enterprise', icon: Briefcase },
+    { name: 'Solo', icon: User, action: () => setActiveTab('plan') },
+    { name: 'Squad', icon: Users, action: () => setActiveTab('plan') },
+    { name: 'Enterprise', icon: Briefcase, action: () => { setIsEnterprise(true); setActiveTab('enterprise'); } },
   ];
 
   return (
@@ -56,7 +56,7 @@ export const DashboardTab = () => {
         {/* Mode Selector */}
         <div className="grid grid-cols-3 gap-3">
           {modes.map(mode => (
-            <button key={mode.name} onClick={() => setActiveTab('plan')} className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)] flex flex-col items-center gap-2">
+            <button key={mode.name} onClick={mode.action} className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)] flex flex-col items-center gap-2">
               <mode.icon className="w-6 h-6" />
               <span className="text-sm font-medium">{mode.name}</span>
             </button>

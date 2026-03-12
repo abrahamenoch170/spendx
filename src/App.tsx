@@ -16,6 +16,8 @@ import { BottomNav } from './components/BottomNav';
 import { SquadTab } from './components/SquadTab';
 import { ProfileTab } from './components/ProfileTab';
 import { SettingsPage } from './pages/SettingsPage';
+import { EnterpriseTab } from './components/EnterpriseTab';
+import { PublicEventPage } from './pages/PublicEventPage';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -59,6 +61,8 @@ const DashboardPage = () => {
         <SquadTab />
       ) : activeTab === 'profile' ? (
         <ProfileTab />
+      ) : activeTab === 'enterprise' ? (
+        <EnterpriseTab />
       ) : activeTab === 'plan' ? (
         <div className="p-6 h-full flex flex-col">
           <h1 className="text-3xl font-bold mb-6">Plan your spendx</h1>
@@ -152,6 +156,7 @@ export default function App() {
       <Route path="/onboarding/modes" element={<ModesPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/e/:id" element={<PublicEventPage />} />
       <Route path="/spendx/:id" element={<SpendxPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

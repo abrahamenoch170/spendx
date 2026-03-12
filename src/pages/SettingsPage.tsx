@@ -16,8 +16,11 @@ import {
   LogOut
 } from 'lucide-react';
 
+import { useTab } from '../context/TabContext';
+
 export const SettingsPage = () => {
   const navigate = useNavigate();
+  const { isEnterprise, setIsEnterprise } = useTab();
 
   const sections = [
     {
@@ -26,6 +29,18 @@ export const SettingsPage = () => {
         { label: 'Edit Profile', icon: User, value: 'Abraham Enoch' },
         { label: 'Email', icon: Globe, value: 'abraham@spendx.app' },
         { label: 'Phone', icon: Smartphone, value: '+44 7700 900000' },
+      ]
+    },
+    {
+      title: 'Enterprise',
+      items: [
+        { 
+          label: 'Enterprise Mode', 
+          icon: Shield, 
+          type: 'toggle', 
+          active: isEnterprise,
+          onToggle: () => setIsEnterprise(!isEnterprise)
+        },
       ]
     },
     {
@@ -75,6 +90,7 @@ export const SettingsPage = () => {
               {section.items.map((item, i) => (
                 <div 
                   key={item.label}
+                  onClick={() => item.onToggle ? item.onToggle() : null}
                   className={`flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer ${
                     i !== section.items.length - 1 ? 'border-b border-white/5' : ''
                   }`}

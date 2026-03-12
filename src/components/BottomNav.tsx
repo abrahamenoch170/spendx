@@ -1,17 +1,18 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, Map as MapIcon, Users, User, Zap } from 'lucide-react';
+import { Home, Map as MapIcon, Users, User, Zap, Briefcase } from 'lucide-react';
 import { useTab, Tab } from '../context/TabContext';
 
 export const BottomNav = () => {
-  const { activeTab, setActiveTab } = useTab();
+  const { activeTab, setActiveTab, isEnterprise } = useTab();
 
   const navItems: { id: Tab; icon: any; label: string }[] = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'map', icon: MapIcon, label: 'Map' },
     { id: 'plan', icon: Zap, label: 'Plan' },
     { id: 'squad', icon: Users, label: 'Squad' },
+    ...(isEnterprise ? [{ id: 'enterprise' as Tab, icon: Briefcase, label: 'Admin' }] : []),
     { id: 'profile', icon: User, label: 'Profile' },
   ];
 
