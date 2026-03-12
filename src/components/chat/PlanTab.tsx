@@ -26,6 +26,22 @@ export const PlanTab = () => {
     localStorage.setItem('chat_history', JSON.stringify(messages));
   }, [tokens, messages]);
 
+  const handleLockIn = async (itinerary: any, totalBudget: string) => {
+    try {
+      const response = await fetch('/api/spendx/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itinerary, totalBudget, mode: 'squad' })
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert(`Spendx locked in! Share link: ${data.shareLink}`);
+      }
+    } catch (error) {
+      console.error('Failed to lock in', error);
+    }
+  };
+
   const handleSend = (text: string) => {
     if (!text.trim() || tokens <= 0) return;
     
@@ -38,21 +54,23 @@ export const PlanTab = () => {
     setTimeout(() => {
       setIsTyping(false);
       const isItinerary = Math.random() > 0.5;
+      const itinerary = isItinerary ? {
+        routeName: "🌆 Friday Night",
+        stops: [
+          { name: "Coffee Shop", category: "Cafe", cost: "$5", time: "18:00" },
+          { name: "Dinner", category: "Restaurant", cost: "$30", time: "19:30" },
+          { name: "Bar", category: "Drinks", cost: "$20", time: "21:00" }
+        ],
+        totalBudget: "$55",
+        totalTime: "3h",
+        distance: "2km"
+      } : null;
+
       const newAIMessage = { 
         id: Date.now() + 1, 
         type: 'ai', 
         text: isItinerary ? 'Here is a plan for you!' : 'That sounds like a great idea! How else can I help?',
-        itinerary: isItinerary ? {
-          routeName: "🌆 Friday Night",
-          stops: [
-            { name: "Coffee Shop", category: "Cafe", cost: "$5", time: "18:00" },
-            { name: "Dinner", category: "Restaurant", cost: "$30", time: "19:30" },
-            { name: "Bar", category: "Drinks", cost: "$20", time: "21:00" }
-          ],
-          totalBudget: "$55",
-          totalTime: "3h",
-          distance: "2km"
-        } : null
+        itinerary
       };
       setMessages(prev => [...prev, newAIMessage]);
     }, 2000);
@@ -87,7 +105,7 @@ export const PlanTab = () => {
             )}
             <div className={`max-w-[80%] p-4 rounded-2xl ${msg.type === 'user' ? 'bg-[var(--lime)] text-black' : 'bg-[#1A1A1A] text-white border border-[var(--cyan)]'}`}>
               <p>{msg.text}</p>
-              {msg.itinerary && <ItineraryCard {...msg.itinerary} />}
+              {msg.itinerary && <ItineraryCard {...msg.itinerary} onLock={() => handleLockIn(msg.itinerary, msg.itinerary.totalBudget)} />}
             </div>
           </div>
         ))}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { MapPin, Clock, DollarSign, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, DollarSign, ArrowRight, Car, Calendar } from 'lucide-react';
 
-export const ItineraryCard = ({ routeName, stops, totalBudget, totalTime, distance }: any) => {
+export const ItineraryCard = ({ routeName, stops, totalBudget, totalTime, distance, onLock }: any) => {
   return (
     <div className="bg-[var(--card-bg)] rounded-3xl p-6 border border-[var(--border-color)] shadow-xl">
       <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">{routeName}</h3>
@@ -13,7 +13,17 @@ export const ItineraryCard = ({ routeName, stops, totalBudget, totalTime, distan
               {index < stops.length - 1 && <div className="w-0.5 h-12 bg-[var(--lime)]/50 my-1" />}
             </div>
             <div className="flex-1">
-              <p className="font-bold text-[var(--text-primary)]">{stop.name}</p>
+              <div className="flex justify-between items-center">
+                <p className="font-bold text-[var(--text-primary)]">{stop.name}</p>
+                <div className="flex gap-2">
+                  <button onClick={() => console.log('Get there', stop.name)} className="p-1 rounded-full bg-[var(--border-color)]">
+                    <Car className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => console.log('Book', stop.name)} className="p-1 rounded-full bg-[var(--border-color)]">
+                    <Calendar className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
               <div className="flex gap-2 text-sm text-[var(--text-secondary)]">
                 <span>{stop.category}</span>
                 <span>•</span>
@@ -31,7 +41,7 @@ export const ItineraryCard = ({ routeName, stops, totalBudget, totalTime, distan
         <span>Dist: {distance}</span>
       </div>
       <div className="flex gap-3">
-        <button className="flex-1 py-3 rounded-xl bg-[var(--lime)] text-black font-bold">Lock this in</button>
+        <button onClick={onLock} className="flex-1 py-3 rounded-xl bg-[var(--lime)] text-black font-bold">Lock this in</button>
         <button className="flex-1 py-3 rounded-xl border border-[var(--cyan)] text-[var(--cyan)] font-bold">Switch it up</button>
       </div>
     </div>
