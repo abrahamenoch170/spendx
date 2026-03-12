@@ -15,6 +15,7 @@ import { SpendxPage } from './pages/SpendxPage';
 import { BottomNav } from './components/BottomNav';
 import { SquadTab } from './components/SquadTab';
 import { ProfileTab } from './components/ProfileTab';
+import { SettingsPage } from './pages/SettingsPage';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ export default function App() {
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/onboarding/modes" element={<ModesPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/settings" element={<SettingsPage />} />
       <Route path="/spendx/:id" element={<SpendxPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
