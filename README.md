@@ -6,7 +6,7 @@ Spendx is a next-generation social planning and live-location coordination platf
 
 ---
 
-## 🚀 Tech Stack
+##  Tech Stack
 
 - **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
