@@ -12,7 +12,9 @@ export function HUD({
   ghostMode,
   setGhostMode,
   isFullMap,
-  setIsFullMap
+  setIsFullMap,
+  venueFilter = 'all',
+  setVenueFilter
 }: {
   city: string,
   switchCity: (city: keyof typeof CITIES) => void,
@@ -21,8 +23,19 @@ export function HUD({
   ghostMode: boolean,
   setGhostMode: (val: boolean) => void,
   isFullMap?: boolean,
-  setIsFullMap?: (val: boolean) => void
+  setIsFullMap?: (val: boolean) => void,
+  venueFilter?: string,
+  setVenueFilter?: (val: string) => void
 }) {
+  const filters = [
+    { id: 'all', label: 'All', icon: '🌍' },
+    { id: 'food', label: 'Food', icon: '🍔' },
+    { id: 'drink', label: 'Drinks', icon: '🍸' },
+    { id: 'event', label: 'Events', icon: '🎟️' },
+    { id: 'experience', label: 'Experiences', icon: '✨' },
+    { id: 'health', label: 'Health', icon: '❤️' },
+  ];
+
   return (
     <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[1000] pointer-events-none flex flex-col gap-4">
       {/* Top Bar - Snapchat Style */}
@@ -76,6 +89,24 @@ export function HUD({
           </button>
         </div>
       </div>
+
+      {/* Venue Filters */}
+      {setVenueFilter && (
+        <div className="w-full pointer-events-auto overflow-x-auto hide-scrollbar py-2">
+          <div className="flex gap-2 px-1">
+            {filters.map(filter => (
+              <button
+                key={filter.id}
+                onClick={() => setVenueFilter(filter.id)}
+                className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-bold transition-all backdrop-blur-md shadow-sm flex items-center gap-2 ${venueFilter === filter.id ? 'bg-[var(--text-primary)] text-[var(--bg-color)]' : 'bg-[var(--card-bg)]/80 text-[var(--text-primary)] border border-[var(--border-color)] hover:bg-[var(--card-bg)]'}`}
+              >
+                <span>{filter.icon}</span>
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Layer Controls - Right Side */}
       <div className="absolute top-20 md:top-24 right-4 md:right-6 flex flex-col gap-3 pointer-events-auto">

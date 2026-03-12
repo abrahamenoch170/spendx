@@ -35,24 +35,27 @@ export function MapCanvas({
   center,
   zoom,
   layers,
-  ghostMode
+  ghostMode,
+  venueFilter = 'all'
 }: {
   center: [number, number],
   zoom: number,
   layers: ReturnType<typeof useLayers>['layers'],
-  ghostMode: boolean
+  ghostMode: boolean,
+  venueFilter?: string
 }) {
   const { squad } = useSquad(center);
   const { venues } = useVenues(center);
   const { theme } = useTheme();
 
-  const heatmapPoints = venues.map(v => [v.lat, v.lng, v.vibe / 100] as [number, number, number]);
+  const filteredVenues = venueFilter === 'all' ? venues : venues.filter(v => v.type === venueFilter);
+  const heatmapPoints = filteredVenues.map(v => [v.lat, v.lng, v.vibe / 100] as [number, number, number]);
 
   // Generate a mock route from user to a venue
-  const routePoints: [number, number][] = venues.length > 0 ? [
+  const routePoints: [number, number][] = filteredVenues.length > 0 ? [
     [center[0] - 0.01, center[1] - 0.01],
     [center[0] - 0.005, center[1] + 0.005],
-    [venues[0].lat, venues[0].lng]
+    [filteredVenues[0].lat, filteredVenues[0].lng]
   ] : [];
 
   const tileUrl = theme === 'dark' 
@@ -89,7 +92,7 @@ export function MapCanvas({
             maxClusterRadius={50}
             disableClusteringAtZoom={15}
           >
-            {venues.map(venue => <VenueMarker key={venue.id} venue={venue} />)}
+            {filteredVenues.map(venue => <VenueMarker key={venue.id} venue={venue} />)}
           </MarkerClusterGroup>
         )}
 

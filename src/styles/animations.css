@@ -10,6 +10,12 @@
   100% { box-shadow: 0 0 0 0 rgba(0, 204, 255, 0); }
 }
 
+@keyframes pulse-orange {
+  0% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7); }
+  70% { box-shadow: 0 0 0 20px rgba(255, 107, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0); }
+}
+
 @keyframes dash-animation {
   to {
     stroke-dashoffset: 0;
@@ -41,6 +47,10 @@
 
 .animate-pulse-cyan {
   animation: pulse-cyan 2s infinite;
+}
+
+.animate-pulse-orange {
+  animation: pulse-orange 2s infinite;
 }
 
 .animate-dash {
@@ -79,7 +89,7 @@
 /* Leaflet Overrides */
 .leaflet-container {
   background: var(--bg-color) !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .leaflet-control-attribution {

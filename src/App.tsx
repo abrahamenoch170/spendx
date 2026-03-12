@@ -31,6 +31,7 @@ export default function App() {
   const [ghostMode, setGhostMode] = useState(false);
   const [isFullMap, setIsFullMap] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [venueFilter, setVenueFilter] = useState<string>('all');
 
   const stripeColors = ['var(--lime)', 'var(--magenta)', 'var(--cyan)', 'var(--teal)'];
 
@@ -50,6 +51,7 @@ export default function App() {
         zoom={zoom}
         layers={layers}
         ghostMode={ghostMode}
+        venueFilter={venueFilter}
       />
       <HUD
         city={city}
@@ -60,8 +62,10 @@ export default function App() {
         setGhostMode={setGhostMode}
         isFullMap={isFullMap}
         setIsFullMap={setIsFullMap}
+        venueFilter={venueFilter}
+        setVenueFilter={setVenueFilter}
       />
-      <BottomSheet center={center} />
+      <BottomSheet center={center} venueFilter={venueFilter} />
     </>
   );
 

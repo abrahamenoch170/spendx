@@ -6,10 +6,12 @@ import { SquadCard } from './SquadCard';
 import { VenueCard } from './VenueCard';
 import { Sparkles } from 'lucide-react';
 
-export function BottomSheet({ center }: { center: [number, number] }) {
+export function BottomSheet({ center, venueFilter = 'all' }: { center: [number, number], venueFilter?: string }) {
   const [sheetState, setSheetState] = useState<'collapsed' | 'half' | 'full'>('collapsed');
   const { squad } = useSquad(center);
   const { venues } = useVenues(center);
+
+  const filteredVenues = venueFilter === 'all' ? venues : venues.filter(v => v.type === venueFilter);
 
   const getSheetHeight = () => {
     switch (sheetState) {
@@ -98,7 +100,7 @@ export function BottomSheet({ center }: { center: [number, number] }) {
           <div>
             <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-3">Trending Nearby</h3>
             <div className="flex flex-col gap-3">
-              {venues.map(venue => (
+              {filteredVenues.map(venue => (
                 <VenueCard key={venue.id} venue={venue} />
               ))}
             </div>
