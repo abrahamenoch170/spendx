@@ -162,23 +162,31 @@ export default function App() {
             >
               <div className="flex flex-col md:flex-row items-center gap-4 bg-black/5 backdrop-blur-sm px-6 py-4 rounded-3xl md:rounded-full border border-black/10">
                 <div className="flex -space-x-3">
-                  {['Felix', 'Aneka', 'Mimi'].map((seed, i) => (
+                  {[
+                    { seed: '1', name: 'Alex', country: 'US', instagram: '@alex', snapchat: 'alex.snap' },
+                    { seed: '2', name: 'Sam', country: 'UK', instagram: '@sam', snapchat: 'sam.snap' },
+                    { seed: '3', name: 'Jordan', country: 'CA', instagram: '@jordan', snapchat: 'jordan.snap' }
+                  ].map((user, i) => (
                     <img
-                      key={seed}
-                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
-                      alt="User avatar"
+                      key={user.seed}
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.seed}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
+                      alt={`${user.name} avatar`}
                       className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-white"
                       style={{ zIndex: 3 - i }}
                       referrerPolicy="no-referrer"
+                      data-name={user.name}
+                      data-country={user.country}
+                      data-instagram={user.instagram}
+                      data-snapchat={user.snapchat}
                     />
                   ))}
                   <div className="w-10 h-10 rounded-full border-2 border-[#CCFF00] bg-black text-[#CCFF00] flex items-center justify-center text-xs font-bold z-0">
-                    +2k
+                    +2,047
                   </div>
                 </div>
                 <div className="text-center md:text-left">
                   <p className="text-sm font-bold text-black leading-tight">Already locking in their next move</p>
-                  <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
+                  <div className="flex items-center justify-center md:justify-start gap-2 mt-1" data-name="Waitlist User" data-country="US" data-city="New York" data-instagram="@waitlistuser" data-snapchat="waitlist.snap">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -281,6 +289,11 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: springEasing }}
               className="w-full max-w-5xl mx-auto drop-shadow-[0_20px_40px_rgba(0,170,136,0.4)] relative px-4 md:px-0 will-change-transform"
+              data-name="Map User"
+              data-city="London"
+              data-country="UK"
+              data-squad-status="active"
+              data-social-handles="@mapuser"
             >
               <div 
                 className="relative w-full h-[400px] md:h-[600px] rounded-3xl overflow-hidden border border-white/20 bg-[#0A0A0A]"
@@ -571,7 +584,7 @@ export default function App() {
                 
                 <div className="mt-12 pt-8 border-t border-white/10 w-full max-w-2xl">
                   <p className="text-label text-gray-500 mb-2">
-                    Designed & Built by
+                    A Detova Labs Project
                   </p>
                   <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black text-white tracking-tight">
                     Detova Labs
