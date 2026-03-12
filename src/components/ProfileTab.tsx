@@ -58,6 +58,11 @@ const MEMORIES = [
   { id: 'm4', title: 'Camden Crawl', date: 'Jan 15', image: 'https://picsum.photos/seed/camden/400/300' },
 ];
 
+const RECAP_CARDS = [
+  { id: 'r1', title: 'Saturday Night', date: 'Mar 10', image: 'https://picsum.photos/seed/recap1/400/500' },
+  { id: 'r2', title: 'Friday Vibes', date: 'Mar 8', image: 'https://picsum.photos/seed/recap2/400/500' },
+];
+
 const TIER_COLORS = {
   Green: 'border-[var(--lime)] shadow-[0_0_20px_rgba(204,255,0,0.3)]',
   Gold: 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]',
@@ -203,6 +208,32 @@ export const ProfileTab = () => {
                 <button className="p-2 hover:bg-red-500/10 rounded-xl transition-colors"><Trash2 className="w-4 h-4 text-red-500/60" /></button>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recap Cards Gallery */}
+      <div className="px-6 mb-8">
+        <h3 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-4">Recap Cards</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {RECAP_CARDS.map((recap) => (
+            <motion.div 
+              key={recap.id}
+              whileHover={{ scale: 1.02 }}
+              className="relative aspect-[4/5] rounded-3xl overflow-hidden group cursor-pointer"
+            >
+              <img src={recap.image} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 flex flex-col justify-end">
+                <h4 className="text-xs font-bold">{recap.title}</h4>
+                <p className="text-[8px] text-white/60 uppercase font-bold tracking-widest">{recap.date}</p>
+                <button 
+                  onClick={() => navigator.share({ title: recap.title, url: recap.image })}
+                  className="absolute top-2 right-2 p-2 bg-black/50 rounded-full backdrop-blur-sm"
+                >
+                  <Share2 className="w-3 h-3 text-white" />
+                </button>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

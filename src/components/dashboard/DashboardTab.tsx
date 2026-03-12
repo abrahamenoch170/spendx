@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Bell, MapPin, Flame, Zap, Plus, Users, Briefcase, User } from 'lucide-react';
+import { Bell, MapPin, Flame, Zap, Plus, Users, Briefcase, User, MessageSquare } from 'lucide-react';
 import { useTab } from '../../context/TabContext';
 
 export const DashboardTab = () => {
@@ -37,6 +37,18 @@ export const DashboardTab = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
+        {/* AI Chat UI */}
+        <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)] flex items-center gap-3">
+          <MessageSquare className="w-6 h-6 text-[var(--cyan)]" />
+          <input 
+            type="text" 
+            placeholder="Ask Spendx AI..." 
+            className="flex-1 bg-transparent outline-none text-sm"
+          />
+          <button className="p-2 bg-[var(--lime)] rounded-full text-black">
+            <Zap className="w-4 h-4" />
+          </button>
+        </div>
         {/* Greeting & Streak */}
         <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
           <h2 className="text-lg font-bold">Good morning, Abraham</h2>
