@@ -17,22 +17,25 @@ export function QuickActions() {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.8, ease: springEasing }}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-2xl rounded-[32px] px-6 py-4 flex items-center gap-6 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 z-50 glass rounded-full px-4 py-3 flex items-center gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] will-change-transform"
     >
       {actions.map((action, i) => (
         <motion.button
           key={i}
-          whileHover={{ y: -4, scale: 1.05 }}
+          whileHover={{ scale: 1.05, filter: 'brightness(1.2)' }}
           whileTap={{ scale: 0.95 }}
-          className="flex flex-col items-center gap-2 group min-w-[64px]"
+          transition={{ ease: springEasing }}
+          className="flex flex-col md:flex-row items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors group min-w-[44px] min-h-[44px] justify-center will-change-transform"
         >
           <div 
-            className="w-12 h-12 rounded-2xl flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-all border border-white/5 group-hover:border-white/20"
-            style={{ color: action.color }}
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--border-color)] group-hover:bg-[var(--text-secondary)] transition-colors"
+            style={{ color: action.color, boxShadow: `0 0 10px ${action.color}00`, transition: 'box-shadow 0.3s' }}
+            onMouseEnter={(e) => e.currentTarget.style.boxShadow = `0 0 15px ${action.color}80`}
+            onMouseLeave={(e) => e.currentTarget.style.boxShadow = `0 0 10px ${action.color}00`}
           >
-            <action.icon className="w-6 h-6" />
+            <action.icon className="w-5 h-5" />
           </div>
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-white transition-colors">{action.label}</span>
+          <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider hidden md:block">{action.label}</span>
         </motion.button>
       ))}
     </motion.div>

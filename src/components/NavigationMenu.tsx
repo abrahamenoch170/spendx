@@ -75,11 +75,11 @@ export function NavigationMenu() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: 0.1 + i * 0.08, duration: 0.4, ease: springEasing }}
-                  className="text-5xl md:text-8xl font-black text-black tracking-tighter transition-colors cursor-pointer uppercase"
-                  whileHover={{ x: 20, scale: 1.02 }}
+                  className="text-4xl md:text-6xl font-display font-black text-[var(--bg-color)] transition-colors cursor-pointer"
+                  whileHover={{ scale: 1.05, filter: 'brightness(1.2)' }}
                   onClick={() => setIsOpen(false)}
                 >
-                  {item}*
+                  {item}
                 </motion.a>
               ))}
             </div>
