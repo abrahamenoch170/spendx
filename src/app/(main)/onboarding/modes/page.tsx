@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-// import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 
 const modes = [
   { id: 'solo', title: 'Just me', subtitle: 'Let\'s go', color: 'bg-[var(--lime)]', icon: '👤' },
@@ -12,7 +12,7 @@ const modes = [
 export default function ModesPage() {
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [step, setStep] = useState(0); // 0: modes, 1: permissions
-  // const router = useRouter();
+  const navigate = useNavigate();
 
   const handleModeSelect = (id: string) => {
     setSelectedMode(id);
@@ -37,8 +37,7 @@ export default function ModesPage() {
       console.log('Notifications denied');
     }
 
-    // router.push('/dashboard');
-    window.location.href = '/dashboard';
+    navigate('/dashboard');
   };
 
   return (

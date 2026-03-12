@@ -2,6 +2,7 @@ import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Venue } from '../hooks/useVenues';
+import { useVenueContext } from '../context/VenueContext';
 
 const getEmoji = (type: Venue['type']) => {
   switch (type) {
@@ -26,6 +27,7 @@ const getColor = (type: Venue['type']) => {
 };
 
 export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
+  const { setSelectedVenue } = useVenueContext();
   const color = getColor(venue.type);
   const emoji = getEmoji(venue.type);
   const isTrending = venue.vibe >= 80 && venue.visitedLastTwoHours;
@@ -55,7 +57,13 @@ export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
   });
 
   return (
-    <Marker position={[venue.lat, venue.lng]} icon={icon}>
+    <Marker 
+      position={[venue.lat, venue.lng]} 
+      icon={icon}
+      eventHandlers={{
+        click: () => setSelectedVenue(venue)
+      }}
+    >
       <Popup className="venue-popup">
         <div className="p-3 min-w-[220px]">
           <div className="flex justify-between items-start mb-2">
@@ -78,18 +86,12 @@ export const VenueMarker: React.FC<{ venue: Venue }> = ({ venue }) => {
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-2">
-            <button 
-              className="bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold py-2 rounded-lg hover:bg-[var(--border-color)] transition-colors text-xs"
-              onClick={() => console.log('Plan route to', venue.name)}
-            >
-              Plan Route
-            </button>
+          <div className="grid grid-cols-1 gap-2">
             <button 
               className="bg-[var(--lime)] text-black font-bold py-2 rounded-lg hover:bg-white transition-colors text-xs"
-              onClick={() => console.log('Mark for squad', venue.name)}
+              onClick={() => setSelectedVenue(venue)}
             >
-              For Squad
+              View Details
             </button>
           </div>
         </div>

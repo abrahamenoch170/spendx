@@ -72,6 +72,56 @@ async function startServer() {
     }
   });
 
+  app.post("/api/affiliates/link", (req, res) => {
+    const { platform, venue_id, user_id, spendx_id } = req.body;
+    
+    // Mock venue coordinates and affiliate link templates
+    // In a real app, this would come from the database
+    const venueData = {
+      lat: 43.77,
+      lng: 11.25,
+      affiliate_links: {
+        uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=[lat]&dropoff[longitude]=[lng]",
+        resy: "https://resy.com/cities/ldn/venues/[venue_id]",
+        opentable: "https://www.opentable.com/restref/client/?rid=[venue_id]",
+        ubereats: "https://www.ubereats.com/store/[venue_id]",
+        doordash: "https://www.doordash.com/store/[venue_id]"
+      }
+    };
+
+    const template = venueData.affiliate_links[platform as keyof typeof venueData.affiliate_links];
+    if (!template) {
+      return res.status(400).json({ error: "Platform not supported" });
+    }
+
+    let url = template
+      .replace("[lat]", venueData.lat.toString())
+      .replace("[lng]", venueData.lng.toString())
+      .replace("[venue_id]", venue_id);
+
+    // Append UTM params
+    const utmParams = new URLSearchParams({
+      utm_source: "spendx",
+      utm_medium: "app",
+      utm_campaign: user_id || "anonymous",
+      utm_content: venue_id
+    });
+
+    url += (url.includes("?") ? "&" : "?") + utmParams.toString();
+
+    // Mock insert into affiliate_clicks table
+    console.log("Affiliate click recorded:", {
+      user_id,
+      venue_id,
+      platform,
+      spendx_id,
+      clicked_at: new Date().toISOString(),
+      final_url: url
+    });
+
+    res.json({ success: true, url });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

@@ -1,9 +1,15 @@
 import React from 'react';
 import { Venue } from '../hooks/useVenues';
+import { useVenueContext } from '../context/VenueContext';
 
 export const VenueCard: React.FC<{ venue: Venue }> = ({ venue }) => {
+  const { setSelectedVenue } = useVenueContext();
+
   return (
-    <div className="bg-[var(--card-bg)] rounded-xl p-4 flex justify-between items-center border border-[var(--border-color)] hover:bg-[var(--border-color)] transition-colors cursor-pointer">
+    <div 
+      onClick={() => setSelectedVenue(venue)}
+      className="bg-[var(--card-bg)] rounded-xl p-4 flex justify-between items-center border border-[var(--border-color)] hover:bg-[var(--border-color)] transition-colors cursor-pointer"
+    >
       <div>
         <h4 className="font-bold text-[var(--text-primary)] text-lg">{venue.name}</h4>
         <p className="text-sm text-[var(--text-secondary)] capitalize">{venue.type}</p>

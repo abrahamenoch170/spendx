@@ -2,12 +2,15 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Phone, Apple, Instagram, Chrome } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const SignInModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const navigate = useNavigate();
+
   const handleSignIn = (provider: string) => {
     console.log(`Signing in with ${provider}`);
     onClose();
-    window.location.href = '/onboarding/modes';
+    navigate('/onboarding');
   };
 
   const providers = [

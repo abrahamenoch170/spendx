@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { client as supabase } from '../../../lib/db/client';
-// import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
@@ -12,7 +12,7 @@ export default function OnboardingPage() {
     avatarSeed: ''
   });
   const [avatars, setAvatars] = useState<string[]>([]);
-  // const router = useRouter();
+  const navigate = useNavigate();
 
   const cities = [
     'London', 'Manchester', 'Edinburgh', 'Bristol', 'NYC', 'LA', 'Austin', 'Chicago', 'Miami', 
@@ -40,6 +40,7 @@ export default function OnboardingPage() {
     // });
     // router.push('/onboarding/modes');
     console.log('Saved profile:', formData);
+    navigate('/onboarding/modes');
   };
 
   return (
