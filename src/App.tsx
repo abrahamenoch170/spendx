@@ -5,6 +5,8 @@ import { HUD } from './components/HUD';
 import { BottomSheet } from './components/BottomSheet';
 import { useMapState } from './hooks/useMapState';
 import { useLayers } from './hooks/useLayers';
+import { IntroPage } from './pages/IntroPage';
+import { IntroRedirector } from './components/layout/IntroRedirector';
 import { LandingPage } from './pages/LandingPage';
 import { GetStartedPage } from './pages/GetStartedPage';
 import { AuthPage } from './pages/AuthPage';
@@ -169,6 +171,8 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage mapComponent={mapComponent} setIsFullMap={() => {}} />} />
       <Route path="/get-started" element={<GetStartedPage />} />
+      <Route path="/intro-check" element={<IntroRedirector />} />
+      <Route path="/app/intro" element={<IntroPage />} />
       
       {/* App Shell Routes */}
       <Route path="/app" element={<AppLayout />}>

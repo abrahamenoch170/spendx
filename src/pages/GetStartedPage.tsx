@@ -172,7 +172,7 @@ export const GetStartedPage = () => {
           </div>
 
           <button 
-            onClick={() => navigate('/app/intro')}
+            onClick={() => navigate('/intro-check')}
             className="w-full flex items-center justify-center gap-2 text-white/60 hover:text-white transition-colors font-bold group"
           >
             CONTINUE IN BROWSER
