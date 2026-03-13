@@ -6,6 +6,16 @@ import { BottomSheet } from './components/BottomSheet';
 import { useMapState } from './hooks/useMapState';
 import { useLayers } from './hooks/useLayers';
 import { LandingPage } from './pages/LandingPage';
+import { GetStartedPage } from './pages/GetStartedPage';
+import { AuthPage } from './pages/AuthPage';
+import { AppLayout } from './components/layout/AppLayout';
+import { 
+  HomeTabPlaceholder, 
+  PlanTabPlaceholder, 
+  GroupTabPlaceholder, 
+  MapTabPlaceholder, 
+  ProfileTabPlaceholder 
+} from './components/placeholders/TabPlaceholders';
 import OnboardingPage from './app/(main)/onboarding/page';
 import ModesPage from './app/(main)/onboarding/modes/page';
 import { useTab } from './context/TabContext';
@@ -29,7 +39,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const hasAccount = localStorage.getItem('spendx_has_account');
     if (!hasAccount) {
-      navigate('/', { replace: true });
+      navigate('/app/auth', { replace: true });
     }
   }, [navigate]);
 
@@ -101,7 +111,7 @@ const DashboardPage = () => {
           <button 
             onClick={() => {
               const id = Math.random().toString(36).substring(7);
-              navigate(`/spendx/${id}`);
+              navigate(`/app/spendx/${id}`);
             }}
             className="w-full py-5 bg-[var(--lime)] text-black rounded-2xl font-black text-xl shadow-[0_0_30px_rgba(204,255,0,0.3)] mb-24"
           >
@@ -158,12 +168,24 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage mapComponent={mapComponent} setIsFullMap={() => {}} />} />
-      <Route path="/onboarding" element={<OnboardingPage />} />
-      <Route path="/onboarding/modes" element={<ModesPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/get-started" element={<GetStartedPage />} />
+      
+      {/* App Shell Routes */}
+      <Route path="/app" element={<AppLayout />}>
+        <Route path="home" element={<HomeTabPlaceholder />} />
+        <Route path="plan" element={<PlanTabPlaceholder />} />
+        <Route path="group" element={<GroupTabPlaceholder />} />
+        <Route path="map" element={<MapTabPlaceholder />} />
+        <Route path="profile" element={<ProfileTabPlaceholder />} />
+      </Route>
+
+      <Route path="/app/auth" element={<AuthPage />} />
+      <Route path="/app/intro" element={<OnboardingPage />} />
+      <Route path="/app/modes" element={<ModesPage />} />
+      <Route path="/app/dashboard" element={<DashboardPage />} />
+      <Route path="/app/settings" element={<SettingsPage />} />
+      <Route path="/app/spendx/:id" element={<SpendxPage />} />
       <Route path="/e/:id" element={<PublicEventPage />} />
-      <Route path="/spendx/:id" element={<SpendxPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

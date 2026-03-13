@@ -1,0 +1,36 @@
+:root {
+  /* Spendx Palette */
+  --acid-lime: #CCFF00;
+  --hot-magenta: #FF0099;
+  --electric-cyan: #00CCFF;
+  --deep-teal: #00AA88;
+  --pure-black: #0A0A0A;
+  --pure-white: #FFFFFF;
+  --off-white: #F7F7F2;
+
+  /* Legacy Mappings (for compatibility) */
+  --lime: var(--acid-lime);
+  --magenta: var(--hot-magenta);
+  --cyan: var(--electric-cyan);
+  --teal: var(--deep-teal);
+  --orange: #FF6B00;
+  --red: #FF3D3D;
+
+  /* Dark Theme (Default) */
+  --bg-color: var(--pure-black);
+  --card-bg: #141414;
+  --text-primary: var(--pure-white);
+  --text-secondary: #888888;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --squad-line-color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='light'] {
+  /* Light Theme */
+  --bg-color: var(--off-white);
+  --card-bg: var(--pure-white);
+  --text-primary: var(--pure-black);
+  --text-secondary: #6B6B65;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --squad-line-color: rgba(0, 0, 0, 0.5);
+}

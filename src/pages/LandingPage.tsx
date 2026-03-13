@@ -59,18 +59,17 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full p-6 z-[60] flex justify-between items-center mix-blend-difference text-white pointer-events-none">
-        <div className="font-display font-black text-2xl tracking-tighter pointer-events-auto cursor-pointer">spendx*</div>
+        <div className="font-display font-black text-2xl tracking-tighter pointer-events-auto cursor-pointer" onClick={() => navigate('/')}>spendx*</div>
         <div className="pointer-events-auto flex items-center gap-4">
           <button 
-            onClick={() => setIsSignInModalOpen(true)}
+            onClick={() => navigate('/get-started')}
             className="hidden md:block text-sm font-black bg-white text-black px-6 py-2 rounded-full hover:bg-[var(--lime)] transition-all active:scale-95"
           >
-            SIGN IN
+            GET STARTED
           </button>
         </div>
       </nav>
       <NavigationMenu />
-      <SignInModal isOpen={isSignInModalOpen} onClose={() => setIsSignInModalOpen(false)} />
 
       {/* Scrollable Foreground Content */}
       <div className="relative z-10 w-full min-h-screen flex flex-col items-center">
@@ -118,10 +117,10 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
               className="will-change-transform"
             >
               <InteractiveButton 
-                onClick={() => setIsSignInModalOpen(true)}
+                onClick={() => navigate('/get-started')}
                 className="text-label bg-black text-[var(--lime)] px-12 py-6 rounded-full shadow-xl text-lg min-w-[44px] min-h-[44px]"
               >
-                lets get started
+                Get Started
               </InteractiveButton>
             </motion.div>
 
