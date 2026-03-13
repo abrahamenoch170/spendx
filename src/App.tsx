@@ -7,6 +7,8 @@ import { useMapState } from './hooks/useMapState';
 import { useLayers } from './hooks/useLayers';
 import { IntroPage } from './pages/IntroPage';
 import { IntroRedirector } from './components/layout/IntroRedirector';
+import ProfilePage from './app/onboarding/profile/page';
+import ModeSelectPage from './app/onboarding/mode-select/page';
 import { LandingPage } from './pages/LandingPage';
 import { GetStartedPage } from './pages/GetStartedPage';
 import { AuthPage } from './pages/AuthPage';
@@ -173,6 +175,8 @@ export default function App() {
       <Route path="/get-started" element={<GetStartedPage />} />
       <Route path="/intro-check" element={<IntroRedirector />} />
       <Route path="/app/intro" element={<IntroPage />} />
+      <Route path="/app/onboarding/profile" element={<ProfilePage />} />
+      <Route path="/app/onboarding/mode-select" element={<ModeSelectPage />} />
       
       {/* App Shell Routes */}
       <Route path="/app" element={<AppLayout />}>
