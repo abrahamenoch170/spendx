@@ -119,7 +119,7 @@ export function MapCanvas({
         )}
 
         {layers.squad && squad.map(member => <SquadDot key={member.id} member={member} />)}
-        {!isSquadOnly && layers.squad && <SquadLines squad={squad} center={[center[0] - 0.01, center[1] - 0.01]} />}
+        {layers.squad && <SquadLines squad={squad} center={[center[0] - 0.01, center[1] - 0.01]} />}
         {layers.user && <UserDot position={[center[0] - 0.01, center[1] - 0.01]} ghostMode={ghostMode} />}
         
         {!isSquadOnly && <PinDrop />}

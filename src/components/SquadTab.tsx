@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapCanvas } from './MapCanvas';
 import { useMapState } from '../hooks/useMapState';
 import { useLayers } from '../hooks/useLayers';
-import { MessageSquare, Phone, Video, Info, Send, MapPin, Users } from 'lucide-react';
+import { MessageSquare, Phone, Video, Info, Send, MapPin, Users, Zap } from 'lucide-react';
 
 export const SquadTab = () => {
   const [isMapExpanded, setIsMapExpanded] = useState(false);
@@ -12,9 +12,9 @@ export const SquadTab = () => {
   const { center, zoom } = useMapState();
   const { layers } = useLayers();
   const [messages, setMessages] = useState([
-    { id: 1, user: 'Sam', text: 'Where we heading?', time: '12:01' },
-    { id: 2, user: 'Jordan', text: 'The Alchemist is looking live right now 🔥', time: '12:03' },
     { id: 3, user: 'Alex', text: 'I\'m 5 mins away', time: '12:05' },
+    { id: 2, user: 'Jordan', text: 'The Alchemist is looking live right now 🔥', time: '12:03' },
+    { id: 1, user: 'Sam', text: 'Where we heading?', time: '12:01' },
   ]);
   const [inputText, setInputText] = useState('');
 
@@ -26,8 +26,21 @@ export const SquadTab = () => {
       text: inputText,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-    setMessages([...messages, newMessage]);
+    setMessages(prev => [newMessage, ...prev]);
     setInputText('');
+
+    // Mock AI Response if mentioned
+    if (inputText.toLowerCase().includes('@spendx') || inputText.toLowerCase().includes('ai')) {
+      setTimeout(() => {
+        const aiMessage = {
+          id: Date.now() + 1,
+          user: 'Spendx AI',
+          text: `I found 3 spots nearby that match the vibe! Check out The Alchemist, it's 5 mins away.`,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages(prev => [aiMessage, ...prev]);
+      }, 1000);
+    }
   };
 
   const handleDropPin = (location: string) => {
@@ -37,7 +50,7 @@ export const SquadTab = () => {
       text: `📍 Pin dropped: ${location}`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-    setMessages([...messages, systemMessage]);
+    setMessages(prev => [systemMessage, ...prev]);
   };
 
   return (
@@ -52,9 +65,9 @@ export const SquadTab = () => {
           </div>
         </div>
         <div className="flex gap-4 text-white/60">
-          <Phone className="w-5 h-5 cursor-pointer hover:text-white" />
-          <Video className="w-5 h-5 cursor-pointer hover:text-white" />
-          <Info className="w-5 h-5 cursor-pointer hover:text-white" />
+          <Phone className="w-5 h-5 cursor-pointer hover:text-[var(--lime)] transition-colors" />
+          <Video className="w-5 h-5 cursor-pointer hover:text-[var(--lime)] transition-colors" />
+          <Info className="w-5 h-5 cursor-pointer hover:text-[var(--lime)] transition-colors" />
         </div>
       </div>
 
@@ -79,7 +92,7 @@ export const SquadTab = () => {
           <div className="absolute top-6 left-6 z-[1001] pointer-events-auto">
             <button 
               onClick={(e) => { e.stopPropagation(); setIsMapExpanded(false); }}
-              className="bg-black/80 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl"
+              className="bg-black/80 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl hover:bg-white/10 transition-colors"
             >
               ← Back to Chat
             </button>
@@ -89,7 +102,7 @@ export const SquadTab = () => {
         {isMapExpanded && (
           <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-[1001] pointer-events-auto flex flex-col items-center gap-4">
             <button 
-              className="bg-[var(--lime)] text-black px-6 py-3 rounded-full font-black text-sm uppercase tracking-tighter shadow-[0_0_20px_rgba(204,255,0,0.4)] flex items-center gap-2"
+              className="bg-[var(--lime)] text-black px-6 py-3 rounded-full font-black text-sm uppercase tracking-tighter shadow-[0_0_20px_rgba(204,255,0,0.4)] flex items-center gap-2 hover:scale-105 transition-transform"
               onClick={(e) => { e.stopPropagation(); setCenterTrigger(prev => prev + 1); }}
             >
               <Users className="w-4 h-4" />
@@ -106,7 +119,7 @@ export const SquadTab = () => {
       {!isMapExpanded && (
         <div className="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col-reverse">
           <div className="pb-24" /> {/* Spacer for input */}
-          {messages.slice().reverse().map((msg) => (
+          {messages.map((msg) => (
             <div key={msg.id} className={`flex flex-col ${msg.user === 'Me' ? 'items-end' : 'items-start'}`}>
               {msg.user === 'SYSTEM' ? (
                 <div className="w-full flex justify-center my-2">
@@ -119,7 +132,13 @@ export const SquadTab = () => {
                   <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest mb-1 px-2">
                     {msg.user} • {msg.time}
                   </span>
-                  <div className={`max-w-[80%] p-3 rounded-2xl ${msg.user === 'Me' ? 'bg-[var(--lime)] text-black rounded-tr-none' : 'bg-white/10 text-white rounded-tl-none'}`}>
+                  <div className={`max-w-[80%] p-3 rounded-2xl ${
+                    msg.user === 'Me' 
+                      ? 'bg-[var(--lime)] text-black rounded-tr-none' 
+                      : msg.user === 'Spendx AI'
+                        ? 'bg-gradient-to-r from-[var(--cyan)] to-[var(--magenta)] text-white rounded-tl-none shadow-[0_0_15px_rgba(0,255,255,0.3)]'
+                        : 'bg-white/10 text-white rounded-tl-none'
+                  }`}>
                     <p className="text-sm font-medium">{msg.text}</p>
                   </div>
                 </>
@@ -133,15 +152,15 @@ export const SquadTab = () => {
       {!isMapExpanded && (
         <div className="absolute bottom-24 left-0 w-full p-4 pointer-events-none">
           <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 flex items-center gap-2 pointer-events-auto shadow-2xl">
-            <button className="p-2 text-white/40 hover:text-[var(--lime)]">
-              <MapPin className="w-5 h-5" />
+            <button className="p-2 text-white/40 hover:text-[var(--cyan)] transition-colors" onClick={() => setInputText('@spendx ')}>
+              <Zap className="w-5 h-5" />
             </button>
             <input 
               type="text" 
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder="Message squad..." 
+              placeholder="Message squad or @spendx..." 
               className="flex-1 bg-transparent border-none outline-none text-white text-sm py-2"
             />
             <button 
@@ -156,3 +175,4 @@ export const SquadTab = () => {
     </div>
   );
 };
+

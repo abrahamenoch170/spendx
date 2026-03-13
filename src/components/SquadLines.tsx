@@ -1,6 +1,8 @@
 import React from 'react';
 import { Polyline, Tooltip } from 'react-leaflet';
 
+const BRAND_COLORS = ['#CCFF00', '#FF00FF', '#00FFFF', '#FF3366', '#00FF99'];
+
 export function SquadLines({ squad, center }: { squad: any[], center: [number, number] }) {
   // Haversine distance
   const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -21,20 +23,23 @@ export function SquadLines({ squad, center }: { squad: any[], center: [number, n
 
   return (
     <>
-      {squad.map((member) => {
+      {squad.map((member, index) => {
         const dist = getDistance(center[0], center[1], member.lat, member.lng);
         const midLat = (center[0] + member.lat) / 2;
         const midLng = (center[1] + member.lng) / 2;
+        const color = BRAND_COLORS[index % BRAND_COLORS.length];
 
         return (
           <React.Fragment key={member.id}>
             <Polyline
               positions={[center, [member.lat, member.lng]]}
               pathOptions={{
-                color: 'var(--squad-line-color)',
-                weight: 2,
-                dashArray: '5, 5',
-                opacity: 0.8
+                color: color,
+                weight: 3,
+                dashArray: '8, 8',
+                opacity: 0.9,
+                lineCap: 'round',
+                lineJoin: 'round'
               }}
             />
             <Tooltip
@@ -43,7 +48,9 @@ export function SquadLines({ squad, center }: { squad: any[], center: [number, n
               direction="center"
               className="squad-distance-tooltip"
             >
-              {dist}
+              <div style={{ color: '#000', backgroundColor: color, padding: '2px 6px', borderRadius: '12px', fontWeight: 'bold', fontSize: '10px', border: '1px solid rgba(0,0,0,0.2)' }}>
+                {dist}
+              </div>
             </Tooltip>
           </React.Fragment>
         );

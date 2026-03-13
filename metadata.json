@@ -1,5 +1,5 @@
 {
   "name": "Spendx",
   "description": "The ultimate social planning and navigation app for your squad.",
-  "requestFramePermissions": ["geolocation"]
+  "requestFramePermissions": ["geolocation", "camera", "microphone"]
 }

@@ -11,6 +11,7 @@ export const BottomNav = () => {
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'map', icon: MapIcon, label: 'Map' },
     { id: 'plan', icon: Zap, label: 'Plan' },
+    { id: 'squad', icon: MessageSquare, label: 'Squad' },
     ...(isEnterprise ? [{ id: 'enterprise' as Tab, icon: Briefcase, label: 'Enterprise' }] : []),
     { id: 'profile', icon: User, label: 'Profile' },
   ];
