@@ -5,6 +5,12 @@ import { TabProvider } from './context/TabContext';
 import { VenueProvider } from './context/VenueContext';
 import App from './App.tsx';
 import './index.css';
+import { registerSW } from 'virtual:pwa-register';
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  registerSW({ immediate: true });
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

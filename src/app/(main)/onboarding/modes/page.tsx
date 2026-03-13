@@ -14,6 +14,12 @@ export default function ModesPage() {
   const [step, setStep] = useState(0); // 0: modes, 1: permissions
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (localStorage.getItem('spendx_has_account') === 'true') {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const handleModeSelect = (id: string) => {
     setSelectedMode(id);
     console.log('Mode selected:', id);
@@ -37,6 +43,7 @@ export default function ModesPage() {
       console.log('Notifications denied');
     }
 
+    localStorage.setItem('spendx_has_account', 'true');
     navigate('/dashboard');
   };
 

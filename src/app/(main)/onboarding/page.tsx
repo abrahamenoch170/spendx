@@ -14,6 +14,12 @@ export default function OnboardingPage() {
   const [avatars, setAvatars] = useState<string[]>([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem('spendx_has_account') === 'true') {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const cities = [
     'London', 'Manchester', 'Edinburgh', 'Bristol', 'NYC', 'LA', 'Austin', 'Chicago', 'Miami', 
     'Toronto', 'Vancouver', 'Sydney', 'Melbourne', 'Lagos', 'Nairobi', 'Cape Town', 'Dubai', 

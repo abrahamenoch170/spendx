@@ -1,5 +1,6 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { NavigationMenu } from '../components/NavigationMenu';
 import { QuickActions } from '../components/QuickActions';
 import { InteractiveButton, FloatingInput } from '../components/InteractiveElements';
@@ -30,6 +31,13 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const stripeColors = ['var(--lime)', 'var(--magenta)', 'var(--cyan)', 'var(--teal)'];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('spendx_has_account') === 'true') {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <div className="relative w-full min-h-screen bg-black font-sans text-black selection:bg-black selection:text-[var(--lime)] overflow-x-hidden">

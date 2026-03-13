@@ -28,6 +28,13 @@ const DashboardPage = () => {
   const [venueFilter, setVenueFilter] = useState<string>('all');
   const { activeTab, setActiveTab } = useTab();
 
+  useEffect(() => {
+    const hasAccount = localStorage.getItem('spendx_has_account');
+    if (!hasAccount) {
+      navigate('/', { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <div className="relative w-full h-[100dvh] bg-[var(--bg-color)] font-sans text-[var(--text-primary)] overflow-hidden selection:bg-[var(--lime)] selection:text-black">
       <CustomCursor />
