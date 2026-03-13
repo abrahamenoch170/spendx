@@ -2,6 +2,14 @@ import { create } from 'zustand';
 
 export type Mode = 'group' | 'solo' | 'stealth' | 'emergency' | 'discovery';
 
+export interface Alarm {
+  id: string;
+  description: string;
+  time: string;
+  date: string;
+  enabled: boolean;
+}
+
 interface User {
   id: string;
   name: string;
@@ -36,6 +44,7 @@ interface AppStore {
   user: User;
   activeMode: Mode;
   plans: Plan[];
+  alarms: Alarm[];
   squads: Squad[];
   locations: Record<string, { lat: number; lng: number; timestamp: number }>;
   achievements: { unlockedTattoos: string[]; progress: Record<string, number> };
@@ -43,6 +52,9 @@ interface AppStore {
   setActiveMode: (mode: Mode) => void;
   addPlan: (plan: Plan) => void;
   updatePlanStops: (planId: string, stops: string[]) => void;
+  addAlarm: (alarm: Alarm) => void;
+  toggleAlarm: (id: string) => void;
+  deleteAlarm: (id: string) => void;
   addMessage: (squadId: string, message: { id: string; sender: string; text: string }) => void;
   updateLocation: (userId: string, lat: number, lng: number) => void;
   unlockAchievement: (tattoo: string) => void;
@@ -66,6 +78,9 @@ export const useAppStore = create<AppStore>((set) => ({
   plans: [
     { id: 'p1', name: 'Lagos Weekend', stops: ['Venue A', 'Venue B'], route: [], createdAt: '2026-03-01', status: 'planned' }
   ],
+  alarms: [
+    { id: 'a1', description: 'Morning Run', time: '07:00', date: '2026-03-14', enabled: true }
+  ],
   squads: [
     { id: 'sq1', name: 'Tech Squad', members: ['u1', 'u2'], messages: [], activePlan: 'p1' }
   ],
@@ -77,6 +92,11 @@ export const useAppStore = create<AppStore>((set) => ({
   updatePlanStops: (planId, stops) => set((state) => ({
     plans: state.plans.map(p => p.id === planId ? { ...p, stops } : p)
   })),
+  addAlarm: (alarm) => set((state) => ({ alarms: [...state.alarms, alarm] })),
+  toggleAlarm: (id) => set((state) => ({
+    alarms: state.alarms.map(a => a.id === id ? { ...a, enabled: !a.enabled } : a)
+  })),
+  deleteAlarm: (id) => set((state) => ({ alarms: state.alarms.filter(a => a.id !== id) })),
   addMessage: (squadId, message) => set((state) => ({
     squads: state.squads.map(s => s.id === squadId ? { ...s, messages: [...s.messages, message] } : s)
   })),
