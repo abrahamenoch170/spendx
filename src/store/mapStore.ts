@@ -30,12 +30,16 @@ interface MapStore {
   selectedVenue: Venue | null;
   squadNearby: SquadMember[];
   actionStates: Record<string, boolean>;
+  emergencyLayerActive: boolean;
+  selectedCity: string;
   setVenues: (venues: Venue[]) => void;
   setSquadLocations: (locations: SquadMember[]) => void;
   setNearbyFriends: (friends: SquadMember[]) => void;
   setSelectedVenue: (venue: Venue | null) => void;
   setSquadNearby: (squad: SquadMember[]) => void;
   setActionState: (action: string, state: boolean) => void;
+  setEmergencyLayerActive: (active: boolean) => void;
+  setSelectedCity: (city: string) => void;
 }
 
 export const useMapStore = create<MapStore>((set) => ({
@@ -52,10 +56,14 @@ export const useMapStore = create<MapStore>((set) => ({
   selectedVenue: null,
   squadNearby: [],
   actionStates: {},
+  emergencyLayerActive: false,
+  selectedCity: 'Lagos',
   setVenues: (venues) => set({ venues }),
   setSquadLocations: (squadLocations) => set({ squadLocations }),
   setNearbyFriends: (nearbyFriends) => set({ nearbyFriends }),
   setSelectedVenue: (selectedVenue) => set({ selectedVenue }),
   setSquadNearby: (squadNearby) => set({ squadNearby }),
   setActionState: (action, state) => set((prev) => ({ actionStates: { ...prev.actionStates, [action]: state } })),
+  setEmergencyLayerActive: (emergencyLayerActive) => set({ emergencyLayerActive }),
+  setSelectedCity: (selectedCity) => set({ selectedCity }),
 }));

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import { useMapStore } from '../../store/mapStore';
 import { MapControls } from './MapControls';
 import { BottomSheet } from './BottomSheet';
 import { VenueBottomSheet } from './VenueBottomSheet';
+import { SquadRouteHUD } from './SquadRouteHUD';
 
 export const MapTab = () => {
   const { venues, squadLocations, setSelectedVenue } = useMapStore();
@@ -24,9 +26,7 @@ export const MapTab = () => {
             eventHandlers={{ click: () => setSelectedVenue(v) }}
           />
         ))}
-        {squadLocations.map(s => (
-          <Marker key={s.id} position={[s.lat, s.lng]} />
-        ))}
+        <SquadRouteHUD />
       </MapContainer>
       <MapControls />
       <BottomSheet />
