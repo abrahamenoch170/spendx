@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { motion } from 'framer-motion';
 import { useMapStore } from '../../store/mapStore';
 import { MapControls } from './MapControls';
 import { BottomSheet } from './BottomSheet';
+import { VenueBottomSheet } from './VenueBottomSheet';
 
 export const MapTab = () => {
-  const { venues, squadLocations } = useMapStore();
+  const { venues, squadLocations, setSelectedVenue } = useMapStore();
   const [position, setPosition] = useState<[number, number]>([6.5244, 3.3792]);
 
   return (
@@ -18,7 +18,11 @@ export const MapTab = () => {
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
         {venues.map(v => (
-          <Marker key={v.id} position={[v.lat, v.lng]} />
+          <Marker 
+            key={v.id} 
+            position={[v.lat, v.lng]} 
+            eventHandlers={{ click: () => setSelectedVenue(v) }}
+          />
         ))}
         {squadLocations.map(s => (
           <Marker key={s.id} position={[s.lat, s.lng]} />
@@ -26,6 +30,7 @@ export const MapTab = () => {
       </MapContainer>
       <MapControls />
       <BottomSheet />
+      <VenueBottomSheet />
     </div>
   );
 };
