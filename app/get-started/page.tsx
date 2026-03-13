@@ -22,12 +22,12 @@ export default function GetStarted() {
 
   const handleDownloadDesktop = () => {
     alert("Downloading Spendx Desktop Installer...");
-    router.push('/app');
+    router.push('/app/intro');
   };
 
   const handleInstallAndroid = () => {
     alert("Triggering PWA install prompt...");
-    router.push('/app');
+    router.push('/app/intro');
   };
 
   return (
@@ -120,7 +120,7 @@ export default function GetStarted() {
           </div>
 
           <Link 
-            href="/app"
+            href="/app/intro"
             className="w-full bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] px-6 py-4 rounded-2xl font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-3 mt-4"
           >
             <Browser size={20} />
