@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useProfileStore } from '../../store/profileStore';
 import { useMapStore } from '../../store/mapStore';
+import { useSettingsStore } from '../../store/settingsStore';
 import { Settings, Copy, Share2, Trash2, MapPin, Star, Flame, Calendar, ChevronRight, Edit3, ArrowLeft } from 'lucide-react';
 import { useTab } from '../../context/TabContext';
+import { Toggle } from '../ui/Toggle';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -22,6 +24,7 @@ export const ProfileTab = () => {
   const { setActiveTab } = useTab();
   const { userProfile, achievements, shareLinks, pastTrips } = useProfileStore();
   const { activeMode } = useMapStore();
+  const { bluetoothProximity, toggleBluetoothProximity } = useSettingsStore();
   const [showSettings, setShowSettings] = useState(false);
 
   return (
@@ -198,10 +201,20 @@ export const ProfileTab = () => {
               onClick={e => e.stopPropagation()}
             >
               <h2 className="text-2xl font-black mb-2">Settings</h2>
-              <p className="text-white/50 text-sm mb-8 font-medium">Student Mode, Notifications, Profile Customization</p>
+              
+              <div className="py-6 border-b border-white/10">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="font-bold">Bluetooth Proximity Detection</span>
+                  <Toggle isOn={bluetoothProximity} onToggle={toggleBluetoothProximity} />
+                </div>
+                <p className="text-xs text-white/50 font-medium">
+                  Allow Bluetooth to find friends nearby when offline. This may use more battery.
+                </p>
+              </div>
+
               <button 
                 onClick={() => setShowSettings(false)} 
-                className="w-full bg-[var(--lime)] text-black font-black py-4 rounded-2xl hover:bg-[#99cc00] transition-colors shadow-[0_0_20px_rgba(204,255,0,0.2)]"
+                className="w-full bg-[var(--lime)] text-black font-black py-4 rounded-2xl hover:bg-[#99cc00] transition-colors shadow-[0_0_20px_rgba(204,255,0,0.2)] mt-8"
               >
                 Close
               </button>

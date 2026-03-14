@@ -34,6 +34,8 @@ import { PublicEventPage } from './pages/PublicEventPage';
 import { ChatTab } from './components/ChatTab';
 import { PlanTab } from './components/plan/PlanTab';
 import { ToastContainer } from './components/ui/ToastContainer';
+import { useOfflineQueueStore } from './store/offlineQueueStore';
+import { useToast } from './hooks/useToast';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -42,6 +44,19 @@ const DashboardPage = () => {
   const [ghostMode, setGhostMode] = useState(false);
   const [venueFilter, setVenueFilter] = useState<string>('all');
   const { activeTab, setActiveTab } = useTab();
+  const { processQueue } = useOfflineQueueStore();
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    const handleOnline = async () => {
+      const count = await processQueue();
+      if (typeof count === 'number' && count > 0) {
+        addToast({ type: 'success', message: `Synced ${count} offline actions` });
+      }
+    };
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  }, [processQueue, addToast]);
 
   useEffect(() => {
     const hasAccount = localStorage.getItem('spendx_has_account');

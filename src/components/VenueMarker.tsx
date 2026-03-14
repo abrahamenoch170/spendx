@@ -1,6 +1,4 @@
 import React from 'react';
-
-import React from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { motion } from 'framer-motion';
