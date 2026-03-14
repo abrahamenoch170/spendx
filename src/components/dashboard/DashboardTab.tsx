@@ -1,8 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { FilterStudio } from '../FilterStudio';
 import { 
   Bell, MapPin, Flame, Zap, Plus, Users, Briefcase, User, 
-  MessageSquare, Search, TrendingUp, Star, ArrowUpRight, ChevronRight, Map
+  MessageSquare, Search, TrendingUp, Star, ArrowUpRight, ChevronRight, Map, Camera
 } from 'lucide-react';
 import { useTab } from '../../context/TabContext';
 import { motion, AnimatePresence, Variants, useScroll } from 'framer-motion';
@@ -29,6 +30,7 @@ const itemVariants: Variants = {
 export const DashboardTab = () => {
   const { setActiveTab, setIsEnterprise, isStudent } = useTab();
   const [userData, setUserData] = useState<any>(null);
+  const [showFilterStudio, setShowFilterStudio] = useState(false);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -163,6 +165,17 @@ export const DashboardTab = () => {
               <span className="text-[10px] font-black uppercase tracking-widest text-white/70 group-hover:text-white transition-colors truncate w-full text-center">{mode.name}</span>
             </motion.button>
           ))}
+          <motion.button 
+            whileHover={{ y: -5, backgroundColor: 'rgba(255,255,255,0.1)' }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowFilterStudio(true)} 
+            className="bg-white/5 p-4 rounded-[1.5rem] border border-white/10 flex flex-col items-center gap-3 transition-all group backdrop-blur-md shadow-lg"
+          >
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-black border border-white/10 group-hover:border-white/30 transition-colors shadow-inner text-[var(--magenta)]">
+              <Camera className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/70 group-hover:text-white transition-colors truncate w-full text-center">Filters</span>
+          </motion.button>
         </motion.section>
 
         {/* Trending Section */}
@@ -261,6 +274,7 @@ export const DashboardTab = () => {
         >
           <Plus className="w-8 h-8" />
         </motion.button>
+        {showFilterStudio && <FilterStudio onClose={() => setShowFilterStudio(false)} />}
       </motion.div>
     </div>
   );

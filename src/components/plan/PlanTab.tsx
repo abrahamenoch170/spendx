@@ -6,12 +6,13 @@ import { usePlanStore } from '../../store/planStore';
 import { useMapStore } from '../../store/mapStore';
 
 import { BudgetTab } from './BudgetTab';
+import { ChronosCalendar } from './ChronosCalendar';
 
 export const PlanTab = () => {
   const { setActiveTab } = useTab();
   const { activeMode } = useMapStore();
   const { availability } = usePlanStore();
-  const [view, setView] = useState<'week' | 'month' | 'budget'>('week');
+  const [view, setView] = useState<'week' | 'month' | 'budget' | 'chronos'>('week');
 
   return (
     <div className="p-6 h-full flex flex-col bg-[var(--pure-black)] text-white">
@@ -25,9 +26,10 @@ export const PlanTab = () => {
           </button>
           <h1 className="text-3xl font-bold capitalize">{activeMode} Planning</h1>
         </div>
-        <div className="bg-white/5 p-1 rounded-full flex gap-1 border border-white/10">
+        <div className="bg-white/5 p-1 rounded-full flex gap-1 border border-white/10 overflow-x-auto">
           <button onClick={() => setView('week')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'week' ? 'bg-white text-black' : 'text-white/50'}`}>Week</button>
           <button onClick={() => setView('month')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'month' ? 'bg-white text-black' : 'text-white/50'}`}>Month</button>
+          <button onClick={() => setView('chronos')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'chronos' ? 'bg-white text-black' : 'text-white/50'}`}>Chronos</button>
           <button onClick={() => setView('budget')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'budget' ? 'bg-white text-black' : 'text-white/50'}`}>Budget</button>
         </div>
       </div>
@@ -37,6 +39,8 @@ export const PlanTab = () => {
           <WeekView availability={availability} activeMode={activeMode} />
         ) : view === 'month' ? (
           <MonthView availability={availability} activeMode={activeMode} />
+        ) : view === 'chronos' ? (
+          <ChronosCalendar />
         ) : (
           <BudgetTab />
         )}
