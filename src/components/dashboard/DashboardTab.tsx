@@ -5,8 +5,11 @@ import {
   MessageSquare, Search, TrendingUp, Star, ArrowUpRight, ChevronRight, Map
 } from 'lucide-react';
 import { useTab } from '../../context/TabContext';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { motion, AnimatePresence, Variants, useScroll } from 'framer-motion';
 import Lottie from 'lottie-react';
+import { CountdownWidget } from './CountdownWidget';
+import { AnimatedInput } from '../ui/AnimatedInput';
+import { ParallaxImage } from '../ui/ParallaxImage';
 
 const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
@@ -26,6 +29,7 @@ const itemVariants: Variants = {
 export const DashboardTab = () => {
   const { setActiveTab, setIsEnterprise, isStudent } = useTab();
   const [userData, setUserData] = useState<any>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const data = localStorage.getItem('spendx_user_data');
@@ -129,24 +133,18 @@ export const DashboardTab = () => {
           )}
         </motion.section>
 
+        {/* Next Outing Countdown */}
+        <motion.section variants={itemVariants}>
+          <CountdownWidget />
+        </motion.section>
+
         {/* AI Command Center */}
         <motion.section variants={itemVariants} className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-[var(--lime)] via-[var(--cyan)] to-[var(--magenta)] rounded-[2rem] blur-xl opacity-20 group-focus-within:opacity-40 transition-opacity duration-500" />
-          <div className="relative bg-white/5 p-2 pl-6 rounded-[2rem] border border-white/10 flex items-center gap-4 backdrop-blur-2xl shadow-2xl">
-            <Search className="w-6 h-6 text-white/40" />
-            <input 
-              type="text" 
-              placeholder="Where we going tonight?" 
-              className="flex-1 bg-transparent py-4 outline-none text-xl font-bold placeholder:text-white/30 text-white"
-            />
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-4 bg-gradient-to-br from-[var(--lime)] to-[#99cc00] rounded-2xl text-black shadow-[0_0_20px_rgba(204,255,0,0.3)]"
-            >
-              <Zap className="w-6 h-6 fill-current" />
-            </motion.button>
-          </div>
+          <AnimatedInput 
+            label="Search" 
+            placeholder="Where we going tonight?" 
+            className="w-full bg-transparent py-4 outline-none text-xl font-bold placeholder:text-white/30 text-white"
+          />
         </motion.section>
 
         {/* Mode Grid */}
@@ -178,7 +176,7 @@ export const DashboardTab = () => {
             </button>
           </div>
           
-          <div className="flex gap-5 overflow-x-auto pb-6 no-scrollbar -mx-6 px-6 snap-x">
+          <div ref={scrollContainerRef} className="flex gap-5 overflow-x-auto pb-6 no-scrollbar -mx-6 px-6 snap-x">
             {[
               { name: 'The Alchemist', vibe: '9.8', color: 'var(--magenta)', img: 'https://picsum.photos/seed/bar/400/300', tags: ['Cocktails', 'Mayfair'] },
               { name: 'Fabric London', vibe: '9.5', color: 'var(--cyan)', img: 'https://picsum.photos/seed/club/400/300', tags: ['Club', 'Farringdon'] },
@@ -189,19 +187,7 @@ export const DashboardTab = () => {
                 whileHover={{ y: -8, scale: 1.02 }}
                 className="min-w-[280px] snap-center bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden group cursor-pointer backdrop-blur-md shadow-xl"
               >
-                <div className="relative h-48 overflow-hidden">
-                  <img src={venue.img} alt={venue.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                  <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end">
-                    <div className="px-3.5 py-1.5 bg-black/60 backdrop-blur-xl rounded-full border border-white/20 flex items-center gap-1.5 shadow-lg">
-                      <Star className="w-3.5 h-3.5 text-[var(--lime)] fill-current" />
-                      <span className="text-xs font-black">{venue.vibe}</span>
-                    </div>
-                    <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 shadow-xl">
-                      <ArrowUpRight className="w-5 h-5" />
-                    </div>
-                  </div>
-                </div>
+                <ParallaxImage src={venue.img} alt={venue.name} containerRef={scrollContainerRef} />
                 <div className="p-6">
                   <h4 className="font-black text-xl tracking-tight mb-2">{venue.name}</h4>
                   <div className="flex gap-2">

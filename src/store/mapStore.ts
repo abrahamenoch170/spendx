@@ -13,6 +13,13 @@ interface Venue {
   vibe?: number;
 }
 
+interface Plan {
+  id: string;
+  title: string;
+  venueName: string;
+  startTime: Date;
+}
+
 interface SquadMember {
   id: string;
   username: string;
@@ -51,6 +58,7 @@ interface MapLayers {
 interface MapStore {
   activeMode: string;
   venues: Venue[];
+  plans: Plan[];
   mapFilters: MapFilters;
   mapLayers: MapLayers;
   emergencyLocations: EmergencyLocation[];
@@ -63,7 +71,10 @@ interface MapStore {
   actionStates: Record<string, boolean>;
   emergencyLayerActive: boolean;
   selectedCity: string;
+  isSpiderfied: boolean;
+  activeClusterId: string | null;
   setVenues: (venues: Venue[]) => void;
+  setPlans: (plans: Plan[]) => void;
   setMapFilters: (filters: MapFilters) => void;
   toggleMapLayer: (layer: keyof MapLayers) => void;
   setSquadLocations: (locations: SquadMember[]) => void;
@@ -74,6 +85,8 @@ interface MapStore {
   setActionState: (action: string, state: boolean) => void;
   setEmergencyLayerActive: (active: boolean) => void;
   setSelectedCity: (city: string) => void;
+  setIsSpiderfied: (isSpiderfied: boolean) => void;
+  setActiveClusterId: (activeClusterId: string | null) => void;
 }
 
 export const useMapStore = create<MapStore>((set) => ({
@@ -81,6 +94,10 @@ export const useMapStore = create<MapStore>((set) => ({
   venues: [
     { id: 'v1', name: 'The Burger Joint', lat: 6.5244, lng: 3.3792, type: 'food', status: 'open', address: '123 Main St', description: 'Best burgers in town.', rating: 4.5 },
     { id: 'v2', name: 'Art Gallery', lat: 6.5250, lng: 3.3800, type: 'culture', status: 'closing', address: '456 Art Ave', description: 'Modern art gallery.', rating: 4.8 },
+  ],
+  plans: [
+    { id: 'p1', title: 'Dinner', venueName: 'The Burger Joint', startTime: new Date(Date.now() + 3600000 * 3) },
+    { id: 'p2', title: 'Drinks', venueName: 'Fabric London', startTime: new Date(Date.now() + 3600000 * 6) }
   ],
   mapFilters: {
     searchTerm: "",
@@ -112,7 +129,10 @@ export const useMapStore = create<MapStore>((set) => ({
   actionStates: {},
   emergencyLayerActive: false,
   selectedCity: 'Lagos',
+  isSpiderfied: false,
+  activeClusterId: null,
   setVenues: (venues) => set({ venues }),
+  setPlans: (plans) => set({ plans }),
   setMapFilters: (mapFilters) => set({ mapFilters }),
   toggleMapLayer: (layer) => set((state) => ({
     mapLayers: { ...state.mapLayers, [layer]: !state.mapLayers[layer] }
@@ -125,4 +145,6 @@ export const useMapStore = create<MapStore>((set) => ({
   setActionState: (action, state) => set((prev) => ({ actionStates: { ...prev.actionStates, [action]: state } })),
   setEmergencyLayerActive: (emergencyLayerActive) => set({ emergencyLayerActive }),
   setSelectedCity: (selectedCity) => set({ selectedCity }),
+  setIsSpiderfied: (isSpiderfied) => set({ isSpiderfied }),
+  setActiveClusterId: (activeClusterId) => set({ activeClusterId }),
 }));

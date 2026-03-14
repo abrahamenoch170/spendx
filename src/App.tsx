@@ -33,6 +33,7 @@ import { EnterpriseTab } from './components/EnterpriseTab';
 import { PublicEventPage } from './pages/PublicEventPage';
 import { ChatTab } from './components/ChatTab';
 import { PlanTab } from './components/plan/PlanTab';
+import { ToastContainer } from './components/ui/ToastContainer';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -136,31 +137,34 @@ export default function App() {
   );
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage mapComponent={mapComponent} setIsFullMap={() => {}} />} />
-      <Route path="/get-started" element={<GetStartedPage />} />
-      <Route path="/intro-check" element={<IntroRedirector />} />
-      <Route path="/app/intro" element={<IntroPage />} />
-      <Route path="/app/onboarding/profile" element={<ProfilePage />} />
-      <Route path="/app/onboarding/mode-select" element={<ModeSelectPage />} />
-      
-      {/* App Shell Routes */}
-      <Route path="/app" element={<AppLayout />}>
-        <Route path="home" element={<HomeTabPlaceholder />} />
-        <Route path="plan" element={<PlanTabPlaceholder />} />
-        <Route path="group" element={<GroupTabPlaceholder />} />
-        <Route path="map" element={<MapTabPlaceholder />} />
-        <Route path="profile" element={<ProfileTabPlaceholder />} />
-      </Route>
+    <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<LandingPage mapComponent={mapComponent} setIsFullMap={() => {}} />} />
+        <Route path="/get-started" element={<GetStartedPage />} />
+        <Route path="/intro-check" element={<IntroRedirector />} />
+        <Route path="/app/intro" element={<IntroPage />} />
+        <Route path="/app/onboarding/profile" element={<ProfilePage />} />
+        <Route path="/app/onboarding/mode-select" element={<ModeSelectPage />} />
+        
+        {/* App Shell Routes */}
+        <Route path="/app" element={<AppLayout />}>
+          <Route path="home" element={<HomeTabPlaceholder />} />
+          <Route path="plan" element={<PlanTabPlaceholder />} />
+          <Route path="group" element={<GroupTabPlaceholder />} />
+          <Route path="map" element={<MapTabPlaceholder />} />
+          <Route path="profile" element={<ProfileTabPlaceholder />} />
+        </Route>
 
-      <Route path="/app/auth" element={<AuthPage />} />
-      <Route path="/app/intro" element={<OnboardingPage />} />
-      <Route path="/app/modes" element={<ModesPage />} />
-      <Route path="/app/dashboard" element={<DashboardPage />} />
-      <Route path="/app/settings" element={<SettingsPage />} />
-      <Route path="/app/spendx/:id" element={<SpendxPage />} />
-      <Route path="/e/:id" element={<PublicEventPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="/app/auth" element={<AuthPage />} />
+        <Route path="/app/intro" element={<OnboardingPage />} />
+        <Route path="/app/modes" element={<ModesPage />} />
+        <Route path="/app/dashboard" element={<DashboardPage />} />
+        <Route path="/app/settings" element={<SettingsPage />} />
+        <Route path="/app/spendx/:id" element={<SpendxPage />} />
+        <Route path="/e/:id" element={<PublicEventPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
