@@ -22,6 +22,16 @@ interface SquadMember {
   isGhost: boolean;
 }
 
+interface EmergencyLocation {
+  id: string;
+  name: string;
+  type: 'hospital' | 'clinic' | 'police' | 'pharmacy';
+  lat: number;
+  lng: number;
+  phone: string;
+  address: string;
+}
+
 interface MapFilters {
   searchTerm: string;
   categories: string[];
@@ -32,23 +42,34 @@ interface MapFilters {
   accessibility: string[];
 }
 
+interface MapLayers {
+  venues: boolean;
+  friends: boolean;
+  emergency: boolean;
+}
+
 interface MapStore {
   activeMode: string;
   venues: Venue[];
   mapFilters: MapFilters;
+  mapLayers: MapLayers;
+  emergencyLocations: EmergencyLocation[];
   squadLocations: SquadMember[];
   routes: any[];
   nearbyFriends: SquadMember[];
   selectedVenue: Venue | null;
+  selectedEmergency: EmergencyLocation | null;
   squadNearby: SquadMember[];
   actionStates: Record<string, boolean>;
   emergencyLayerActive: boolean;
   selectedCity: string;
   setVenues: (venues: Venue[]) => void;
   setMapFilters: (filters: MapFilters) => void;
+  toggleMapLayer: (layer: keyof MapLayers) => void;
   setSquadLocations: (locations: SquadMember[]) => void;
   setNearbyFriends: (friends: SquadMember[]) => void;
   setSelectedVenue: (venue: Venue | null) => void;
+  setSelectedEmergency: (emergency: EmergencyLocation | null) => void;
   setSquadNearby: (squad: SquadMember[]) => void;
   setActionState: (action: string, state: boolean) => void;
   setEmergencyLayerActive: (active: boolean) => void;
@@ -70,21 +91,36 @@ export const useMapStore = create<MapStore>((set) => ({
     distance: 10,
     accessibility: []
   },
+  mapLayers: {
+    venues: true,
+    friends: true,
+    emergency: false
+  },
+  emergencyLocations: [
+    { id: 'e1', name: "City Hospital", type: "hospital", lat: 6.5260, lng: 3.3810, phone: "+234 1 123 4567", address: "1 Hospital Rd" },
+    { id: 'e2', name: "Central Police Station", type: "police", lat: 6.5230, lng: 3.3770, phone: "+234 1 987 6543", address: "2 Police St" },
+    { id: 'e3', name: "24hr Pharmacy", type: "pharmacy", lat: 6.5255, lng: 3.3785, phone: "+234 1 555 0000", address: "3 Pharmacy Ave" }
+  ],
   squadLocations: [
     { id: 's1', username: 'Alex', lat: 6.5240, lng: 3.3780, lastUpdate: Date.now() - 60000, isGhost: false },
   ],
   routes: [],
   nearbyFriends: [],
   selectedVenue: null,
+  selectedEmergency: null,
   squadNearby: [],
   actionStates: {},
   emergencyLayerActive: false,
   selectedCity: 'Lagos',
   setVenues: (venues) => set({ venues }),
   setMapFilters: (mapFilters) => set({ mapFilters }),
+  toggleMapLayer: (layer) => set((state) => ({
+    mapLayers: { ...state.mapLayers, [layer]: !state.mapLayers[layer] }
+  })),
   setSquadLocations: (squadLocations) => set({ squadLocations }),
   setNearbyFriends: (nearbyFriends) => set({ nearbyFriends }),
   setSelectedVenue: (selectedVenue) => set({ selectedVenue }),
+  setSelectedEmergency: (selectedEmergency) => set({ selectedEmergency }),
   setSquadNearby: (squadNearby) => set({ squadNearby }),
   setActionState: (action, state) => set((prev) => ({ actionStates: { ...prev.actionStates, [action]: state } })),
   setEmergencyLayerActive: (emergencyLayerActive) => set({ emergencyLayerActive }),

@@ -12,6 +12,14 @@ export const GetStartedPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Install detection
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                         window.matchMedia('(display-mode: fullscreen)').matches ||
+                         (window.navigator as any).standalone;
+    if (isStandalone) {
+      navigate('/app/home');
+    }
+
     const ua = navigator.userAgent.toLowerCase();
     if (/iphone|ipad|ipod/.test(ua)) {
       setPlatform('ios');
@@ -28,7 +36,7 @@ export const GetStartedPage = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-  }, []);
+  }, [navigate]);
 
   const handleInstallAndroid = async () => {
     if (deferredPrompt) {

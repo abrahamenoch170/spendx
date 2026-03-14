@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   House, 
@@ -20,6 +20,14 @@ const TABS = [
 export const AppLayout = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const hasAccount = localStorage.getItem('spendx_has_account');
+    if (!hasAccount) {
+      navigate('/get-started?reason=unauth', { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <div className="flex flex-col h-[100dvh] bg-spendx-black text-spendx-white overflow-hidden relative">
