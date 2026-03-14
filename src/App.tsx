@@ -13,6 +13,7 @@ import { LandingPage } from './pages/LandingPage';
 import { GetStartedPage } from './pages/GetStartedPage';
 import { AuthPage } from './pages/AuthPage';
 import { AppLayout } from './components/layout/AppLayout';
+import { ArrowLeft } from 'lucide-react';
 import { 
   HomeTabPlaceholder, 
   PlanTabPlaceholder, 
@@ -86,7 +87,15 @@ const DashboardPage = () => {
         <EnterpriseTab />
       ) : activeTab === 'plan' ? (
         <div className="p-6 h-full flex flex-col">
-          <h1 className="text-3xl font-bold mb-6">Plan your spendx</h1>
+          <div className="flex items-center gap-3 mb-6">
+            <button 
+              onClick={() => setActiveTab('home')}
+              className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors backdrop-blur-md"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-3xl font-bold">Plan your spendx</h1>
+          </div>
           <div className="flex-1 space-y-4">
             <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
               <h3 className="font-bold mb-2">Current Route</h3>
