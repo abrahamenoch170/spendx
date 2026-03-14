@@ -22,9 +22,20 @@ interface SquadMember {
   isGhost: boolean;
 }
 
+interface MapFilters {
+  searchTerm: string;
+  categories: string[];
+  priceRange: number;
+  openNow: boolean;
+  rating: number;
+  distance: number;
+  accessibility: string[];
+}
+
 interface MapStore {
   activeMode: string;
   venues: Venue[];
+  mapFilters: MapFilters;
   squadLocations: SquadMember[];
   routes: any[];
   nearbyFriends: SquadMember[];
@@ -34,6 +45,7 @@ interface MapStore {
   emergencyLayerActive: boolean;
   selectedCity: string;
   setVenues: (venues: Venue[]) => void;
+  setMapFilters: (filters: MapFilters) => void;
   setSquadLocations: (locations: SquadMember[]) => void;
   setNearbyFriends: (friends: SquadMember[]) => void;
   setSelectedVenue: (venue: Venue | null) => void;
@@ -49,6 +61,15 @@ export const useMapStore = create<MapStore>((set) => ({
     { id: 'v1', name: 'The Burger Joint', lat: 6.5244, lng: 3.3792, type: 'food', status: 'open', address: '123 Main St', description: 'Best burgers in town.', rating: 4.5 },
     { id: 'v2', name: 'Art Gallery', lat: 6.5250, lng: 3.3800, type: 'culture', status: 'closing', address: '456 Art Ave', description: 'Modern art gallery.', rating: 4.8 },
   ],
+  mapFilters: {
+    searchTerm: "",
+    categories: [],
+    priceRange: 1,
+    openNow: false,
+    rating: 0,
+    distance: 10,
+    accessibility: []
+  },
   squadLocations: [
     { id: 's1', username: 'Alex', lat: 6.5240, lng: 3.3780, lastUpdate: Date.now() - 60000, isGhost: false },
   ],
@@ -60,6 +81,7 @@ export const useMapStore = create<MapStore>((set) => ({
   emergencyLayerActive: false,
   selectedCity: 'Lagos',
   setVenues: (venues) => set({ venues }),
+  setMapFilters: (mapFilters) => set({ mapFilters }),
   setSquadLocations: (squadLocations) => set({ squadLocations }),
   setNearbyFriends: (nearbyFriends) => set({ nearbyFriends }),
   setSelectedVenue: (selectedVenue) => set({ selectedVenue }),
