@@ -32,6 +32,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { EnterpriseTab } from './components/EnterpriseTab';
 import { PublicEventPage } from './pages/PublicEventPage';
 import { ChatTab } from './components/ChatTab';
+import { PlanTab } from './components/plan/PlanTab';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -86,51 +87,7 @@ const DashboardPage = () => {
       ) : activeTab === 'enterprise' ? (
         <EnterpriseTab />
       ) : activeTab === 'plan' ? (
-        <div className="p-6 h-full flex flex-col">
-          <div className="flex items-center gap-3 mb-6">
-            <button 
-              onClick={() => setActiveTab('home')}
-              className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors backdrop-blur-md"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <h1 className="text-3xl font-bold">Plan your spendx</h1>
-          </div>
-          <div className="flex-1 space-y-4">
-            <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
-              <h3 className="font-bold mb-2">Current Route</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-[var(--lime)] rounded-full flex items-center justify-center text-black font-bold">1</div>
-                  <span>The Alchemist</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-[var(--magenta)] rounded-full flex items-center justify-center text-white font-bold">2</div>
-                  <span>Fabric London</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--border-color)]">
-              <h3 className="font-bold mb-2">Squad (3)</h3>
-              <div className="flex -space-x-2">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-[var(--bg-color)] bg-[var(--border-color)]" />
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          <button 
-            onClick={() => {
-              const id = Math.random().toString(36).substring(7);
-              navigate(`/app/spendx/${id}`);
-            }}
-            className="w-full py-5 bg-[var(--lime)] text-black rounded-2xl font-black text-xl shadow-[0_0_30px_rgba(204,255,0,0.3)] mb-24"
-          >
-            LOCK IN SPENDX*
-          </button>
-        </div>
+        <PlanTab />
       ) : (
         <div className="p-6">
           <h1 className="text-3xl font-bold mb-6 capitalize">{activeTab}</h1>

@@ -32,9 +32,16 @@ interface PlanStore {
   budgets: BudgetEntry[];
   reminders: Reminder[];
   tripHistory: Trip[];
+  availability: {
+    user: number[]; // 0-23 hours
+    duoPartner: number[];
+    squadMembers: number[][];
+    teamMembers: number[][];
+  };
   addChatMessage: (message: { id: string; sender: 'user' | 'ai'; text: string; isItinerary?: boolean }) => void;
   addBudgetEntry: (entry: BudgetEntry) => void;
   addReminder: (reminder: Reminder) => void;
+  setAvailability: (availability: PlanStore['availability']) => void;
 }
 
 export const usePlanStore = create<PlanStore>((set) => ({
@@ -53,7 +60,14 @@ export const usePlanStore = create<PlanStore>((set) => ({
     { id: 't1', thumbnail: 'https://picsum.photos/seed/trip1/200/200', date: 'Feb 2026', location: 'Paris' },
     { id: 't2', thumbnail: 'https://picsum.photos/seed/trip2/200/200', date: 'Jan 2026', location: 'Tokyo' },
   ],
+  availability: {
+    user: Array.from({ length: 24 }, () => Math.random() > 0.5 ? 1 : 0),
+    duoPartner: Array.from({ length: 24 }, () => Math.random() > 0.5 ? 1 : 0),
+    squadMembers: Array.from({ length: 3 }, () => Array.from({ length: 24 }, () => Math.random() > 0.5 ? 1 : 0)),
+    teamMembers: Array.from({ length: 5 }, () => Array.from({ length: 24 }, () => Math.random() > 0.5 ? 1 : 0)),
+  },
   addChatMessage: (message) => set((state) => ({ chatHistory: [...state.chatHistory, message] })),
   addBudgetEntry: (entry) => set((state) => ({ budgets: [...state.budgets, entry] })),
   addReminder: (reminder) => set((state) => ({ reminders: [...state.reminders, reminder] })),
+  setAvailability: (availability) => set({ availability }),
 }));

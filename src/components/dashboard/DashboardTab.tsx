@@ -5,12 +5,12 @@ import {
   MessageSquare, Search, TrendingUp, Star, ArrowUpRight, ChevronRight, Map
 } from 'lucide-react';
 import { useTab } from '../../context/TabContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import Lottie from 'lottie-react';
 
 const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -18,7 +18,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
 };
