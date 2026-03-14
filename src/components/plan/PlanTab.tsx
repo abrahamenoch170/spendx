@@ -5,11 +5,13 @@ import { useTab } from '../../context/TabContext';
 import { usePlanStore } from '../../store/planStore';
 import { useMapStore } from '../../store/mapStore';
 
+import { BudgetTab } from './BudgetTab';
+
 export const PlanTab = () => {
   const { setActiveTab } = useTab();
   const { activeMode } = useMapStore();
   const { availability } = usePlanStore();
-  const [view, setView] = useState<'week' | 'month'>('week');
+  const [view, setView] = useState<'week' | 'month' | 'budget'>('week');
 
   return (
     <div className="p-6 h-full flex flex-col bg-[var(--pure-black)] text-white">
@@ -26,25 +28,30 @@ export const PlanTab = () => {
         <div className="bg-white/5 p-1 rounded-full flex gap-1 border border-white/10">
           <button onClick={() => setView('week')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'week' ? 'bg-white text-black' : 'text-white/50'}`}>Week</button>
           <button onClick={() => setView('month')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'month' ? 'bg-white text-black' : 'text-white/50'}`}>Month</button>
+          <button onClick={() => setView('budget')} className={`px-4 py-2 rounded-full text-xs font-bold uppercase ${view === 'budget' ? 'bg-white text-black' : 'text-white/50'}`}>Budget</button>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto">
         {view === 'week' ? (
           <WeekView availability={availability} activeMode={activeMode} />
-        ) : (
+        ) : view === 'month' ? (
           <MonthView availability={availability} activeMode={activeMode} />
+        ) : (
+          <BudgetTab />
         )}
       </div>
 
-      <motion.button 
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="w-full py-5 bg-[var(--acid-lime)] text-black rounded-2xl font-black text-xl shadow-[0_0_30px_rgba(204,255,0,0.3)] mt-4 flex items-center justify-center gap-2"
-      >
-        <Sparkles className="w-5 h-5" />
-        AI Suggest
-      </motion.button>
+      {view !== 'budget' && (
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full py-5 bg-[var(--acid-lime)] text-black rounded-2xl font-black text-xl shadow-[0_0_30px_rgba(204,255,0,0.3)] mt-4 flex items-center justify-center gap-2"
+        >
+          <Sparkles className="w-5 h-5" />
+          AI Suggest
+        </motion.button>
+      )}
     </div>
   );
 };
