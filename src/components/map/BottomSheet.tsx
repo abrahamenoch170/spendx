@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const BottomSheet = () => {
+export const BottomSheet = ({ center, venueFilter }: any) => {
   return (
     <motion.div 
       initial={{ y: '100%' }}

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { InteractiveButton, FloatingInput } from '@/src/components/InteractiveElements';
 import { ArrowRight, Check, RefreshCw, MapPin, User, AtSign } from 'lucide-react';
 
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);

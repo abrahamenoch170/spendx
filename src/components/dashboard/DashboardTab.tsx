@@ -7,7 +7,7 @@ import {
 import { useTab } from '../../context/TabContext';
 import { motion } from 'framer-motion';
 
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 export const DashboardTab = () => {
   const { setActiveTab, setIsEnterprise, isStudent } = useTab();

@@ -1,26 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const useLayers = () => {
-    const [layers, setLayers] = useState([]);
-
-    const addLayer = (layer) => {
-        setLayers((prevLayers) => [...prevLayers, layer]);
-    };
-
-    const removeLayer = (layerId) => {
-        setLayers((prevLayers) => prevLayers.filter(layer => layer.id !== layerId));
-    };
-
-    const clearLayers = () => {
-        setLayers([]);
-    };
-
-    useEffect(() => {
-        // Initialize layers if needed
-        return () => {
-            clearLayers(); // Cleanup on unmount
-        };
-    }, []);
-
-    return { layers, addLayer, removeLayer, clearLayers };
+  const [layers, setLayers] = useState<string[]>([]);
+  const toggleLayer = (layer: string) => {
+    setLayers(prev => prev.includes(layer) ? prev.filter(l => l !== layer) : [...prev, layer]);
+  };
+  return { layers, toggleLayer };
 };

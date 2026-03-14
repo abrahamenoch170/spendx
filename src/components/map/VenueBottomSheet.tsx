@@ -9,7 +9,7 @@ export const VenueBottomSheet = () => {
 
   if (!selectedVenue) return null;
 
-  const statusColors = {
+  const statusColors: Record<string, string> = {
     open: '#00FF88',
     closing: '#FFCC00',
     closed: '#FF2244',

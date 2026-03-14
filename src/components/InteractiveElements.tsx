@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 export function InteractiveButton({ children, className, onClick, color = 'var(--lime)' }: any) {
   const ref = useRef<HTMLButtonElement>(null);

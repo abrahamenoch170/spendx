@@ -12,7 +12,7 @@ import successAnimationData from '../assets/success.json';
 
 const Lottie = React.lazy(() => import('lottie-react'));
 
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 const ChevronDownIcon = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
 
   useEffect(() => {
     if (localStorage.getItem('spendx_has_account') === 'true') {
-      navigate('/dashboard', { replace: true });
+      navigate('/app/dashboard', { replace: true });
     }
   }, [navigate]);
 

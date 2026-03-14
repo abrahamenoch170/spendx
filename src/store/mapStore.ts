@@ -5,11 +5,12 @@ interface Venue {
   name: string;
   lat: number;
   lng: number;
-  type: 'food' | 'culture' | 'nature' | 'nightlife' | 'hidden';
-  status: 'open' | 'closing' | 'closed' | 'unavailable';
+  type: 'food' | 'culture' | 'nature' | 'nightlife' | 'hidden' | string;
+  status: 'open' | 'closing' | 'closed' | 'unavailable' | string;
   address?: string;
   description?: string;
   rating?: number;
+  vibe?: number;
 }
 
 interface SquadMember {

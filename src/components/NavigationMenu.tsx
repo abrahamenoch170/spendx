@@ -11,7 +11,7 @@ const MENU_ITEMS = [
   { label: 'Join Early Access', href: '#join-early-access' },
   { label: 'Get Started', href: '/get-started', isSpecial: true }
 ];
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 export function NavigationMenu() {
   const [isOpen, setIsOpen] = useState(false);

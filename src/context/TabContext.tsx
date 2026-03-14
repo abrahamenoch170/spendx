@@ -1,21 +1,41 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Create a context for managing active tabs
-const TabContext = createContext();
+interface TabContextType {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  isEnterprise: boolean;
+  setIsEnterprise: (isEnterprise: boolean) => void;
+  isStudent: boolean;
+  setIsStudent: (isStudent: boolean) => void;
+}
 
-// Create a provider component
-export const TabProvider = ({ children }) => {
-    const [activeTab, setActiveTab] = useState('');
+const TabContext = createContext<TabContextType | undefined>(undefined);
 
-    const value = {
+export function TabProvider({ children }: { children: ReactNode }) {
+  const [activeTab, setActiveTab] = useState('home');
+  const [isEnterprise, setIsEnterprise] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
+
+  return (
+    <TabContext.Provider
+      value={{
         activeTab,
         setActiveTab,
-    };
+        isEnterprise,
+        setIsEnterprise,
+        isStudent,
+        setIsStudent,
+      }}
+    >
+      {children}
+    </TabContext.Provider>
+  );
+}
 
-    return <TabContext.Provider value={value}>{children}</TabContext.Provider>;
-};
-
-// Create a custom hook to use the Tab context
-export const useTab = () => {
-    return useContext(TabContext);
-};
+export function useTab() {
+  const context = useContext(TabContext);
+  if (context === undefined) {
+    throw new Error('useTab must be used within a TabProvider');
+  }
+  return context;
+}

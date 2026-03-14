@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, Users, Briefcase, MapPin, Bell, ShieldCheck, ArrowRight } from 'lucide-react';
 import { InteractiveButton } from '@/src/components/InteractiveElements';
 
-const springEasing = [0.34, 1.56, 0.64, 1];
+const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 const modes = [
   { id: 'solo', title: 'Solo', subtitle: 'Just me, exploring the city.', color: 'var(--cyan)', icon: User },
