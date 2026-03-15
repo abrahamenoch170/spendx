@@ -1,6 +1,7 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { Instagram, Twitter, Music2 } from 'lucide-react';
 import { NavigationMenu } from '../components/NavigationMenu';
 import { InteractiveButton, FloatingInput } from '../components/InteractiveElements';
 import { SignInModal } from '../components/SignInModal';
@@ -539,9 +540,18 @@ export const LandingPage = ({ mapComponent, setIsFullMap }: LandingPageProps) =>
                   spendx* <span className="text-body font-normal opacity-60">— Find your spendx</span>
                 </div>
                 <div className="flex flex-wrap justify-center gap-8 text-label text-gray-500">
-                  <a href="#" className="hover:text-[var(--magenta)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Instagram</a>
-                  <a href="#" className="hover:text-[var(--cyan)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">TikTok</a>
-                  <a href="#" className="hover:text-[var(--teal)] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">Twitter/X</a>
+                  <a href="#" className="hover:text-[var(--magenta)] transition-colors min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1">
+                    <Instagram size={20} />
+                    <span>Instagram</span>
+                  </a>
+                  <a href="#" className="hover:text-[var(--cyan)] transition-colors min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1">
+                    <Music2 size={20} />
+                    <span>TikTok</span>
+                  </a>
+                  <a href="#" className="hover:text-[var(--teal)] transition-colors min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1">
+                    <Twitter size={20} />
+                    <span>Twitter/X</span>
+                  </a>
                 </div>
                 
                 <div className="mt-12 pt-8 border-t border-white/10 w-full max-w-2xl">

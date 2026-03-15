@@ -9,12 +9,15 @@ import {
   UserCircle 
 } from '@phosphor-icons/react';
 
+import { LottieIcon } from '../ui/LottieIcon';
+import { pageTransition, spring } from '../../constants/motion';
+
 const TABS = [
-  { id: 'home', label: 'Home', path: '/app/home', Icon: House },
-  { id: 'plan', label: 'Plan', path: '/app/plan', Icon: Calendar },
-  { id: 'group', label: 'Group', path: '/app/group', Icon: UsersThree },
-  { id: 'map', label: 'Map', path: '/app/map', Icon: MapTrifold },
-  { id: 'profile', label: 'Profile', path: '/app/profile', Icon: UserCircle },
+  { id: 'home', label: 'Home', path: '/app/home', Icon: House, lottie: null },
+  { id: 'plan', label: 'Plan', path: '/app/plan', Icon: Calendar, lottie: null },
+  { id: 'group', label: 'Group', path: '/app/group', Icon: UsersThree, lottie: null },
+  { id: 'map', label: 'Map', path: '/app/map', Icon: MapTrifold, lottie: null },
+  { id: 'profile', label: 'Profile', path: '/app/profile', Icon: UserCircle, lottie: null },
 ];
 
 export const AppLayout = () => {
@@ -38,10 +41,7 @@ export const AppLayout = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPath}
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -20, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
+            {...pageTransition}
             className="h-full"
           >
             <Outlet />
@@ -62,18 +62,26 @@ export const AppLayout = () => {
                 className="relative flex flex-col items-center justify-center p-2 transition-all active:scale-90"
               >
                 <div className="relative z-10">
-                  <tab.Icon 
-                    size={28} 
-                    weight={isActive ? "fill" : "regular"}
-                    className={isActive ? "text-spendx-black" : "text-white/60"}
-                  />
+                  {tab.lottie ? (
+                    <LottieIcon 
+                      animationData={tab.lottie} 
+                      isActive={isActive} 
+                      className={isActive ? "text-spendx-black" : "text-white/60"}
+                    />
+                  ) : (
+                    <tab.Icon 
+                      size={28} 
+                      weight={isActive ? "fill" : "regular"}
+                      className={isActive ? "text-spendx-black" : "text-white/60"}
+                    />
+                  )}
                 </div>
                 
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
                     className="absolute inset-0 bg-spendx-lime rounded-2xl z-0"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ ...spring, bounce: 0.2, duration: 0.6 }}
                   />
                 )}
                 

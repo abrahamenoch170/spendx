@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, AlertCircle, Info, X } from 'lucide-react';
 import { useToastStore, ToastType } from '../../store/toastStore';
+import { toastTransition } from '../../constants/motion';
 
 const ToastIcon = ({ type }: { type: ToastType }) => {
   const icon = {
@@ -30,10 +31,7 @@ export const ToastContainer = () => {
         {toasts.map((toast) => (
           <motion.div
             key={toast.id}
-            initial={{ opacity: 0, y: -100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -100 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            {...toastTransition}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(_, info) => {

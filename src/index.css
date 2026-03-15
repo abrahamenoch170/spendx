@@ -15,9 +15,19 @@
 }
 
 @theme {
+  --font-ui: "Satoshi", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-stats: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-sans: "Satoshi", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Satoshi", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-acid-lime: var(--acid-lime);
+  --color-hot-magenta: var(--hot-magenta);
+  --color-electric-cyan: var(--electric-cyan);
+  --color-deep-teal: var(--deep-teal);
+  --color-pure-black: var(--pure-black);
+  --color-pure-white: var(--pure-white);
+  --color-off-white: var(--off-white);
 
   --color-spendx-lime: var(--acid-lime);
   --color-spendx-magenta: var(--hot-magenta);
@@ -108,12 +118,24 @@
 
 body {
   margin: 0;
-  background-color: var(--bg-color);
-  color: var(--text-primary);
+  background-color: var(--pure-black);
+  color: var(--pure-white);
+  font-family: 'Satoshi', 'Inter', sans-serif;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   cursor: none; /* Hide default cursor */
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 50;
 }
 
 a, button, [role="button"], input, select, textarea {

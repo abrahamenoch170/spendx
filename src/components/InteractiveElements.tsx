@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 
+import { spring } from '../constants/motion';
+
 const springEasing: [number, number, number, number] = [0.34, 1.56, 0.64, 1];
 
 export function InteractiveButton({ children, className, onClick, color = 'var(--lime)' }: any) {
@@ -40,7 +42,7 @@ export function InteractiveButton({ children, className, onClick, color = 'var(-
       onClick={handleClick}
       whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
       whileTap={{ scale: 0.95 }}
-      transition={{ ease: springEasing }}
+      transition={spring}
       className={`relative overflow-hidden will-change-transform ${className}`}
     >
       <AnimatePresence mode="wait">
