@@ -7,16 +7,22 @@ import { TabProvider } from './context/TabContext';
 
 import { registerSW } from 'virtual:pwa-register';
 
-const updateSW = registerSW({
-  onNeedRefresh() {
-    if (confirm('New version available. Reload?')) {
-      updateSW(true);
-    }
-  },
-  onOfflineReady() {
-    console.log('App ready to work offline');
-  },
-});
+const isLocalDevelopment =
+  typeof window !== 'undefined' &&
+  ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+if (!isLocalDevelopment) {
+  const updateSW = registerSW({
+    onNeedRefresh() {
+      if (confirm('New version available. Reload?')) {
+        updateSW(true);
+      }
+    },
+    onOfflineReady() {
+      console.log('App ready to work offline');
+    },
+  });
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');

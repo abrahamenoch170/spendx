@@ -37,6 +37,34 @@ import { ToastContainer } from './components/ui/ToastContainer';
 import { useOfflineQueueStore } from './store/offlineQueueStore';
 import { useToast } from './hooks/useToast';
 
+const ensureMockSession = () => {
+  const hasAccount = localStorage.getItem('spendx_has_account');
+  if (hasAccount) return;
+
+  localStorage.setItem('spendx_has_account', 'true');
+  if (!localStorage.getItem('spendx_user_data')) {
+    localStorage.setItem(
+      'spendx_user_data',
+      JSON.stringify({
+        firstName: 'Abraham',
+        username: 'AbeEnoch',
+        city: 'Lagos',
+        avatarSeed: 'default',
+      })
+    );
+  }
+};
+
+const EnterpriseRoutePage = () => {
+  const { setActiveTab } = useTab();
+
+  useEffect(() => {
+    setActiveTab('enterprise');
+  }, [setActiveTab]);
+
+  return <DashboardPage />;
+};
+
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { city, center, zoom, switchCity } = useMapState();
@@ -59,10 +87,7 @@ const DashboardPage = () => {
   }, [processQueue, addToast]);
 
   useEffect(() => {
-    const hasAccount = localStorage.getItem('spendx_has_account');
-    if (!hasAccount) {
-      navigate('/app/auth', { replace: true });
-    }
+    ensureMockSession();
   }, [navigate]);
 
   return (
@@ -172,9 +197,10 @@ export default function App() {
         </Route>
 
         <Route path="/app/auth" element={<AuthPage />} />
-        <Route path="/app/intro" element={<OnboardingPage />} />
+        <Route path="/app/onboarding" element={<OnboardingPage />} />
         <Route path="/app/modes" element={<ModesPage />} />
         <Route path="/app/dashboard" element={<DashboardPage />} />
+        <Route path="/app/enterprise" element={<EnterpriseRoutePage />} />
         <Route path="/app/settings" element={<SettingsPage />} />
         <Route path="/app/spendx/:id" element={<SpendxPage />} />
         <Route path="/e/:id" element={<PublicEventPage />} />

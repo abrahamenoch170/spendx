@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isToday } from 'date-fns';
+import { format, addMonths, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../../store/appStore';
+
+const getStartOfMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth(), 1);
+const getStartOfWeek = (date: Date) => {
+  const copy = new Date(date);
+  copy.setDate(copy.getDate() - copy.getDay());
+  copy.setHours(0, 0, 0, 0);
+  return copy;
+};
+const getEndOfWeek = (date: Date) => {
+  const copy = new Date(date);
+  copy.setDate(copy.getDate() + (6 - copy.getDay()));
+  copy.setHours(23, 59, 59, 999);
+  return copy;
+};
+const getPreviousMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() - 1, 1);
 
 export const Calendar = ({ onSelectDate }: { onSelectDate: (date: Date) => void }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const { plans } = useAppStore();
 
-  const monthStart = startOfMonth(currentMonth);
+  const monthStart = getStartOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart);
-  const endDate = endOfWeek(monthEnd);
+  const startDate = getStartOfWeek(monthStart);
+  const endDate = getEndOfWeek(monthEnd);
 
   const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
@@ -22,7 +37,7 @@ export const Calendar = ({ onSelectDate }: { onSelectDate: (date: Date) => void 
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-light">{format(currentMonth, 'MMMM yyyy')}</h2>
         <div className="flex gap-2">
-          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}><ChevronLeft /></button>
+          <button onClick={() => setCurrentMonth(getPreviousMonth(currentMonth))}><ChevronLeft /></button>
           <button onClick={() => setCurrentMonth(new Date())} className="text-xs border border-white/20 px-2 py-1 rounded-md">Today</button>
           <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}><ChevronRight /></button>
         </div>
